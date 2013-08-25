@@ -1,3 +1,5 @@
+QT +=sql
+
 # Add more folders to ship with the application, here
 smsdb_resources.source = resources
 smsdb_resources.target =
@@ -23,7 +25,8 @@ HEADERS += \
     application.hpp \
     mainwindow.hpp \
     make_unique.hpp \
-    splashscreen.hpp
+    splashscreen.hpp \
+    db.hpp
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += \
@@ -31,7 +34,8 @@ SOURCES += \
     application.cpp \
     mainwindow.cpp \
     make_unique.cpp \
-    splashscreen.cpp
+    splashscreen.cpp \
+    db.cpp
 
 # Installation path
 # target.path =
@@ -70,5 +74,7 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
-    android/version.xml
+    android/version.xml \
+    resources/components/page_shadow.png \
+    resources/components/Page.qml
 
