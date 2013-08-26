@@ -26,7 +26,8 @@ HEADERS += \
     mainwindow.hpp \
     make_unique.hpp \
     splashscreen.hpp \
-    db.hpp
+    db.hpp \
+    window.hpp
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += \
@@ -35,7 +36,8 @@ SOURCES += \
     mainwindow.cpp \
     make_unique.cpp \
     splashscreen.cpp \
-    db.cpp
+    db.cpp \
+    window.cpp
 
 # Installation path
 # target.path =

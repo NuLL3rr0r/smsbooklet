@@ -1,21 +1,21 @@
-#include <QQmlContext>
-#include <QTimer>
+#include <QtCore/QTimer>
+#include <QtQml/QQmlContext>
+#include <QtQuick/QQuickItem>
 #include "splashscreen.hpp"
-
-#define     SPLASH_TIMEOUT          1500
 
 using namespace SMSDB;
 
 SplashScreen::SplashScreen(QWindow *parent) :
-    QtQuick2ApplicationViewer(parent)
+    Window(parent)
 {
-    this->setTitle("");
+    this->setTitle("پیامک بانک");
     this->setFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
-    this->rootContext()->setContextProperty("cppSplashScreen", this);
-    this->setMainQmlFile(QStringLiteral("resources/splashscreen.qml"));
+    this->SetQML(QStringLiteral("resources/splashscreen.qml"));
 
-    QTimer::singleShot(SPLASH_TIMEOUT, this, SLOT(OnTimedOut()));
+    QObject *rootObject = this->rootObject();
+    QObject::connect(rootObject, SIGNAL(signal_TimedOut()),
+                     this, SLOT(OnTimedOut()));
 }
 
 SplashScreen::~SplashScreen()
@@ -24,6 +24,6 @@ SplashScreen::~SplashScreen()
 
 void SplashScreen::OnTimedOut()
 {
-    emit signal_TimedOut();
+    this->Close();
 }
 

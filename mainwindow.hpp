@@ -2,25 +2,19 @@
 #define MAINWINDOW_HPP
 
 
-#include "qtquick2applicationviewer.h"
+#include "window.hpp"
 
 namespace SMSDB {
     class MainWindow;
 }
 
-class SMSDB::MainWindow : public QtQuick2ApplicationViewer
+class SMSDB::MainWindow : public Window
 {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWindow *parent = 0);
     ~MainWindow();
-
-signals:
-    void signal_Closed();
-
-private slots:
-    void OnClosing();
 };
 
 

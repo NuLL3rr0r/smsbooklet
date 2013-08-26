@@ -2,22 +2,19 @@
 #define SPLASHSCREEN_HPP
 
 
-#include "qtquick2applicationviewer.h"
+#include "window.hpp"
 
 namespace SMSDB {
     class SplashScreen;
 }
 
-class SMSDB::SplashScreen : public QtQuick2ApplicationViewer
+class SMSDB::SplashScreen : public Window
 {
     Q_OBJECT
 
 public:
     explicit SplashScreen(QWindow *parent = 0);
     ~SplashScreen();
-    
-signals:
-    void signal_TimedOut();
 
 private slots:
     void OnTimedOut();

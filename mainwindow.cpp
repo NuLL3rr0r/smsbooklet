@@ -1,19 +1,21 @@
+#include <QtGui/QGuiApplication>
+#include <QtGui/QScreen>
+#include <QtQml/QQmlContext>
+#include <QtQuick/QQuickItem>
 #include "mainwindow.hpp"
 
 using namespace SMSDB;
 
 MainWindow::MainWindow(QWindow *parent) :
-    QtQuick2ApplicationViewer(parent)
+    Window(parent)
 {
+    this->setTitle("پیامک بانک");
+    this->setFlags(Qt::FramelessWindowHint);
+
+    this->SetQML(QStringLiteral("resources/mainwindow.qml"));
 }
 
 MainWindow::~MainWindow()
 {
-}
-
-void MainWindow::OnClosing()
-{
-    this->close();
-    emit signal_Closed();
 }
 

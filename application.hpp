@@ -30,7 +30,7 @@ signals:
 public slots:
 
 private slots:
-    void OnSplashScreenTimedOut();
+    void OnSplashScreenClosed();
     void OnMainWindowClosed();
 
 public:

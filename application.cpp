@@ -26,13 +26,13 @@ void Application::Start()
 
     m_splashScreen = make_unique<SplashScreen>();
 
-    QObject::connect(m_splashScreen.get(), SIGNAL(signal_TimedOut()),
-                     this, SLOT(OnSplashScreenTimedOut()));
+    QObject::connect(m_splashScreen.get(), SIGNAL(signal_Closed()),
+                     this, SLOT(OnSplashScreenClosed()));
 
-    m_splashScreen->showExpanded();
+    m_splashScreen->Show();
 }
 
-void Application::OnSplashScreenTimedOut()
+void Application::OnSplashScreenClosed()
 {
     m_splashScreen->deleteLater();
     m_splashScreen.release();
@@ -42,7 +42,7 @@ void Application::OnSplashScreenTimedOut()
     QObject::connect(m_mainWindow.get(), SIGNAL(signal_Closed()),
                      this, SLOT(OnMainWindowClosed()));
 
-    m_mainWindow->showExpanded();
+    m_mainWindow->Show();
 }
 
 void Application::OnMainWindowClosed()
