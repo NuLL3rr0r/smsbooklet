@@ -77,6 +77,4 @@ OTHER_FILES += \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
     android/version.xml \
-    resources/components/page_shadow.png \
-    resources/components/Page.qml
 
