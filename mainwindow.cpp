@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWindow *parent) :
     Window(parent)
 {
     this->setTitle("پیامک بانک");
-    this->setFlags(Qt::FramelessWindowHint);
+    this->setFlags(Qt::Window | Qt::FramelessWindowHint);
 
     this->SetQML(QStringLiteral("resources/mainwindow.qml"));
 }
