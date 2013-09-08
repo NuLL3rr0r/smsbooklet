@@ -27,7 +27,8 @@ HEADERS += \
     make_unique.hpp \
     splashscreen.hpp \
     db.hpp \
-    window.hpp
+    window.hpp \
+    pagemodel.hpp
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += \
@@ -37,7 +38,8 @@ SOURCES += \
     make_unique.cpp \
     splashscreen.cpp \
     db.cpp \
-    window.cpp
+    window.cpp \
+    pagemodel.cpp
 
 # Installation path
 # target.path =
@@ -77,4 +79,7 @@ OTHER_FILES += \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
     android/version.xml \
+    resources/Flipable/FlipableBehavior.qml \
+    resources/Flipable/Flipable.qml \
+    resources/Flipable/Page.qml
 

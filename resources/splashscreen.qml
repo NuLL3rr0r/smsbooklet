@@ -26,7 +26,7 @@ Rectangle {
         anchors.fill: parent;
         horizontalTileMode: BorderImage.Stretch
         verticalTileMode: BorderImage.Stretch
-        border { left: 24; top: 24; right: 24; bottom: 24 }
+        border { left: 24; top: 24; right: 24; bottom: 24; }
         visible: false;
     }
 
