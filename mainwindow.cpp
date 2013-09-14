@@ -34,7 +34,6 @@ MainWindow::MainWindow(QWindow *parent) :
                                         "left: 24;"
                                         "}"
                                         "}"));
-
     m_pages.push_back(make_unique<Page>("import QtQuick 2.1;"
                                   "BorderImage {"
                                   "source: \"../F1.png\";"

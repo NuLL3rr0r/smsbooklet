@@ -5,24 +5,35 @@ Item {
 
     property alias model: flipBookBehavior.model;
     property double shadow: 0.0;
+    property double progress: 0.0;
     property alias smooth: smoothener.enabled;
-    property double progress;
-    property bool fromRight: true
-    property alias flipped: flipablePage.flipped;
-    property bool isAnimRunning: false;
+    property bool fromRight: true;
+    property alias flipping: flipablePage.flipping;
+    property alias pageSide: flipablePage.side;
+    property bool evenPage: true;
+    property alias enablePageAngleBehavior: pageAngleBehavior.enabled;
+    property alias flipablePageAngle: detailsFlipableRotation.angle;
+    property bool resetFlipablePageAngle: false;
+    property bool pageGrabbed: false;
+    property bool pageReleased: false;
+
+    property alias pageClipperX: pageClipper.x;
+    property alias flipablePageX: flipablePage.x;
+
+    signal flipped();
+
+    Behavior on progress {
+        id: smoothener;
+        enabled: false;
+        SmoothedAnimation {
+            velocity: 1.0;
+        }
+    }
 
     Component.onCompleted: {
     }
 
     Component.onDestruction: {
-    }
-
-    Behavior on progress {
-        id: smoothener;
-        enabled: true;
-        SmoothedAnimation {
-            velocity: 1.0;
-        }
     }
 
     Item {
@@ -62,7 +73,7 @@ Item {
             width: flipBook.width;
             height: flipBook.height;
 
-            property bool flipped: false;
+            property bool flipping: false;
             property double progress;
             progress: flipBook.progress;
 
@@ -84,11 +95,186 @@ Item {
                     axis.x: 0.0;
                     axis.y: 1.0;
                     axis.z: 0.0;
+                    angle: {
+                        /*var angleOffset = flipBookBehavior.pageOffset * -180.0;
+                        console.log(-720 % 360)
+                        if (angleOffset % 360 == 0)
+                            angleOffset = 0;
+                        else {
+                            if (angleOffset % 180 == 0) {
+                                angleOffset = -180
+                            }
+                        }
+
+                        var rightAngle = angleOffset + (flipBook.fromRight ? -90.0 : 9.0);
+                        var a = angleOffset + (flipBook.progress * (flipBook.fromRight ? -180.0 : 180.0));
+
+                        if (a <= rightAngle) {
+                            pageClipper.x = 0.0;
+                            flipablePage.x = 0.0;
+                        } else {
+                            pageClipper.x = flipBook.width / 2.0;
+                            flipablePage.x = -flipBook.width / 2.0;
+                        }
+
+                        if (a % 180.0 != 0.0) {
+                            flipBook.flipping = true;
+                        }*/
+
+
+                        ////////////// 333333333333
+                        //console.log("ddddddd")
+
+                        if (flipBook.resetFlipablePageAngle) {
+                            pageAngleBehavior.enabled = false;
+                            smoothener.enabled = false;
+                            return 0;
+                        }
+
+                        var a = flipBook.progress * (flipBook.fromRight ? -180.0 : 180.0);
+
+                        if (flipBook.fromRight) {
+                            if (a <= -90.0) {
+                                pageClipper.x = 0.0;
+                                flipablePage.x = 0.0;
+                            } else {
+                                pageClipper.x = flipBook.width / 2.0;
+                                flipablePage.x = -flipBook.width / 2.0;
+                            }
+                        } else {
+                            if (a <= 90.0) {
+                                pageClipper.x = 0.0;
+                                flipablePage.x = 0.0;
+                                //console.log("eeeeeeee")
+                            } else {
+                                //console.log("ddddddd")
+                                pageClipper.x = flipBook.width / 2.0;
+                                flipablePage.x = -flipBook.width / 2.0;
+                            }
+                        }
+
+                        //if (a != 0.0 && a != -180.0 && a != 180.0) {
+                        if (a % 180.0 != 0.0) {
+                            flipBook.flipping = true;
+                        }
+
+                        ///// 22222222222
+                        /*var a = 0.0;
+                        var rightAngle = flipBook.evenPage
+                                ? (flipBook.fromRight ? -90.0 : 90.0)
+                                : (flipBook.fromRight ? -270.0 : 270.0);
+                        var straightAngle = flipBook.fromRight ? -180.0 : 180.0;
+
+                        if (evenPage) {
+                            a = flipBook.progress * straightAngle;
+                        } else {
+                            //console.log("a ", a, "   rightAngle  ", rightAngle)
+                            ///console.log("straightAnglee  ", straightAngle)
+                            a = ((1.0 - flipBook.progress) * straightAngle) + straightAngle;
+                        }
+
+                        if (a < rightAngle) {
+                            pageClipper.x = 0.0;
+                            flipablePage.x = 0.0;
+                        } else {
+                            pageClipper.x = flipBook.width / 2.0;
+                            flipablePage.x = -flipBook.width / 2.0;
+                        }
+
+                        if (a == -360.0 || a == 360.0) {
+                            pageAngleBehavior.enabled = false;
+                            a = 0.0;
+                        }
+
+                        if (a == 0.0 || a == -180.0 || a == 180.0) {
+                            flipBook.flipping = false;
+                            flipped();
+                        } else {
+                            flipBook.flipping = true;
+                        }*/
+
+                        ///////// 1111111
+                        /*if (flipBook.fromRight) {
+                            if (internal.flipablePageAngle <= 0.0 &&
+                                    internal.flipablePageAngle >= -180.0) {
+                                a = flipBook.progress * -180.0;
+
+                                if (a < -90.0) {
+                                    pageClipper.x = 0.0;
+                                    flipablePage.x = 0.0;
+                                } else {
+                                    pageClipper.x = flipBook.width / 2.0;
+                                    flipablePage.x = -flipBook.width / 2.0;
+                                }
+                            } else {
+                                a = (flipBook.progress * -180.0) + internal.flipablePageAngle;
+
+                                if (a < -270.0) {
+                                    pageClipper.x = 0.0;
+                                    flipablePage.x = 0.0;
+                                } else {
+                                    pageClipper.x = flipBook.width / 2.0;
+                                    flipablePage.x = -flipBook.width / 2.0;
+                                }
+                            }
+                        } else {
+                            a = flipBook.progress * 180.0;
+
+                            /*if (a < 90.0) {
+                                pageClipper.x = 0.0;
+                                flipablePage.x = 0.0;
+                            } else {
+                                pageClipper.x = flipBook.width / 2.0;
+                                flipablePage.x = -flipBook.width / 2.0;
+                            }*/
+                        //}
+
+                        return a;
+                    }
+
+                    onAngleChanged: {
+                        /*if (!flipBook.flipping)
+                            return;*/
+
+                        if (flipBook.pageReleased) {
+                            if (angle % 180.0 == 0.0) {
+                                //console.log(flipBookBehavior.pageOffset)
+                                //console.log(angle)
+                                pageAngleBehavior.enabled = false;
+                                smoothener.enabled = false;
+                                //pageClipper.x = flipBook.width / 2.0;
+                                //flipablePage.x = -flipBook.width / 2.0;
+                                //angle = 0.0;
+                                flipped();
+                                flipBook.flipping = false;
+                            }
+                        }
+                    }
+
+                    Behavior on angle {
+                        id: pageAngleBehavior;
+                        enabled: false;
+                        SmoothedAnimation {
+                            velocity: 200.0;
+                        }
+                    }
+                }
+            ]
+
+            /*
+            transform: [
+                Rotation {
+                    id: detailsFlipableRotation;
+                    origin.x: flipBook.width / 2.0;
+                    origin.y: flipBook.height / 2.0;
+                    axis.x: 0.0;
+                    axis.y: 1.0;
+                    axis.z: 0.0;
                     angle: 0.0;
                 }
             ]
 
-            /*states: State {
+            states: State {
                 name: "back";
 
                 PropertyChanges {
@@ -97,33 +283,7 @@ Item {
                 }
 
                 when: flipablePage.flipped;
-            }*/
-
-
-            states: [
-                State {
-                    name: "-180.0";
-                    PropertyChanges {
-                        target: detailsFlipableRotation;
-                        angle: -180.0;
-                    }
-                },
-                State {
-                    name: "-360.0";
-                    PropertyChanges {
-                        target: detailsFlipableRotation;
-                        angle: -360.0;
-                    }
-                },
-                State {
-                    name: "default";
-                    PropertyChanges {
-                        target: detailsFlipableRotation;
-                        angle: 0.0;
-                    }
-                }
-            ]
-
+            }
 
             transitions: Transition {
                 ParallelAnimation {
@@ -180,7 +340,7 @@ Item {
                         flipBook.isAnimRunning = true;
                     }
                 }
-            }
+            }*/
         }
     }
 
@@ -188,7 +348,28 @@ Item {
         id: flipBookBehavior;
     }
 
-    function loadPages(frontPage, backPage) {
+    function loadFrontPage(page) {
+        for(var i = frontPageItem.container.children.length; i > 0 ; --i)
+          frontPageItem.container.children[i - 1].destroy();
+        for(var i = flipableFrontPage.container.children.length; i > 0 ; --i)
+          flipableFrontPage.container.children[i - 1].destroy();
+
+        Qt.createQmlObject(page.contents, frontPageItem.container);
+        Qt.createQmlObject(page.contents, flipableFrontPage.container);
+    }
+
+    function loadBackPage(page) {
+        for(var i = backPageItem.container.children.length; i > 0 ; --i)
+          backPageItem.container.children[i - 1].destroy();
+        for(var i = flipableBackPage.container.children.length; i > 0 ; --i)
+          flipableBackPage.container.children[i - 1].destroy();
+
+        Qt.createQmlObject(page.contents, backPageItem.container);
+        Qt.createQmlObject(page.contents, flipableBackPage.container);
+    }
+
+
+    /*function loadPages(frontPage, backPage) {
         for(var i = frontPageItem.container.children.length; i > 0 ; --i)
           frontPageItem.container.children[i - 1].destroy();
         for(var i = flipableFrontPage.container.children.length; i > 0 ; --i)
@@ -210,7 +391,7 @@ Item {
             Qt.createQmlObject(frontPage.contents, backPageItem.container);
             Qt.createQmlObject(frontPage.contents, flipableBackPage.container);
         }
-    }
+    }*/
 
     /*function nextPage() {
         if (!flipBook.isAnimRunning) {
@@ -224,7 +405,7 @@ Item {
         }
     }*/
 
-    function nextPage() {
+    /*function nextPage() {
         if (!flipBook.isAnimRunning) {
             pageClipper.x = flipBook.width / 2.0;
             flipablePage.x = -flipBook.width / 2.0;
@@ -258,6 +439,6 @@ Item {
                 flipablePage.state = "-180.0";
             }
         }
-    }
+    }*/
 }
 
