@@ -110,7 +110,7 @@ MainWindow::MainWindow(QWindow *parent) :
     QQmlContext *context = this->rootContext();
     context->setContextProperty("PageModel", m_pageModel.get());
 
-    this->SetQML(QStringLiteral("resources/mainwindow.qml"));
+    this->SetQML(QStringLiteral("resources/ui/mainwindow.qml"));
 }
 
 MainWindow::~MainWindow()

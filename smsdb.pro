@@ -25,7 +25,6 @@ HEADERS += \
     application.hpp \
     mainwindow.hpp \
     make_unique.hpp \
-    splashscreen.hpp \
     db.hpp \
     window.hpp \
     pagemodel.hpp
@@ -36,7 +35,6 @@ SOURCES += \
     application.cpp \
     mainwindow.cpp \
     make_unique.cpp \
-    splashscreen.cpp \
     db.cpp \
     window.cpp \
     pagemodel.cpp
@@ -79,7 +77,9 @@ OTHER_FILES += \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
     android/version.xml \
-    resources/Flipable/FlipableBehavior.qml \
-    resources/Flipable/Flipable.qml \
-    resources/Flipable/Page.qml
+    resources/ui/Flipable/FlipableBehavior.qml \
+    resources/ui/Flipable/Flipable.qml \
+    resources/ui/Flipable/Page.qml
+    resources/ui/mainwindow.qml
+    resources/ui/splashscreen.png
 

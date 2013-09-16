@@ -19,7 +19,6 @@ private:
     bool m_isInitialized;
 
     std::unique_ptr<SMSDB::MainWindow> m_mainWindow;
-    std::unique_ptr<SMSDB::SplashScreen> m_splashScreen;
 
 public:
     explicit Application(QObject *parent = 0);
@@ -30,7 +29,6 @@ signals:
 public slots:
 
 private slots:
-    void OnSplashScreenClosed();
     void OnMainWindowClosed();
 
 public:
