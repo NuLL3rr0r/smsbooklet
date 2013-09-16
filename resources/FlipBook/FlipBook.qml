@@ -43,7 +43,7 @@ Item {
         Page {
             id: frontPageItem;
             width: flipBook.width;
-            shadow: flipBook.shadow;
+            shadow: flipBook.shadow * 4.0;
         }
     }
 
@@ -56,7 +56,7 @@ Item {
             id: backPageItem;
             width: flipBook.width;
             x: -flipBook.width / 2.0;
-            shadow: flipBook.shadow;
+            shadow: flipBook.shadow * 4.0;
         }
     }
 
@@ -108,19 +108,24 @@ Item {
                             if (a <= -90.0) {
                                 pageClipper.x = 0.0;
                                 flipablePage.x = 0.0;
+                                flipBook.shadow = 0.0;
+                                flipBook.shadow = (1.0 - flipBook.progress) / 6.0;
                             } else {
                                 var x = flipBook.width / 2.0;
                                 pageClipper.x = x;
                                 flipablePage.x = -x;
+                                flipBook.shadow = flipBook.progress / 6.0;
                             }
                         } else {
                             if (a <= 90.0) {
                                 pageClipper.x = 0.0;
                                 flipablePage.x = 0.0;
+                                flipBook.shadow = flipBook.progress / 6.0;
                             } else {
                                 var x = flipBook.width / 2.0;
                                 pageClipper.x = x;
                                 flipablePage.x = -x;
+                                flipBook.shadow = (1.0 - flipBook.progress) / 6.0;
                             }
                         }
 
@@ -136,6 +141,7 @@ Item {
                             if (angle % 180.0 == 0.0) {
                                 pageAngleBehavior.enabled = false;
                                 smoothener.enabled = false;
+                                flipBook.shadow = 0.0;
                                 flipped();
                                 flipBook.flipping = false;
                             }

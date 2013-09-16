@@ -6,7 +6,6 @@ Rectangle {
     height: parent.height;
     x: 0.0;
     y: 0.0;
-    //clip: true
 
     readonly property alias container: pageContainer;
 
