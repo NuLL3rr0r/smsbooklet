@@ -79,7 +79,9 @@ OTHER_FILES += \
     android/version.xml \
     resources/ui/Flipable/FlipableBehavior.qml \
     resources/ui/Flipable/Flipable.qml \
-    resources/ui/Flipable/Page.qml
-    resources/ui/mainwindow.qml
-    resources/ui/splashscreen.png
+    resources/ui/Flipable/Page.qml \
+    resources/ui/Flipable/page_shadow.png \
+    resources/ui/mainwindow.qml \
+    resources/ui/splashscreen.png \
+    resources/db/messages.db
 
