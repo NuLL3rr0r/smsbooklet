@@ -2,9 +2,12 @@
 #include <QtGui/QGuiApplication>
 #include "make_unique.hpp"
 #include "application.hpp"
+#include "dbtables.hpp"
 
 int main(int argc, char **argv)
 {
+    SMSDB::DBTables::InitTables();
+
     std::unique_ptr<QGuiApplication> app =
             std::make_unique<QGuiApplication>(argc, argv);
 

@@ -27,7 +27,9 @@ HEADERS += \
     make_unique.hpp \
     db.hpp \
     window.hpp \
-    pagemodel.hpp
+    pagemodel.hpp \
+    rt.hpp \
+    dbtables.hpp
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += \
@@ -37,7 +39,9 @@ SOURCES += \
     make_unique.cpp \
     db.cpp \
     window.cpp \
-    pagemodel.cpp
+    pagemodel.cpp \
+    rt.cpp \
+    dbtables.cpp
 
 # Installation path
 # target.path =

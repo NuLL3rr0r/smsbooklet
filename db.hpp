@@ -16,7 +16,7 @@ private:
     QSqlDatabase m_db;
 
 public:
-    DB(const std::string &dbFile);
+    explicit DB(const std::string &dbFile);
     ~DB();
 
     void CreateTable(const std::string &table, const std::string &fields);

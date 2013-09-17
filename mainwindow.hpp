@@ -23,6 +23,9 @@ private:
 public:
     explicit MainWindow(QWindow *parent = 0);
     ~MainWindow();
+
+private:
+    void FillCategoryPages();
 };
 
 

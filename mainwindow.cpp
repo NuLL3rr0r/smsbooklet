@@ -34,74 +34,8 @@ MainWindow::MainWindow(QWindow *parent) :
                                         "left: 24;"
                                         "}"
                                         "}"));
-    m_pages.push_back(make_unique<Page>("import QtQuick 2.1;"
-                                  "BorderImage {"
-                                  "source: \"../F1.png\";"
-                                  "asynchronous: true;"
-                                  "cache: true;"
-                                  "smooth: true;"
-                                  "anchors.centerIn: parent;"
-                                  "anchors.fill: parent;"
-                                  "horizontalTileMode: BorderImage.Stretch;"
-                                  "verticalTileMode: BorderImage.Stretch;"
-                                  "border {"
-                                  "top: 24;"
-                                  "right: 24;"
-                                  "bottom: 24;"
-                                  "left: 24;"
-                                  "}"
-                                  "}"));
-    m_pages.push_back(make_unique<Page>("import QtQuick 2.1;"
-                                  "BorderImage {"
-                                  "source: \"../F2.png\";"
-                                  "asynchronous: true;"
-                                  "cache: true;"
-                                  "smooth: true;"
-                                  "anchors.centerIn: parent;"
-                                  "anchors.fill: parent;"
-                                  "horizontalTileMode: BorderImage.Stretch;"
-                                  "verticalTileMode: BorderImage.Stretch;"
-                                  "border {"
-                                  "top: 24;"
-                                  "right: 24;"
-                                  "bottom: 24;"
-                                  "left: 24;"
-                                  "}"
-                                  "}"));
-    m_pages.push_back(make_unique<Page>("import QtQuick 2.1;"
-                                  "BorderImage {"
-                                  "source: \"../F3.png\";"
-                                  "asynchronous: true;"
-                                  "cache: true;"
-                                  "smooth: true;"
-                                  "anchors.centerIn: parent;"
-                                  "anchors.fill: parent;"
-                                  "horizontalTileMode: BorderImage.Stretch;"
-                                  "verticalTileMode: BorderImage.Stretch;"
-                                  "border {"
-                                  "top: 24;"
-                                  "right: 24;"
-                                  "bottom: 24;"
-                                  "left: 24;"
-                                  "}"
-                                  "}"));
-    m_pages.push_back(make_unique<Page>("import QtQuick 2.1;"
-                                  "BorderImage {"
-                                  "source: \"../F4.png\";"
-                                  "asynchronous: true;"
-                                  "cache: true;"
-                                  "smooth: true;"
-                                  "anchors.centerIn: parent;"
-                                  "anchors.fill: parent;"
-                                  "horizontalTileMode: BorderImage.Stretch;"
-                                  "verticalTileMode: BorderImage.Stretch;"
-                                  "border {"
-                                  "top: 24;"
-                                  "right: 24;"
-                                  "bottom: 24;"
-                                  "left: 24;"
-                                  "}"
-                                  "}"));
+
+    FillCategoryPages();
 
     for (const auto &p : m_pages) {
         m_pageModel->AddPage(p.get());
@@ -115,5 +49,10 @@ MainWindow::MainWindow(QWindow *parent) :
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::FillCategoryPages()
+{
+
 }
 
