@@ -5,6 +5,9 @@
 #include "make_unique.hpp"
 #include "window.hpp"
 
+#define     DEFAULT_WIDTH      480.0;
+#define     DEFAULT_HEIGHT     768.0;
+
 using namespace SMSDB;
 
 class Window::Pimpl {
@@ -29,6 +32,24 @@ Window::Window(QWindow *parent, Qt::WindowType flags) :
 
 Window::~Window()
 {
+}
+
+double Window::getScreenWidth() const
+{
+#if defined(Q_OS_ANDROID) || defined(Q_OS_BLACKBERRY)
+    return QApplication::primaryScreen()->size().width();
+#else
+    return DEFAULT_WIDTH;
+#endif
+}
+
+double Window::getScreenHeight() const
+{
+#if defined(Q_OS_ANDROID) || defined(Q_OS_BLACKBERRY)
+    return QApplication::primaryScreen()->size().height();
+#else
+    return DEFAULT_HEIGHT;
+#endif
 }
 
 void Window::SetQML(const QString &file)

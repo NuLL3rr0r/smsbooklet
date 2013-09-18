@@ -3,8 +3,11 @@ import "FlipBook"
 
 Rectangle {
     id: mainWindow;
-    width: 480.0;
-    height: 768.0;
+    width: cppWindow.getScreenWidth();
+    height: cppWindow.getScreenHeight();
+
+    LayoutMirroring.enabled: true
+    LayoutMirroring.childrenInherit: true
 
     Component.onCompleted: {
     }

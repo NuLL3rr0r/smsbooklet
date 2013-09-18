@@ -27,6 +27,10 @@ signals:
     void signal_Closed();
 
 public:
+    Q_INVOKABLE double getScreenWidth() const;
+    Q_INVOKABLE double getScreenHeight() const;
+
+public:
     void SetQML(const QString &file);
 
 public:

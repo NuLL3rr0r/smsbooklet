@@ -34,7 +34,9 @@ MouseArea {
     }
 
     onPressed: {
-        if (!parent.flipping) {
+        if (parent.flipping) {
+            return;
+        } else {
             parent.enablePageAngleBehavior = false;
             parent.smooth = false;
             parent.resetFlipablePageAngle = true;
@@ -81,6 +83,9 @@ MouseArea {
     }
 
     onReleased: {
+        if (!parent.flipping)
+            return;
+
         parent.pageGrabbed = false;
         parent.pageReleased = true;
 
