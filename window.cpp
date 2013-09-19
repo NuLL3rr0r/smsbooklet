@@ -37,7 +37,7 @@ Window::~Window()
 double Window::getScreenWidth() const
 {
 #if defined(Q_OS_ANDROID) || defined(Q_OS_BLACKBERRY)
-    return QApplication::primaryScreen()->size().width();
+    return QGuiApplication::primaryScreen()->size().width();
 #else
     return DEFAULT_WIDTH;
 #endif
@@ -46,7 +46,7 @@ double Window::getScreenWidth() const
 double Window::getScreenHeight() const
 {
 #if defined(Q_OS_ANDROID) || defined(Q_OS_BLACKBERRY)
-    return QApplication::primaryScreen()->size().height();
+    return QGuiApplication::primaryScreen()->size().height();
 #else
     return DEFAULT_HEIGHT;
 #endif
