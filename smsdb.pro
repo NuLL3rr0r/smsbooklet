@@ -29,7 +29,8 @@ HEADERS += \
     window.hpp \
     pagemodel.hpp \
     rt.hpp \
-    dbtables.hpp
+    dbtables.hpp \
+    messagebrowser.hpp
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += \
@@ -41,7 +42,8 @@ SOURCES += \
     window.cpp \
     pagemodel.cpp \
     rt.cpp \
-    dbtables.cpp
+    dbtables.cpp \
+    messagebrowser.cpp
 
 # Installation path
 # target.path =
@@ -86,6 +88,7 @@ OTHER_FILES += \
     resources/ui/Flipable/Page.qml \
     resources/ui/Flipable/page_shadow.png \
     resources/ui/mainwindow.qml \
+    resources/ui/messagebrowser.qml \
     resources/ui/splashscreen.png \
     resources/db/messages.db
 

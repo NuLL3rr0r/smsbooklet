@@ -10,8 +10,11 @@
 #include <QtSql/QSqlRecord>
 #include "make_unique.hpp"
 #include "mainwindow.hpp"
+#include "messagebrowser.hpp"
 #include "pagemodel.hpp"
 #include "rt.hpp"
+
+#define     UI_FILE            "resources/ui/mainwindow.qml"
 
 using namespace std;
 using namespace SMSDB;
@@ -51,11 +54,16 @@ MainWindow::MainWindow(QWindow *parent) :
     QQmlContext *context = this->rootContext();
     context->setContextProperty("PageModel", m_pageModel.get());
 
-    this->SetQML(QStringLiteral("resources/ui/mainwindow.qml"));
+    this->SetQML(QStringLiteral(UI_FILE));
 }
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::loadMessages(QString category) {
+    m_messageBrowser = make_unique<MessageBrowser>(category, this);
+    m_messageBrowser->Show();
 }
 
 void MainWindow::FillCategoryPages()
@@ -66,10 +74,10 @@ void MainWindow::FillCategoryPages()
                     " ORDER BY cat_col; ");
     QSqlRecord record = query.record();
 
-    const double padding = 48.0;
-    const double spacing = 16.0;
-    const unsigned char maxRow = 5;
-    const unsigned char maxCol = 1;
+    const double padding = 96.0;
+    const double spacing = 48.0;
+    const unsigned char maxRow = 4;
+    const unsigned char maxCol = 2;
     unsigned char r = 0;
     unsigned char c = 0;
     QString page;
@@ -124,6 +132,7 @@ void MainWindow::FillCategoryPages()
                         "width: %2;"
                         "height: %3;"
                         "onClicked: {"
+                        "loadMessages('%1');"
                         "}"
                         "}"
                         "}").arg(category).arg(buttonWidth).arg(buttonHeight);

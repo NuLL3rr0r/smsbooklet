@@ -203,5 +203,9 @@ Item {
         Qt.createQmlObject(page.contents, frontPageItem.container);
         Qt.createQmlObject(page.contents, flipableBackPage.container);
     }
+
+    function loadMessages(category) {
+        cppWindow.loadMessages(category);
+    }
 }
 

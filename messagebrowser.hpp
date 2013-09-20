@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
+#ifndef MESSAGEBROWSER_HPP
+#define MESSAGEBROWSER_HPP
 
 
 #include <memory>
@@ -9,31 +9,27 @@
 class QString;
 
 namespace SMSDB {
-    class MainWindow;
     class MessageBrowser;
     class PageModel;
     class Page;
 }
 
-class SMSDB::MainWindow : public Window
+class SMSDB::MessageBrowser : public Window
 {
     Q_OBJECT
 
 private:
     std::unique_ptr<SMSDB::PageModel> m_pageModel;
     std::vector<std::unique_ptr<SMSDB::Page>> m_pages;
-    std::unique_ptr<SMSDB::MessageBrowser> m_messageBrowser;
 
 public:
-    explicit MainWindow(QWindow *parent = 0);
-    ~MainWindow();
-
-public:
-    Q_INVOKABLE void loadMessages(QString category);
+    explicit MessageBrowser(const QString &category, QWindow *parent = 0);
+    ~MessageBrowser();
 
 private:
-    void FillCategoryPages();
+    void FillMessagePages(const QString &category);
 };
 
 
 #endif // MAINWINDOW_HPP
+
