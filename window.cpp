@@ -1,3 +1,4 @@
+#include <QtCore/QUrl>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
 #include <QtQml/QQmlContext>
@@ -52,9 +53,9 @@ double Window::getScreenHeight() const
 #endif
 }
 
-void Window::SetQML(const QString &file)
+void Window::SetQML(const QString &url)
 {
-    setMainQmlFile(file);
+    this->setSource(QUrl(url));
     m_pimpl->ReLocate();
 }
 

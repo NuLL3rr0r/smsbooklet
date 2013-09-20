@@ -1,9 +1,10 @@
 QT +=sql
+QT -=network
 
 # Add more folders to ship with the application, here
-smsdb_resources.source = resources
-smsdb_resources.target =
-DEPLOYMENTFOLDERS = smsdb_resources
+database.source = resources/db
+database.target = resources
+DEPLOYMENTFOLDERS = database
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -23,27 +24,27 @@ unix {
 
 HEADERS += \
     application.hpp \
+    db.hpp \
+    dbtables.hpp \
     mainwindow.hpp \
     make_unique.hpp \
-    db.hpp \
-    window.hpp \
+    messagebrowser.hpp \
     pagemodel.hpp \
     rt.hpp \
-    dbtables.hpp \
-    messagebrowser.hpp
+    window.hpp
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += \
     main.cpp \
     application.cpp \
+    db.cpp \
+    dbtables.cpp \
     mainwindow.cpp \
     make_unique.cpp \
-    db.cpp \
-    window.cpp \
+    messagebrowser.cpp \
     pagemodel.cpp \
     rt.cpp \
-    dbtables.cpp \
-    messagebrowser.cpp
+    window.cpp
 
 # Installation path
 # target.path =
@@ -52,7 +53,7 @@ SOURCES += \
 include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
-RESOURCES +=
+RESOURCES += resources/resources.qrc
 
 OTHER_FILES += \
     android/AndroidManifest.xml \
@@ -82,13 +83,5 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
-    android/version.xml \
-    resources/ui/Flipable/FlipableBehavior.qml \
-    resources/ui/Flipable/Flipable.qml \
-    resources/ui/Flipable/Page.qml \
-    resources/ui/Flipable/page_shadow.png \
-    resources/ui/mainwindow.qml \
-    resources/ui/messagebrowser.qml \
-    resources/ui/splashscreen.png \
-    resources/db/messages.db
+    android/version.xml
 

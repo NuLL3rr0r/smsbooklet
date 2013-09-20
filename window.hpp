@@ -31,7 +31,7 @@ public:
     Q_INVOKABLE double getScreenHeight() const;
 
 public:
-    void SetQML(const QString &file);
+    void SetQML(const QString &url);
 
 public:
     void Show();

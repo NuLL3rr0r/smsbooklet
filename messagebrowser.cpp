@@ -12,7 +12,7 @@
 #include "pagemodel.hpp"
 #include "rt.hpp"
 
-#define     UI_FILE            "resources/ui/messagebrowser.qml"
+#define     UI_FILE            "qrc:/ui/messagebrowser.qml"
 
 using namespace std;
 using namespace SMSDB;

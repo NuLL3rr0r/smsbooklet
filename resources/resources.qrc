@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ui/FlipBook/FlipBook.qml</file>
+        <file>ui/FlipBook/FlipBookBehavior.qml</file>
+        <file>ui/FlipBook/Page.qml</file>
+        <file>ui/FlipBook/page_shadow.png</file>
+        <file>ui/mainwindow.qml</file>
+        <file>ui/messagebrowser.qml</file>
+        <file>ui/splashscreen.png</file>
+    </qresource>
+</RCC>

@@ -14,7 +14,7 @@
 #include "pagemodel.hpp"
 #include "rt.hpp"
 
-#define     UI_FILE            "resources/ui/mainwindow.qml"
+#define     UI_FILE            "qrc:/ui/mainwindow.qml"
 
 using namespace std;
 using namespace SMSDB;
