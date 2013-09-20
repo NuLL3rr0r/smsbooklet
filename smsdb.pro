@@ -1,5 +1,5 @@
-QT +=sql
-QT -=network
+QT += sql
+QT -= network
 
 # Add more folders to ship with the application, here
 database.source = resources/db
