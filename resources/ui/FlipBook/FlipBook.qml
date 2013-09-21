@@ -36,6 +36,10 @@ Item {
     Component.onDestruction: {
     }
 
+    FlipBookBehavior {
+        id: flipBookBehavior;
+    }
+
     Item {
         width: flipBook.width / 2.0;
         height: flipBook.height;
@@ -158,10 +162,6 @@ Item {
                 }
             ]
         }
-    }
-
-    FlipBookBehavior {
-        id: flipBookBehavior;
     }
 
     function loadFrontPageForeward(page) {
