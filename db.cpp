@@ -14,8 +14,6 @@ DB::DB(const string &dbFile)
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName(dbFile.c_str());
 
-    qDebug() << dbFile.c_str();
-
     if (!m_db.open()) {
         qDebug() << m_db.lastError();
         assert(false);

@@ -62,7 +62,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::loadMessages(QString category) {
-    m_messageBrowser = make_unique<MessageBrowser>(category, this);
+    m_messageBrowser = make_unique<MessageBrowser>(category);
     m_messageBrowser->Show();
 }
 

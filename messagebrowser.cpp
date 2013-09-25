@@ -66,7 +66,7 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "import QtQuick.Controls.Styles 1.0;"
                        "import QtQuick.Layouts 1.0;"
                        "Rectangle {"
-                       /*"anchors.centerIn: parent;"
+                       "anchors.centerIn: parent;"
                        "anchors.fill: parent;"
                        "Text {"
                        "anchors.fill: parent;"
@@ -75,12 +75,9 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "horizontalAlignment: Text.AlignHCenter;"
                        "wrapMode: 'Wrap';"
                        "text: \"%1\";"
-                       "}"*/
-                       "}");//.arg(message.replace("\"", "").replace("\n", "<br />"));
+                       "}"
+                       "}").arg(message.replace("\"", "").replace("\n", "<br />"));
 
-        qDebug() << "\n\n\n";
-        qDebug() << page;
-        qDebug() << "\n";
         m_pages.push_back(make_unique<Page>(page));
     }
 }
