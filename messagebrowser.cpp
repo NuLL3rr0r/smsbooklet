@@ -41,6 +41,10 @@ MessageBrowser::~MessageBrowser()
 {
 }
 
+void MessageBrowser::shareMessage(QString message)
+{
+}
+
 void MessageBrowser::FillMessagePages(const QString &category)
 {
     QSqlQuery query(QString(" SELECT TRIM(message) AS msg_col "
@@ -50,7 +54,7 @@ void MessageBrowser::FillMessagePages(const QString &category)
                             " ORDER BY msg_col; ").arg(category));
     QSqlRecord record = query.record();
 
-    const double padding = 48.0;
+    const double padding = 96.0;
     QString page;
 
     double textWidth = getScreenWidth() - (padding * 2.0);
@@ -68,15 +72,37 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "Rectangle {"
                        "anchors.centerIn: parent;"
                        "anchors.fill: parent;"
-                       "Text {"
-                       "anchors.fill: parent;"
+                       "Rectangle {"
                        "anchors.centerIn: parent;"
+                       "width: %1;"
+                       "height: %2;"
+                       "Rectangle {"
+                       "width: parent.width;"
+                       "Image {"
+                       //"anchors.horizontalCenter: parent.horizontalCenter;"
+                       "source: \"../share.png\";"
+                       "asynchronous: true;"
+                       "cache: true;"
+                       "smooth: true;"
+                       "MouseArea {"
+                       "anchors.fill: parent;"
+                       "onClicked: {"
+                       "cppWindow.shareMessage('%3')"
+                       "}"
+                       "}"
+                       "}"
+                       "}"
+                       "Text {"
+                       "anchors.centerIn: parent;"
+                       "anchors.fill: parent;"
                        "verticalAlignment: Text.AlignVCenter;"
                        "horizontalAlignment: Text.AlignHCenter;"
                        "wrapMode: 'Wrap';"
-                       "text: \"%1\";"
+                       "text: \"%3\";"
                        "}"
-                       "}").arg(message.replace("\"", "").replace("\n", "<br />"));
+                       "}"
+                       "}").arg(textWidth).arg(textHeight).arg(
+                    message.replace("\"", "").replace("\n", "<br />"));
 
         m_pages.push_back(make_unique<Page>(page));
     }

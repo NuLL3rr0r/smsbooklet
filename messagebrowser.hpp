@@ -26,6 +26,9 @@ public:
     explicit MessageBrowser(const QString &category, QWindow *parent = 0);
     ~MessageBrowser();
 
+public:
+    Q_INVOKABLE void shareMessage(QString message);
+
 private:
     void FillMessagePages(const QString &category);
 
