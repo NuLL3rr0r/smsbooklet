@@ -6,8 +6,8 @@ Rectangle {
     width: cppWindow.getScreenWidth();
     height: cppWindow.getScreenHeight();
 
-    LayoutMirroring.enabled: true
-    LayoutMirroring.childrenInherit: true
+    LayoutMirroring.enabled: true;
+    LayoutMirroring.childrenInherit: true;
 
     Component.onCompleted: {
     }
