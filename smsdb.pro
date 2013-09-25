@@ -1,4 +1,4 @@
-QT += sql
+QT += core gui qml quick sql v8 widgets
 QT -= network
 
 # Add more folders to ship with the application, here
