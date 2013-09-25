@@ -1,6 +1,6 @@
 android/*
 !android/AndroidManifest.xml
-!android/src/
+!android/src/org
 android/src/org/qtproject/qt5/android/bindings/*
 !android/src/org/qtproject/qt5/android/bindings/QtActivity.java
 
