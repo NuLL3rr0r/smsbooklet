@@ -1,4 +1,8 @@
-/_build
-/android/*
-!/android/AndroidManifest.xml
-/smsdb.pro.user
+android/*
+!android/AndroidManifest.xml
+!android/src/
+android/src/org/qtproject/qt5/android/bindings/*
+!android/src/org/qtproject/qt5/android/bindings/QtActivity.java
+
+smsdb.pro.user
+

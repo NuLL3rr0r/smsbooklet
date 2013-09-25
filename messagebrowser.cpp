@@ -82,3 +82,13 @@ void MessageBrowser::FillMessagePages(const QString &category)
     }
 }
 
+/*
+// We should ovveride this, or else we crash.
+// Use hide instead of close.
+// We'll remove this object on parent
+void MessageBrowser::Close()
+{
+    emit signal_Closed();
+    this->hide();
+}
+*/

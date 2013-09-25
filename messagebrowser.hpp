@@ -28,6 +28,9 @@ public:
 
 private:
     void FillMessagePages(const QString &category);
+
+public:
+    //void Close();
 };
 
 

@@ -28,6 +28,10 @@ public:
     explicit MainWindow(QWindow *parent = 0);
     ~MainWindow();
 
+private slots:
+    void OnMessageBrowserClosed();
+    void OnMessageBrowserShown();
+
 public:
     Q_INVOKABLE void loadMessages(QString category);
 

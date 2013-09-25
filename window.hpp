@@ -26,6 +26,9 @@ signals:
     void signal_Shown();
     void signal_Closed();
 
+protected:
+    void keyPressEvent(QKeyEvent *e);
+
 public:
     Q_INVOKABLE double getScreenWidth() const;
     Q_INVOKABLE double getScreenHeight() const;
@@ -34,8 +37,8 @@ public:
     void SetQML(const QString &url);
 
 public:
-    void Show();
-    void Close();
+    virtual void Show();
+    virtual void Close();
 };
 
 

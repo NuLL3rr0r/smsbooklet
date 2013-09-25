@@ -61,8 +61,21 @@ MainWindow::~MainWindow()
 {
 }
 
+void MainWindow::OnMessageBrowserClosed() {
+    this->setVisible(true);
+    m_messageBrowser.reset();
+}
+
+void MainWindow::OnMessageBrowserShown() {
+    this->setVisible(false);
+}
+
 void MainWindow::loadMessages(QString category) {
     m_messageBrowser = make_unique<MessageBrowser>(category);
+    QObject::connect(m_messageBrowser.get(), SIGNAL(signal_Closed()),
+                     this, SLOT(OnMessageBrowserClosed()));
+    QObject::connect(m_messageBrowser.get(), SIGNAL(signal_Shown()),
+                     this, SLOT(OnMessageBrowserShown()));
     m_messageBrowser->Show();
 }
 

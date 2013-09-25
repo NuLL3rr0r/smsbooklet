@@ -35,6 +35,15 @@ Window::~Window()
 {
 }
 
+void Window::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() != Qt::Key_MediaPrevious) {
+        Window::keyPressEvent(e);
+    } else {
+        this->Close();
+    }
+}
+
 double Window::getScreenWidth() const
 {
 #if defined(Q_OS_ANDROID) || defined(Q_OS_BLACKBERRY)
