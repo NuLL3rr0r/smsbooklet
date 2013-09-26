@@ -1,8 +1,7 @@
 android/*
 !android/AndroidManifest.xml
-!android/src/org
+!android/src/
 android/src/org/qtproject/qt5/android/bindings/*
 !android/src/org/qtproject/qt5/android/bindings/QtActivity.java
-
+!android/src/smsdb
 smsdb.pro.user
-

@@ -12,6 +12,11 @@
 
 #include "make_unique.hpp"
 #include "rt.hpp"
+
+#if defined(Q_OS_ANDROID)
+#include "android.hpp"
+#endif
+
 #include "db.hpp"
 #include "dbtables.hpp"
 
@@ -28,6 +33,11 @@ using namespace SMSDB;
 
 std::mutex RT::m_storageMutex;
 RT::Storage_ptr RT::m_storageInstance;
+
+#if defined(Q_OS_ANDROID)
+std::mutex RT::m_androidMutex;
+RT::Android_ptr RT::m_androidInstance;
+#endif
 
 std::mutex RT::m_dbMutex;
 RT::DB_ptr RT::m_dbInstance;
@@ -46,6 +56,20 @@ RT::StorageStruct *RT::Storage()
 
     return m_storageInstance.get();
 }
+
+#if defined(Q_OS_ANDROID)
+SMSDB::Android *RT::Android()
+{
+    lock_guard<mutex> lock(m_androidMutex);
+    (void)lock;
+
+    if (m_androidInstance == nullptr) {
+        m_androidInstance = std::make_unique<SMSDB::Android>();
+    }
+
+    return m_androidInstance.get();
+}
+#endif
 
 SMSDB::DB *RT::DB()
 {

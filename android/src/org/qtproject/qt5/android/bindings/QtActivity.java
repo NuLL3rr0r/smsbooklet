@@ -146,9 +146,18 @@ public class QtActivity extends Activity
                                                         // this repository is used to push Qt snapshots.
     private String[] m_qtLibs = null; // required qt libs
 
+    public static QtActivity m_mainActivity;
+    
+    public static QtActivity MainActivityRef()
+    {
+        return m_mainActivity;
+    }
+    
     // this function is used to load and start the loader
     private void loadApplication(Bundle loaderParams)
     {
+        m_mainActivity = this;
+        
         try {
             final int errorCode = loaderParams.getInt(ERROR_CODE_KEY);
             if (errorCode != 0) {

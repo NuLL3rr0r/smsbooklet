@@ -9,6 +9,11 @@
 #include <QtSql/QSqlRecord>
 #include "make_unique.hpp"
 #include "messagebrowser.hpp"
+
+#if defined(Q_OS_ANDROID)
+#include "android.hpp"
+#endif
+
 #include "pagemodel.hpp"
 #include "rt.hpp"
 
@@ -43,6 +48,11 @@ MessageBrowser::~MessageBrowser()
 
 void MessageBrowser::shareMessage(QString message)
 {
+#if defined(Q_OS_ANDROID)
+    RT::Android()->SendText(message);
+#else
+    (void)message;
+#endif
 }
 
 void MessageBrowser::FillMessagePages(const QString &category)

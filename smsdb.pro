@@ -46,6 +46,13 @@ SOURCES += \
     rt.cpp \
     window.cpp
 
+android {
+HEADERS += \
+    android.hpp
+SOURCES += \
+    android.cpp
+}
+
 # Installation path
 # target.path =
 
@@ -111,5 +118,6 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
+    android/src/smsdb/Android.java \
     android/version.xml
 
