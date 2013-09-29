@@ -67,9 +67,16 @@ void MessageBrowser::FillMessagePages(const QString &category)
     const double padding = 96.0;
     QString page;
 
-    double textWidth = getScreenWidth() - (padding * 2.0);
-    double textHeight = getScreenHeight() - (padding * 2.0);
+    const double textWidth = getScreenWidth() - (padding * 2.0);
+    const double textHeight = getScreenHeight() - (padding * 2.0);
 
+    size_t queryCount = -1;
+    while(query.next()) {
+        ++queryCount;
+    }
+    query.first();
+
+    size_t i = 0;
     while (query.next()) {
         page.clear();
 
@@ -107,12 +114,19 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "anchors.fill: parent;"
                        "verticalAlignment: Text.AlignVCenter;"
                        "horizontalAlignment: Text.AlignHCenter;"
-                       "wrapMode: 'Wrap';"
+                       "wrapMode: Text.WordWrap;"
                        "text: \"%3\";"
+                       "}"
+                       "Text {"
+                       "anchors.bottom: parent.bottom;"
+                       "anchors.horizontalCenter: parent.horizontalCenter;"
+                       "wrapMode: Text.NoWrap;"
+                       "text: \"%4 / %5\";"
                        "}"
                        "}"
                        "}").arg(textWidth).arg(textHeight).arg(
-                    message.replace("\"", "").replace("\n", "<br />"));
+                    message.replace("\"", "").replace("\n", "<br />"))
+                .arg(++i).arg(queryCount);
 
         m_pages.push_back(make_unique<Page>(page));
     }

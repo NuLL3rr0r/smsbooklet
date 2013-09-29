@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cmath>
 #include <QtCore/QString>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
@@ -89,15 +90,25 @@ void MainWindow::FillCategoryPages()
 
     const double padding = 96.0;
     const double spacing = 48.0;
+    const double pageNumberMargin = 36.0;
     const unsigned char maxRow = 4;
     const unsigned char maxCol = 2;
     unsigned char r = 0;
     unsigned char c = 0;
     QString page;
 
-    double buttonWidth = (getScreenWidth() - ((padding * 2.0) + ((maxCol - 1.0) * spacing))) / maxCol;
-    double buttonHeight = (getScreenHeight() - ((padding * 2.0) + ((maxRow - 1.0) * spacing))) / maxRow;
+    const double buttonWidth = (getScreenWidth() - ((padding * 2.0) + ((maxCol - 1.0) * spacing))) / maxCol;
+    const double buttonHeight = (getScreenHeight() - ((padding * 2.0) + ((maxRow - 1.0) * spacing))) / maxRow;
+    const double pageConentsHeight = getScreenHeight() - (padding * 2.0);
 
+    size_t queryCount = -1;
+    while(query.next()) {
+        ++queryCount;
+    }
+    query.first();
+    queryCount = ceil((double)queryCount / (double)(maxRow * maxCol));
+
+    size_t i = 0;
     while (query.next()) {
         if (r == 0 && c == 0) {
             page.clear();
@@ -122,7 +133,8 @@ void MainWindow::FillCategoryPages()
                            "anchors.centerIn: parent;"
                            "Column {"
                            "anchors.centerIn: parent;"
-                           "spacing: %1;").arg(spacing);
+                           "spacing: %1;"
+                           "height: %2;").arg(spacing).arg(pageConentsHeight);
         }
 
         if (c == 0) {
@@ -139,7 +151,7 @@ void MainWindow::FillCategoryPages()
                         "anchors.centerIn: parent;"
                         "verticalAlignment: Text.AlignVCenter;"
                         "horizontalAlignment: Text.AlignHCenter;"
-                        "wrapMode: 'Wrap';"
+                        "wrapMode: Text.WordWrap;"
                         "text: \"%1\";"
                         "}"
                         "width: %2;"
@@ -148,15 +160,26 @@ void MainWindow::FillCategoryPages()
                         "loadMessages('%1');"
                         "}"
                         "}"
-                        "}").arg(category).arg(buttonWidth).arg(buttonHeight);
+                        "}"
+                        ).arg(category).arg(buttonWidth).arg(buttonHeight);
 
         if (c == maxCol - 1) {
             page += "}";    // close the row
 
             if (r == maxRow - 1) {
-                page += "}"     // close the rectangle
-                        "}"     // close the column
-                        "}";    // close the rectangle
+                page += QString("}"     // close the rectangle
+                                "}"     // close the column
+                                "Text {"
+                                "anchors {"
+                                "bottom: parent.bottom;"
+                                "horizontalCenter: parent.horizontalCenter;"
+                                "bottomMargin: %1;"
+                                "}"
+                                "wrapMode: Text.NoWrap;"
+                                "text: \"%2 / %3\";"
+                                "}"
+                                "}").arg(pageNumberMargin)
+                        .arg(++i).arg(queryCount);    // close the rectangle
                 m_pages.push_back(make_unique<Page>(page));
             }
 
@@ -171,9 +194,19 @@ void MainWindow::FillCategoryPages()
     }
 
     if (r != 0) {
-        page += "}"     // close the rectangle
-                "}"     // close the column
-                "}";    // close the rectangle
+        page += QString("}"     // close the rectangle
+                        "}"     // close the column
+                        "Text {"
+                        "anchors {"
+                        "bottom: parent.bottom;"
+                        "horizontalCenter: parent.horizontalCenter;"
+                        "bottomMargin: %1;"
+                        "}"
+                        "wrapMode: Text.NoWrap;"
+                        "text: \"%2 / %3\";"
+                        "}"
+                        "}").arg(pageNumberMargin)
+                .arg(++i).arg(queryCount);    // close the rectangle
         m_pages.push_back(make_unique<Page>(page));
     }
 }
