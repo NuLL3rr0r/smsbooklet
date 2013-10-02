@@ -23,7 +23,11 @@ using namespace SMSDB;
 
 MainWindow::MainWindow(QWindow *parent) :
     Window(parent),
+#ifdef Q_OS_ANDROID
+    m_imagePath("assets:/resources/img/"),
+#else
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
+#endif
     m_splashScreenImages {
 {Window::DisplayRatio::Horz_16_10, m_imagePath + "splashscreen_2560x1600.jpg"},
 {Window::DisplayRatio::Horz_16_9, m_imagePath + "splashscreen_2560x1440.jpg"},

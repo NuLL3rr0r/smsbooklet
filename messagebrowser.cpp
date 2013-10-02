@@ -77,7 +77,11 @@ void MessageBrowser::FillMessagePages(const QString &category)
     }
     query.first();
 
+#ifdef Q_OS_ANDROID
+    QString imagePath("assets:/resources/img/");
+#else
     QString imagePath("file:" + QDir::currentPath() + "/resources/img/");
+#endif
 
     size_t i = 0;
     while (query.next()) {
