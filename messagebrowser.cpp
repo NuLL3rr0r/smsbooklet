@@ -1,3 +1,4 @@
+#include <QtCore/QDir>
 #include <QtCore/QString>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
@@ -76,6 +77,8 @@ void MessageBrowser::FillMessagePages(const QString &category)
     }
     query.first();
 
+    QString imagePath("file:" + QDir::currentPath() + "/resources/img/");
+
     size_t i = 0;
     while (query.next()) {
         page.clear();
@@ -97,14 +100,14 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "width: parent.width;"
                        "Image {"
                        //"anchors.horizontalCenter: parent.horizontalCenter;"
-                       "source: \"../share.png\";"
+                       "source: \"%3share_144x144.png\";"
                        "asynchronous: true;"
                        "cache: true;"
                        "smooth: true;"
                        "MouseArea {"
                        "anchors.fill: parent;"
                        "onClicked: {"
-                       "cppWindow.shareMessage('%3')"
+                       "cppWindow.shareMessage('%4')"
                        "}"
                        "}"
                        "}"
@@ -115,16 +118,16 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "verticalAlignment: Text.AlignVCenter;"
                        "horizontalAlignment: Text.AlignHCenter;"
                        "wrapMode: Text.WordWrap;"
-                       "text: \"%3\";"
+                       "text: \"%4\";"
                        "}"
                        "Text {"
                        "anchors.bottom: parent.bottom;"
                        "anchors.horizontalCenter: parent.horizontalCenter;"
                        "wrapMode: Text.NoWrap;"
-                       "text: \"%4 / %5\";"
+                       "text: \"%5 / %6\";"
                        "}"
                        "}"
-                       "}").arg(textWidth).arg(textHeight).arg(
+                       "}").arg(textWidth).arg(textHeight).arg(imagePath).arg(
                     message.replace("\"", "").replace("\n", "<br />"))
                 .arg(++i).arg(queryCount);
 

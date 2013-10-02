@@ -3,6 +3,7 @@
 
 
 #include <memory>
+#include <unordered_map>
 #include <vector>
 #include "window.hpp"
 
@@ -23,6 +24,11 @@ private:
     std::unique_ptr<SMSDB::PageModel> m_pageModel;
     std::vector<std::unique_ptr<SMSDB::Page>> m_pages;
     std::unique_ptr<SMSDB::MessageBrowser> m_messageBrowser;
+
+    QString m_imagePath;
+
+    std::unordered_map<Window::DisplayRatio,
+    QString, Window::Hasher<Window::DisplayRatio>> m_splashScreenImages;
 
 public:
     explicit MainWindow(QWindow *parent = 0);

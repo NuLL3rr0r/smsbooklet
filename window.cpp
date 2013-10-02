@@ -1,3 +1,5 @@
+#include <unordered_map>
+#include <cmath>
 #include <QtCore/QUrl>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
@@ -9,11 +11,23 @@
 #define     DEFAULT_WIDTH      480.0;
 #define     DEFAULT_HEIGHT     768.0;
 
+using namespace std;
 using namespace SMSDB;
 
 class Window::Pimpl {
 private:
     Window *m_this;
+
+public:
+    unordered_map<Window::DisplayRatio,
+    float, Window::Hasher<Window::DisplayRatio>> DisplayRatios {
+        {Window::DisplayRatio::Horz_16_10, 1.6f},
+        {Window::DisplayRatio::Horz_16_9, 1.777777777777778f},
+        {Window::DisplayRatio::Horz_4_3, 1.333333333333333f},
+        {Window::DisplayRatio::Vert_10_16, 0.625f},
+        {Window::DisplayRatio::Vert_9_16, 0.5625f},
+        {Window::DisplayRatio::Vert_3_4, 0.75f}
+    };
 
 public:
     Pimpl(Window *parent);
@@ -33,15 +47,6 @@ Window::Window(QWindow *parent, Qt::WindowType flags) :
 
 Window::~Window()
 {
-}
-
-void Window::keyPressEvent(QKeyEvent *e)
-{
-    if (e->key() != Qt::Key_MediaPrevious) {
-        Window::keyPressEvent(e);
-    } else {
-        this->Close();
-    }
 }
 
 double Window::getScreenWidth() const
@@ -68,6 +73,25 @@ void Window::SetQML(const QString &url)
     m_pimpl->ReLocate();
 }
 
+Window::DisplayRatio Window::GetDisplayRatio()
+{
+    Window::DisplayRatio result;
+
+    float actualRatio = getScreenWidth() / getScreenHeight();
+
+    float minDiff = 10.0f;
+
+    for (auto const &kv : m_pimpl->DisplayRatios) {
+        float diff = abs(actualRatio - kv.second);
+        if (diff < minDiff) {
+            minDiff = diff;
+            result = kv.first;
+        }
+    }
+
+    return result;
+}
+
 void Window::Show()
 {
     this->showExpanded();
@@ -92,5 +116,19 @@ void Window::Pimpl::ReLocate()
     QSize screenSize = QGuiApplication::primaryScreen()->size();
     m_this->setX((screenSize.width() - m_this->width()) / 2.0);
     m_this->setY((screenSize.height() - m_this->height()) / 2.0);
+}
+
+void Window::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() != Qt::Key_MediaPrevious
+            && e->key() != Qt::Key_Backspace) {
+        QtQuick2ApplicationViewer::keyPressEvent(e);
+    } else {
+        this->Close();
+    }
+}
+
+void Window::resizeEvent(QResizeEvent *e) {
+
 }
 

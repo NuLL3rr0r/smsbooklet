@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cmath>
+#include <QtCore/QDir>
 #include <QtCore/QString>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
@@ -21,30 +22,41 @@ using namespace std;
 using namespace SMSDB;
 
 MainWindow::MainWindow(QWindow *parent) :
-    Window(parent)
+    Window(parent),
+    m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
+    m_splashScreenImages {
+{Window::DisplayRatio::Horz_16_10, m_imagePath + "splashscreen_2560x1600.jpg"},
+{Window::DisplayRatio::Horz_16_9, m_imagePath + "splashscreen_2560x1440.jpg"},
+{Window::DisplayRatio::Horz_4_3, m_imagePath + "splashscreen_2560x1920.jpg"},
+{Window::DisplayRatio::Vert_10_16, m_imagePath + "splashscreen_1600x2560.jpg"},
+{Window::DisplayRatio::Vert_9_16, m_imagePath + "splashscreen_1440x2560.jpg"},
+{Window::DisplayRatio::Vert_3_4, m_imagePath + "splashscreen_1920x2560.jpg"}
+        }
 {
     this->setTitle("پیامک بانک");
     this->setFlags(Qt::Window | Qt::FramelessWindowHint);
 
     m_pageModel = make_unique<PageModel>();
-    m_pages.push_back(make_unique<Page>("import QtQuick 2.1;"
-                                        "BorderImage {"
-                                        "id: splashImage;"
-                                        "source: \"../splashscreen.png\";"
-                                        "asynchronous: true;"
-                                        "cache: true;"
-                                        "smooth: true;"
-                                        "anchors.centerIn: parent;"
-                                        "anchors.fill: parent;"
-                                        "horizontalTileMode: BorderImage.Stretch;"
-                                        "verticalTileMode: BorderImage.Stretch;"
-                                        "border {"
-                                        "top: 24;"
-                                        "right: 24;"
-                                        "bottom: 24;"
-                                        "left: 24;"
-                                        "}"
-                                        "}"));
+    m_pages.push_back(make_unique<Page>(
+                          QString("import QtQuick 2.1;"
+                                  "BorderImage {"
+                                  "id: splashImage;"
+                                  "source: \"%1\";"
+                                  "asynchronous: true;"
+                                  "cache: true;"
+                                  "smooth: true;"
+                                  "anchors.centerIn: parent;"
+                                  "anchors.fill: parent;"
+                                  "horizontalTileMode: BorderImage.Stretch;"
+                                  "verticalTileMode: BorderImage.Stretch;"
+                                  "border {"
+                                  "top: 24;"
+                                  "right: 24;"
+                                  "bottom: 24;"
+                                  "left: 24;"
+                                  "}"
+                                  "}")
+                          .arg(m_splashScreenImages[GetDisplayRatio()])));
 
     FillCategoryPages();
 
