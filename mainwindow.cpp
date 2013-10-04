@@ -29,12 +29,12 @@ MainWindow::MainWindow(QWindow *parent) :
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
 #endif
     m_splashScreenImages {
-{Window::DisplayRatio::Horz_16_10, m_imagePath + "splashscreen_2560x1600.jpg"},
-{Window::DisplayRatio::Horz_16_9, m_imagePath + "splashscreen_2560x1440.jpg"},
-{Window::DisplayRatio::Horz_4_3, m_imagePath + "splashscreen_2560x1920.jpg"},
-{Window::DisplayRatio::Vert_10_16, m_imagePath + "splashscreen_1600x2560.jpg"},
-{Window::DisplayRatio::Vert_9_16, m_imagePath + "splashscreen_1440x2560.jpg"},
-{Window::DisplayRatio::Vert_3_4, m_imagePath + "splashscreen_1920x2560.jpg"}
+{Window::DisplayRatio::Horz_16_10, m_imagePath + "splashscreen_1920x1200.jpg"},
+{Window::DisplayRatio::Horz_16_9, m_imagePath + "splashscreen_1920x1080.jpg"},
+{Window::DisplayRatio::Horz_4_3, m_imagePath + "splashscreen_1920x1440.jpg"},
+{Window::DisplayRatio::Vert_10_16, m_imagePath + "splashscreen_1200x1920.jpg"},
+{Window::DisplayRatio::Vert_9_16, m_imagePath + "splashscreen_1080x1920.jpg"},
+{Window::DisplayRatio::Vert_3_4, m_imagePath + "splashscreen_1440x1920.jpg"}
         }
 {
     this->setTitle("پیامک بانک");
@@ -54,10 +54,10 @@ MainWindow::MainWindow(QWindow *parent) :
                                   "horizontalTileMode: BorderImage.Stretch;"
                                   "verticalTileMode: BorderImage.Stretch;"
                                   "border {"
-                                  "top: 24;"
-                                  "right: 24;"
-                                  "bottom: 24;"
-                                  "left: 24;"
+                                  "top: 0;"
+                                  "right: 0;"
+                                  "bottom: 0;"
+                                  "left: 0;"
                                   "}"
                                   "}")
                           .arg(m_splashScreenImages[GetDisplayRatio()])));
