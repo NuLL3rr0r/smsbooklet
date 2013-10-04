@@ -40,6 +40,7 @@ public:
 
 public:
     Q_INVOKABLE void shareMessage(QString message);
+    Q_INVOKABLE void toggleFavourite(QString messageId);
 
 private:
     void FillMessagePages(const QString &category);

@@ -76,6 +76,11 @@ void MessageBrowser::shareMessage(QString message)
 #endif
 }
 
+void  MessageBrowser::toggleFavourite(QString messageId)
+{
+    qDebug() << "toggleFavourite " + messageId;
+}
+
 void MessageBrowser::FillMessagePages(const QString &category)
 {
     QSqlQuery query(QString(" SELECT TRIM(message) AS msg_col "
@@ -86,6 +91,7 @@ void MessageBrowser::FillMessagePages(const QString &category)
     QSqlRecord record = query.record();
 
     const double padding = 96.0;
+    const double navButtonSize = getScreenWidth() / 11.0;
     QString page;
 
     const double textWidth = getScreenWidth() - (padding * 2.0);
@@ -107,7 +113,9 @@ void MessageBrowser::FillMessagePages(const QString &category)
     while (query.next()) {
         page.clear();
 
+        size_t messageId = 0;
         QString message = query.value(record.indexOf("msg_col")).toString();
+        bool isFavourite = false;
 
         page = QString("import QtQuick 2.1;"
                        "import QtQuick.Controls 1.0;"
@@ -122,16 +130,43 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "height: %2;"
                        "Rectangle {"
                        "width: parent.width;"
+                       "Row {"
+                       "Column {"
                        "Image {"
-                       //"anchors.horizontalCenter: parent.horizontalCenter;"
                        "source: \"%3share_144x144.png\";"
                        "asynchronous: true;"
                        "cache: true;"
                        "smooth: true;"
+                       "width: %4;"
+                       "height: %4;"
                        "MouseArea {"
                        "anchors.fill: parent;"
                        "onClicked: {"
-                       "cppWindow.shareMessage('%4')"
+                       "cppWindow.shareMessage('%5')"
+                       "}"
+                       "}"
+                       "}"
+                       "}"
+                       "Column {"
+                       "Image {"
+                       "id: 'favIcon';"
+                       "source: '%3%6';"
+                       "asynchronous: true;"
+                       "cache: true;"
+                       "smooth: true;"
+                       "width: %4;"
+                       "height: %4;"
+                       "MouseArea {"
+                       "anchors.fill: parent;"
+                       "onClicked: {"
+                       "cppWindow.toggleFavourite('%7');"
+                       "if (favIcon.source == '%3%6') {"
+                       "favIcon.source = '%3%8';"
+                       "} else {"
+                       "favIcon.source = '%3%6';"
+                       "}"
+                       "}"
+                       "}"
                        "}"
                        "}"
                        "}"
@@ -142,17 +177,20 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "verticalAlignment: Text.AlignVCenter;"
                        "horizontalAlignment: Text.AlignHCenter;"
                        "wrapMode: Text.WordWrap;"
-                       "text: \"%4\";"
+                       "text: \"%5\";"
                        "}"
                        "Text {"
                        "anchors.bottom: parent.bottom;"
                        "anchors.horizontalCenter: parent.horizontalCenter;"
                        "wrapMode: Text.NoWrap;"
-                       "text: \"%5 / %6\";"
+                       "text: \"%9 / %10\";"
                        "}"
                        "}"
-                       "}").arg(textWidth).arg(textHeight).arg(imagePath).arg(
-                    message.replace("\"", "").replace("\n", "<br />"))
+                       "}").arg(textWidth).arg(textHeight).arg(imagePath)
+                .arg(navButtonSize).arg(message.replace("\"", "").replace("\n", "<br />"))
+                .arg(!isFavourite ? "favourite_unselected_144x144.png" : "favourite_selected_144x144.png")
+                .arg(messageId)
+                .arg(!isFavourite ? "favourite_selected_144x144.png" : "favourite_unselected_144x144.png")
                 .arg(++i).arg(queryCount);
 
         m_pages.push_back(make_unique<Page>(page));
