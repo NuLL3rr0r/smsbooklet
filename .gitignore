@@ -1,5 +1,11 @@
 android/*
 !android/AndroidManifest.xml
+!android/res/
+!android/res/drawable-hdpi/*
+!android/res/drawable-ldpi/*
+!android/res/drawable-mdpi/*
+android/res/layout
+android/res/values*
 !android/src/
 android/src/org/qtproject/qt5/android/bindings/*
 !android/src/org/qtproject/qt5/android/bindings/QtActivity.java
