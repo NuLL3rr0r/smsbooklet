@@ -1,5 +1,11 @@
 #include <QtCore/QDir>
+#if !defined(Q_OS_ANDROID)
+#include <QtCore/QMimeData>
+#endif
 #include <QtCore/QString>
+#if !defined(Q_OS_ANDROID)
+#include <QtGui/QClipboard>
+#endif
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
 #include <QtQml/QQmlContext>
@@ -23,8 +29,18 @@
 using namespace std;
 using namespace SMSDB;
 
-MessageBrowser::MessageBrowser(const QString &category, QWindow *parent) :
+#if defined(Q_OS_ANDROID)
+MessageBrowser::MessageBrowser(const QString &category,
+                               keyPressHandler_ptr keyPressHandler,
+                               QWindow *parent) :
+    Window(parent),
+    m_keyPressHandler(keyPressHandler),
+    m_hasBeenClosed(false)
+#else
+MessageBrowser::MessageBrowser(const QString &category,
+                               QWindow *parent) :
     Window(parent)
+#endif
 {
     this->setTitle("پیامک بانک");
     this->setFlags(Qt::Window | Qt::FramelessWindowHint);
@@ -52,7 +68,11 @@ void MessageBrowser::shareMessage(QString message)
 #if defined(Q_OS_ANDROID)
     RT::Android()->SendText(message);
 #else
-    (void)message;
+    QMimeData *mimeData = new QMimeData();
+    mimeData->setText(message);
+    mimeData->setHtml(message);
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    clipboard->setMimeData(mimeData, QClipboard::Clipboard);
 #endif
 }
 
@@ -139,13 +159,26 @@ void MessageBrowser::FillMessagePages(const QString &category)
     }
 }
 
-/*
-// We should ovveride this, or else we crash.
-// Use hide instead of close.
-// We'll remove this object on parent
+#if defined(Q_OS_ANDROID)
 void MessageBrowser::Close()
 {
     emit signal_Closed();
     this->hide();
+    m_hasBeenClosed = true;
 }
-*/
+
+void MessageBrowser::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() != Qt::Key_MediaPrevious
+            && e->key() != Qt::Key_Backspace) {
+        QtQuick2ApplicationViewer::keyPressEvent(e);
+    } else {
+        if (!m_hasBeenClosed) {
+            Close();
+        } else {
+            (this->*m_keyPressHandler)(e);
+        }
+    }
+}
+#endif
+

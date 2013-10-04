@@ -19,11 +19,23 @@ class SMSDB::MessageBrowser : public Window
     Q_OBJECT
 
 private:
+    typedef void (SMSDB::Window::*keyPressHandler_ptr)(QKeyEvent *);
+
+private:
     std::unique_ptr<SMSDB::PageModel> m_pageModel;
     std::vector<std::unique_ptr<SMSDB::Page>> m_pages;
+    keyPressHandler_ptr m_keyPressHandler;
+#if defined(Q_OS_ANDROID)
+    bool m_hasBeenClosed;
+#endif
 
 public:
+#if defined(Q_OS_ANDROID)
+    explicit MessageBrowser(const QString &category, keyPressHandler_ptr keyPressHandler,
+                            QWindow *parent = 0);
+#else
     explicit MessageBrowser(const QString &category, QWindow *parent = 0);
+#endif
     ~MessageBrowser();
 
 public:
@@ -32,8 +44,13 @@ public:
 private:
     void FillMessagePages(const QString &category);
 
+#if defined(Q_OS_ANDROID)
 public:
-    //void Close();
+    void Close();
+
+protected:
+    void keyPressEvent(QKeyEvent *e);
+#endif
 };
 
 

@@ -80,7 +80,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::OnMessageBrowserClosed() {
     this->setVisible(true);
+#if !defined(Q_OS_ANDROID)
     m_messageBrowser.reset();
+#endif
 }
 
 void MainWindow::OnMessageBrowserShown() {
@@ -88,7 +90,12 @@ void MainWindow::OnMessageBrowserShown() {
 }
 
 void MainWindow::loadMessages(QString category) {
+#if defined(Q_OS_ANDROID)
+    m_messageBrowser.reset();
+    m_messageBrowser = make_unique<MessageBrowser>(category, &MainWindow::keyPressEvent);
+#else
     m_messageBrowser = make_unique<MessageBrowser>(category);
+#endif
     QObject::connect(m_messageBrowser.get(), SIGNAL(signal_Closed()),
                      this, SLOT(OnMessageBrowserClosed()));
     QObject::connect(m_messageBrowser.get(), SIGNAL(signal_Shown()),
