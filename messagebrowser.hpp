@@ -56,5 +56,5 @@ protected:
 };
 
 
-#endif // MAINWINDOW_HPP
+#endif // MESSAGEBROWSER_HPP
 
