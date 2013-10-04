@@ -16,11 +16,9 @@
 #include <QtSql/QSqlRecord>
 #include "make_unique.hpp"
 #include "messagebrowser.hpp"
-
 #if defined(Q_OS_ANDROID)
 #include "android.hpp"
 #endif
-
 #include "pagemodel.hpp"
 #include "rt.hpp"
 
