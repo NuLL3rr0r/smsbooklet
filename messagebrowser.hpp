@@ -22,6 +22,7 @@ private:
     typedef void (SMSDB::Window::*keyPressHandler_ptr)(QKeyEvent *);
 
 private:
+    QString m_category;
     std::unique_ptr<SMSDB::PageModel> m_pageModel;
     std::vector<std::unique_ptr<SMSDB::Page>> m_pages;
     keyPressHandler_ptr m_keyPressHandler;

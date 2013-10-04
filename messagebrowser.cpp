@@ -34,12 +34,14 @@ MessageBrowser::MessageBrowser(const QString &category,
                                keyPressHandler_ptr keyPressHandler,
                                QWindow *parent) :
     Window(parent),
+    m_category (category),
     m_keyPressHandler(keyPressHandler),
     m_hasBeenClosed(false)
 #else
 MessageBrowser::MessageBrowser(const QString &category,
                                QWindow *parent) :
-    Window(parent)
+    Window(parent),
+    m_category (category)
 #endif
 {
     this->setTitle("پیامک بانک");
@@ -133,7 +135,7 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "Row {"
                        "Column {"
                        "Image {"
-                       "source: \"%3share_144x144.png\";"
+                       "source: '%3share_144x144.png';"
                        "asynchronous: true;"
                        "cache: true;"
                        "smooth: true;"
@@ -177,13 +179,13 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "verticalAlignment: Text.AlignVCenter;"
                        "horizontalAlignment: Text.AlignHCenter;"
                        "wrapMode: Text.WordWrap;"
-                       "text: \"%5\";"
+                       "text: '<h3>%9</h3><br /><br />%5';"
                        "}"
                        "Text {"
                        "anchors.bottom: parent.bottom;"
                        "anchors.horizontalCenter: parent.horizontalCenter;"
                        "wrapMode: Text.NoWrap;"
-                       "text: \"%9 / %10\";"
+                       "text: '%10 / %11';"
                        "}"
                        "}"
                        "}").arg(textWidth).arg(textHeight).arg(imagePath)
@@ -191,7 +193,7 @@ void MessageBrowser::FillMessagePages(const QString &category)
                 .arg(!isFavourite ? "favourite_unselected_144x144.png" : "favourite_selected_144x144.png")
                 .arg(messageId)
                 .arg(!isFavourite ? "favourite_selected_144x144.png" : "favourite_unselected_144x144.png")
-                .arg(++i).arg(queryCount);
+                .arg(m_category).arg(++i).arg(queryCount);
 
         m_pages.push_back(make_unique<Page>(page));
     }
