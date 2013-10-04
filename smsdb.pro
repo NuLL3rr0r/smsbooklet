@@ -34,6 +34,7 @@ HEADERS += \
     messagebrowser.hpp \
     pagemodel.hpp \
     rt.hpp \
+    subcategorybrowser.hpp \
     window.hpp
 
 SOURCES += \
@@ -46,6 +47,7 @@ SOURCES += \
     messagebrowser.cpp \
     pagemodel.cpp \
     rt.cpp \
+    subcategorybrowser.cpp \
     window.cpp
 
 android {

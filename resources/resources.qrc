@@ -6,5 +6,6 @@
         <file>ui/FlipBook/page_shadow.png</file>
         <file>ui/mainwindow.qml</file>
         <file>ui/messagebrowser.qml</file>
+        <file>ui/subcategorybrowser.qml</file>
     </qresource>
 </RCC>
