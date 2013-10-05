@@ -110,7 +110,7 @@ Item {
 
                         var a = flipBook.progress * (flipBook.fromRight ? -180.0 : 180.0);
 
-                        var shadowDenominator = 6.0;
+                        var shadowDenominator = 8.0;
 
                         if (flipBook.fromRight) {
                             if (a <= -90.0) {
