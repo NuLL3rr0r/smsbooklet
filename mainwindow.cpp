@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cmath>
+#include <cstdlib>
 #include <QtCore/QDir>
 #include <QtCore/QString>
 #include <QtGui/QGuiApplication>
@@ -142,19 +143,6 @@ void MainWindow::FillCategoryPages()
                            "Rectangle {"
                            "anchors.centerIn: parent;"
                            "anchors.fill: parent;"
-                           "property Component buttonStyle: ButtonStyle {"
-                           "id: buttonStyle;"
-                           "background: Rectangle {"
-                           /*"color: control.pressed ? 'darkGray' : 'lightGray';"
-                           "antialiasing: true;"
-                           "border.color: 'gray';"
-                           "radius: 0.0;"*/
-                           "gradient: Gradient {"
-                           "GradientStop { position: 0.0; color: control.pressed ? '#DEC330' : '#DCD17E' }"
-                           "GradientStop { position: 1.0; color: control.pressed ? '#DCD17E' : '#DEC330' }"
-                           "}"
-                           "}"
-                           "}"
                            "Rectangle {"
                            "anchors.fill: parent;"
                            "anchors.centerIn: parent;"
@@ -171,8 +159,8 @@ void MainWindow::FillCategoryPages()
 
         QString category = query.value(record.indexOf("cat_col")).toString();
         page += QString("Column {"
-                        "Button {"
-                        "style: buttonStyle;"
+                        "Image {"
+                        "source: '%4cat0%5.png';"
                         "Text {"
                         "anchors.fill: parent;"
                         "anchors.centerIn: parent;"
@@ -183,12 +171,16 @@ void MainWindow::FillCategoryPages()
                         "}"
                         "width: %2;"
                         "height: %3;"
+                        "MouseArea {"
+                        "anchors.fill: parent;"
                         "onClicked: {"
                         "loadMessages('%1');"
                         "}"
                         "}"
                         "}"
-                        ).arg(category).arg(buttonWidth).arg(buttonHeight);
+                        "}"
+                        ).arg(category).arg(buttonWidth).arg(buttonHeight)
+                .arg(m_imagePath).arg((rand() % 9) + 1);
 
         if (c == maxCol - 1) {
             page += "}";    // close the row
