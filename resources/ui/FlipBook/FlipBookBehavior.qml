@@ -18,7 +18,7 @@ MouseArea {
     Component.onCompleted: {
         parent.onFlipped.connect(behavior.onFlipped);
 
-        parent.loadFrontPageForeward(behavior.model.get(pageOffset));
+        parent.loadFullPage(behavior.model.get(pageOffset));
     }
 
     function onFlipped() {
@@ -30,6 +30,12 @@ MouseArea {
             } else {
                 pageOffset += parent.fromRight ? 1 : -1;
             }
+        }
+
+        if (parent.flipablePageAngle === 180.0 || parent.flipablePageAngle === -180.0) {
+            var p = parent.fromRight ? pageOffset + 1 : pageOffset - 1;
+            parent.loadFullPage(behavior.model.get(p));
+            parent.fullPageVisible = true;
         }
     }
 
@@ -52,6 +58,7 @@ MouseArea {
             parent.resetFlipablePageAngle = false;
             parent.enablePageAngleBehavior = true;
             parent.smooth = true;
+            parent.fullPageVisible = false;
         }
 
         parent.flipping = true;

@@ -17,6 +17,8 @@ Item {
     property bool pageGrabbed: false;
     property bool pageReleased: false;
 
+    property alias fullPageVisible: fullPage.visible;
+
     property alias pageClipperX: pageClipper.x;
     property alias flipablePageX: flipablePage.x;
 
@@ -162,6 +164,19 @@ Item {
                 }
             ]
         }
+    }
+
+    Page {
+        id: fullPage;
+        anchors.fill: parent;
+        anchors.centerIn: parent;
+    }
+
+    function loadFullPage(page) {
+        for (var i = fullPage.container.children.length; i > 0 ; --i)
+          fullPage.container.children[i - 1].destroy();
+
+        Qt.createQmlObject(page.contents, fullPage.container);
     }
 
     function loadFrontPageForeward(page) {
