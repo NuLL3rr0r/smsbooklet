@@ -131,6 +131,7 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "Rectangle {"
                        "width: parent.width;"
                        "Row {"
+                       "spacing: %4 / 2.5;"
                        "Column {"
                        "Image {"
                        "source: '%3share_144x144.png';"
