@@ -37,6 +37,9 @@ MouseArea {
         if (parent.flipping) {
             return;
         } else {
+            if (behavior.model.count <= 1)
+                return;
+
             parent.enablePageAngleBehavior = false;
             parent.smooth = false;
             parent.resetFlipablePageAngle = true;
@@ -97,6 +100,9 @@ MouseArea {
     }
 
     onPositionChanged: {
+        if (behavior.model.count <= 1)
+            return;
+
         internal.dragged = true;
         parent.progress = calculateProgress();
     }
