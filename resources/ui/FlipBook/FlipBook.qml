@@ -110,28 +110,30 @@ Item {
 
                         var a = flipBook.progress * (flipBook.fromRight ? -180.0 : 180.0);
 
+                        var shadowDenominator = 6.0;
+
                         if (flipBook.fromRight) {
                             if (a <= -90.0) {
                                 pageClipper.x = 0.0;
                                 flipablePage.x = 0.0;
                                 flipBook.shadow = 0.0;
-                                flipBook.shadow = (1.0 - flipBook.progress) / 6.0;
+                                flipBook.shadow = (1.0 - flipBook.progress) / shadowDenominator;
                             } else {
                                 var x = flipBook.width / 2.0;
                                 pageClipper.x = x;
                                 flipablePage.x = -x;
-                                flipBook.shadow = flipBook.progress / 6.0;
+                                flipBook.shadow = flipBook.progress / shadowDenominator;
                             }
                         } else {
                             if (a <= 90.0) {
                                 pageClipper.x = 0.0;
                                 flipablePage.x = 0.0;
-                                flipBook.shadow = flipBook.progress / 6.0;
+                                flipBook.shadow = flipBook.progress / shadowDenominator;
                             } else {
                                 var x = flipBook.width / 2.0;
                                 pageClipper.x = x;
                                 flipablePage.x = -x;
-                                flipBook.shadow = (1.0 - flipBook.progress) / 6.0;
+                                flipBook.shadow = (1.0 - flipBook.progress) / shadowDenominator;
                             }
                         }
 
