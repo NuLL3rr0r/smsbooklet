@@ -31,16 +31,27 @@ using namespace SMSDB;
 MessageBrowser::MessageBrowser(const QString &category,
                                keyPressHandler_ptr keyPressHandler,
                                QWindow *parent) :
-    Window(parent),
-    m_category (category),
-    m_keyPressHandler(keyPressHandler),
-    m_hasBeenClosed(false)
 #else
 MessageBrowser::MessageBrowser(const QString &category,
                                QWindow *parent) :
-    Window(parent),
-    m_category (category)
 #endif
+    Window(parent),
+    m_category (category),
+#if defined(Q_OS_ANDROID)
+    m_keyPressHandler(keyPressHandler),
+    m_hasBeenClosed(false),
+    m_imagePath("assets:/resources/img/"),
+#else
+    m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
+#endif
+    m_pageBgImages {
+{Window::DisplayRatio::Horz_16_10, m_imagePath + "page_bg_1920x1200.jpg"},
+{Window::DisplayRatio::Horz_16_9, m_imagePath + "page_bg_1920x1080.jpg"},
+{Window::DisplayRatio::Horz_4_3, m_imagePath + "page_bg_1920x1440.jpg"},
+{Window::DisplayRatio::Vert_10_16, m_imagePath + "page_bg_1200x1920.png"},
+{Window::DisplayRatio::Vert_9_16, m_imagePath + "page_bg_1080x1920.png"},
+{Window::DisplayRatio::Vert_3_4, m_imagePath + "page_bg_1440x1920.png"}
+        }
 {
     this->setTitle("پیامک بانک");
     this->setFlags(Qt::Window | Qt::FramelessWindowHint);
@@ -124,6 +135,23 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "Rectangle {"
                        "anchors.centerIn: parent;"
                        "anchors.fill: parent;"
+                       /*"BorderImage {"
+                       "id: splashImage;"
+                       "source: \"%12\";"
+                       "asynchronous: true;"
+                       "cache: true;"
+                       "smooth: true;"
+                       "anchors.centerIn: parent;"
+                       "anchors.fill: parent;"
+                       "horizontalTileMode: BorderImage.Stretch;"
+                       "verticalTileMode: BorderImage.Stretch;"
+                       "border {"
+                       "top: 0;"
+                       "right: 0;"
+                       "bottom: 0;"
+                       "left: 0;"
+                       "}"
+                       "}"*/
                        "Rectangle {"
                        "anchors.centerIn: parent;"
                        "width: %1;"
@@ -192,7 +220,8 @@ void MessageBrowser::FillMessagePages(const QString &category)
                 .arg(!isFavourite ? "favourite_unselected_144x144.png" : "favourite_selected_144x144.png")
                 .arg(messageId)
                 .arg(!isFavourite ? "favourite_selected_144x144.png" : "favourite_unselected_144x144.png")
-                .arg(m_category).arg(++i).arg(queryCount);
+                .arg(m_category).arg(++i).arg(queryCount)
+                /*.arg(m_pageBgImages[GetDisplayRatio()])*/;
 
         m_pages.push_back(make_unique<Page>(page));
     }

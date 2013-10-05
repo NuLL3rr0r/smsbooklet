@@ -26,7 +26,6 @@ private:
     std::unique_ptr<SMSDB::MessageBrowser> m_messageBrowser;
 
     QString m_imagePath;
-
     std::unordered_map<Window::DisplayRatio,
     QString, Window::Hasher<Window::DisplayRatio>> m_splashScreenImages;
 
