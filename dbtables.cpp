@@ -62,6 +62,7 @@ void DBTables::InitHashes()
             " id TEXT NOT NULL, "
             " subcatid TEXT NOT NULL, "
             " text TEXT NOT NULL, "
+            " fav INTEGER NOT NULL, "
             " PRIMARY KEY ( id, subcatid ASC ) ";
 }
 
