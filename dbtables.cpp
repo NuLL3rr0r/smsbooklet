@@ -8,6 +8,10 @@ using namespace SMSDB;
 
 void DBTables::InitTables()
 {
+    RT::DB()->CreateTable(RT::DBTables()->Table(TableName::Categories),
+                          RT::DBTables()->Fields(TableName::Categories));
+    RT::DB()->CreateTable(RT::DBTables()->Table(TableName::SubCategories),
+                          RT::DBTables()->Fields(TableName::SubCategories));
     RT::DB()->CreateTable(RT::DBTables()->Table(TableName::Messages),
                           RT::DBTables()->Fields(TableName::Messages));
 }
@@ -37,9 +41,28 @@ string DBTables::Fields(TableName id)
 
 void DBTables::InitHashes()
 {
+    m_tablesHash[TableName::Categories] = "categories";
+    m_tablesHash[TableName::SubCategories] = "subcategories";
     m_tablesHash[TableName::Messages] = "messages";
-    m_fieldsHash[TableName::Messages] = " category TEXT NOT NULL, "
-            " message TEXT NOT NULL, "
-            " PRIMARY KEY ( category, message ASC ) ";
+
+    m_fieldsHash[TableName::Categories] =
+            " id TEXT NOT NULL, "
+            " name TEXT NOT NULL, "
+            " icon TEXT NOT NULL, "
+            " PRIMARY KEY ( id, name ASC ) ";
+
+    m_fieldsHash[TableName::SubCategories] =
+            " id TEXT NOT NULL, "
+            " name TEXT NOT NULL, "
+            " catid TEXT NOT NULL, "
+            " icon TEXT NOT NULL, "
+            " PRIMARY KEY ( id, name, catid ASC ) ";
+
+    m_fieldsHash[TableName::Messages] =
+            " id TEXT NOT NULL, "
+            " subcatid TEXT NOT NULL, "
+            " text TEXT NOT NULL, "
+            " PRIMARY KEY ( id, subcatid ASC ) ";
 }
+
 

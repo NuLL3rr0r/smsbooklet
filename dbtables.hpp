@@ -13,6 +13,8 @@ class SMSDB::DBTables
 {
 public:
     enum class TableName : unsigned char {
+        Categories,
+        SubCategories,
         Messages
     };
 
