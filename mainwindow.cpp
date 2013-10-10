@@ -165,7 +165,7 @@ void MainWindow::FillCategoryPages()
     size_t queryCount = 0;
 
 
-    QSqlQuery favQuery(" SELECT rowid "
+    /*QSqlQuery favQuery(" SELECT rowid "
                     " FROM messages "
                     " WHERE fav = 1; ");
     bool hasAnyFav = false;
@@ -176,7 +176,7 @@ void MainWindow::FillCategoryPages()
 
     if (hasAnyFav) {
         ++queryCount;
-    }
+    }*/
 
     bool insertedFav = false;
 
@@ -216,7 +216,8 @@ void MainWindow::FillCategoryPages()
 
         QString category;
 
-        if (!hasAnyFav || insertedFav) {
+        //if (!hasAnyFav || insertedFav) {
+        if (insertedFav) {
             category = query.value(record.indexOf("name_col")).toString();
         } else {
             insertedFav = true;
