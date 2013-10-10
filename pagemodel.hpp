@@ -20,6 +20,7 @@ public:
 
 public:
     QString Contents() const;
+    void SetContents(const QString &contents);
 };
 
 class SMSDB::PageModel : public QAbstractListModel
@@ -47,6 +48,7 @@ public:
     Q_INVOKABLE void clear();
     Q_INVOKABLE QVariantMap get(int index);
     Q_INVOKABLE void remove(int index);
+    Q_INVOKABLE void set(int index, QVariantMap dict);
 
 public:
     void AddPage(Page *page);

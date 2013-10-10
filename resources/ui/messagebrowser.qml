@@ -13,6 +13,7 @@ Rectangle {
     }
 
     FlipBook {
+        id: flipBook;
         anchors.fill: parent;
         anchors.centerIn: parent;
         model: PageModel;

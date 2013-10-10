@@ -17,6 +17,11 @@ QString Page::Contents() const
     return m_contents;
 }
 
+void Page::SetContents(const QString &contents)
+{
+    m_contents = contents;
+}
+
 PageModel::PageModel(QObject *parent) :
     QAbstractListModel(parent)
 {
@@ -46,6 +51,12 @@ QVariantMap PageModel::get(int index)
 void PageModel::remove(int index)
 {
     m_pages.removeAt(index);
+}
+
+void PageModel::set(int index, QVariantMap dict)
+{
+    Page *item = m_pages.at(index);
+    item->SetContents(dict["contents"].toString());
 }
 
 void PageModel::AddPage(Page *page)
