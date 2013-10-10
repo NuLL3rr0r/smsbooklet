@@ -26,6 +26,7 @@ private:
     QString m_category;
     std::unique_ptr<SMSDB::PageModel> m_pageModel;
     std::vector<std::unique_ptr<SMSDB::Page>> m_pages;
+
     keyPressHandler_ptr m_keyPressHandler;
 #if defined(Q_OS_ANDROID)
     bool m_hasBeenClosed;
@@ -49,7 +50,7 @@ public:
     Q_INVOKABLE void toggleFavourite(QString messageId);
 
 private:
-    void FillMessagePages(const QString &category);
+    void FillMessagePages(const QString &subCategory);
 
 #if defined(Q_OS_ANDROID)
 public:

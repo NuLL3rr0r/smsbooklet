@@ -9,9 +9,10 @@
 class QString;
 
 namespace SMSDB {
-    class SubCategoryBrowser;
+    class MessageBrowser;
     class PageModel;
     class Page;
+    class SubCategoryBrowser;
 }
 
 class SMSDB::SubCategoryBrowser : public Window
@@ -25,10 +26,14 @@ private:
     QString m_category;
     std::unique_ptr<SMSDB::PageModel> m_pageModel;
     std::vector<std::unique_ptr<SMSDB::Page>> m_pages;
+    std::unique_ptr<SMSDB::MessageBrowser> m_messageBrowser;
+
     keyPressHandler_ptr m_keyPressHandler;
 #if defined(Q_OS_ANDROID)
     bool m_hasBeenClosed;
 #endif
+
+    QString m_imagePath;
 
 public:
 #if defined(Q_OS_ANDROID)
@@ -38,6 +43,10 @@ public:
     explicit SubCategoryBrowser(const QString &category, QWindow *parent = 0);
 #endif
     ~SubCategoryBrowser();
+
+private slots:
+    void OnMessageBrowserClosed();
+    void OnMessageBrowserShown();
 
 public:
     Q_INVOKABLE void browseMessages(QString subCategory);

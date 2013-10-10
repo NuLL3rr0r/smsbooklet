@@ -13,9 +13,9 @@
 #include <QtSql/QSqlRecord>
 #include "make_unique.hpp"
 #include "mainwindow.hpp"
-#include "messagebrowser.hpp"
 #include "pagemodel.hpp"
 #include "rt.hpp"
+#include "subcategorybrowser.hpp"
 
 #define     UI_FILE            "qrc:/ui/mainwindow.qml"
 
@@ -79,37 +79,38 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::OnMessageBrowserClosed() {
+void MainWindow::OnSubCategoryBrowserClosed() {
     this->setVisible(true);
 #if !defined(Q_OS_ANDROID)
-    m_messageBrowser.reset();
+    m_subCategoryBrowser.reset();
 #endif
 }
 
-void MainWindow::OnMessageBrowserShown() {
+void MainWindow::OnSubCategoryBrowserShown() {
     this->setVisible(false);
 }
 
-void MainWindow::loadMessages(QString category) {
+void MainWindow::browseSubCategories(QString category) {
 #if defined(Q_OS_ANDROID)
-    m_messageBrowser.reset();
-    m_messageBrowser = make_unique<MessageBrowser>(category, &MainWindow::keyPressEvent);
+    m_subCategoryBrowser.reset();
+    m_subCategoryBrowser = make_unique<SubCategoryBrowser>(category,
+                                                           &MainWindow::keyPressEvent);
 #else
-    m_messageBrowser = make_unique<MessageBrowser>(category);
+    m_subCategoryBrowser = make_unique<SubCategoryBrowser>(category);
 #endif
-    QObject::connect(m_messageBrowser.get(), SIGNAL(signal_Closed()),
-                     this, SLOT(OnMessageBrowserClosed()));
-    QObject::connect(m_messageBrowser.get(), SIGNAL(signal_Shown()),
-                     this, SLOT(OnMessageBrowserShown()));
-    m_messageBrowser->Show();
+    QObject::connect(m_subCategoryBrowser.get(), SIGNAL(signal_Closed()),
+                     this, SLOT(OnSubCategoryBrowserClosed()));
+    QObject::connect(m_subCategoryBrowser.get(), SIGNAL(signal_Shown()),
+                     this, SLOT(OnSubCategoryBrowserShown()));
+    m_subCategoryBrowser->Show();
 }
 
 void MainWindow::FillCategoryPages()
 {
-    QSqlQuery query(" SELECT TRIM(category) AS cat_col "
-                    " FROM messages "
-                    " GROUP BY cat_col "
-                    " ORDER BY cat_col; ");
+    QSqlQuery query(" SELECT TRIM ( name ) AS name_col "
+                    " FROM categories "
+                    " GROUP BY name_col "
+                    " ORDER BY name_col; ");
     QSqlRecord record = query.record();
 
     const double padding = 96.0;
@@ -125,13 +126,15 @@ void MainWindow::FillCategoryPages()
     const double buttonHeight = (getScreenHeight() - ((padding * 2.0) + ((maxRow - 1.0) * spacing))) / maxRow;
     const double pageConentsHeight = getScreenHeight() - (padding * 2.0);
 
-    size_t queryCount = -1;
+    size_t queryCount = 0;
     while(query.next()) {
         ++queryCount;
     }
     query.first();
+    query.previous();
     queryCount = ceil((double)queryCount / (double)(maxRow * maxCol));
 
+    bool isRowClosed = false;
     size_t i = 0;
     while (query.next()) {
         if (r == 0 && c == 0) {
@@ -157,7 +160,7 @@ void MainWindow::FillCategoryPages()
                             "spacing: %1;").arg(spacing);
         }
 
-        QString category = query.value(record.indexOf("cat_col")).toString();
+        QString category = query.value(record.indexOf("name_col")).toString();
         page += QString("Column {"
                         "Image {"
                         "source: '%4cat0%5.png';"
@@ -174,7 +177,7 @@ void MainWindow::FillCategoryPages()
                         "MouseArea {"
                         "anchors.fill: parent;"
                         "onClicked: {"
-                        "loadMessages('%1');"
+                        "cppWindow.browseSubCategories('%1');"
                         "}"
                         "}"
                         "}"
@@ -200,9 +203,15 @@ void MainWindow::FillCategoryPages()
                                 "}").arg(pageNumberMargin)
                         .arg(++i).arg(queryCount);    // close the rectangle
                 m_pages.push_back(make_unique<Page>(page));
+                isRowClosed = true;
+            } else {
+                isRowClosed = false;
             }
 
-            r = (r != maxRow - 1) ? r + 1 : 0;
+            r = r != maxRow - 1 ? r + 1 : 0;
+        } else {
+            if (isRowClosed)
+                isRowClosed = false;
         }
 
         c = (c != maxCol - 1) ? c + 1 : 0;
@@ -212,7 +221,7 @@ void MainWindow::FillCategoryPages()
         page += "}";    // close the row
     }
 
-    if (r != 0) {
+    if (r != 0 || !isRowClosed) {
         page += QString("}"     // close the rectangle
                         "}"     // close the column
                         "Text {"

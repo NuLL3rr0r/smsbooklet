@@ -92,13 +92,18 @@ void  MessageBrowser::toggleFavourite(QString messageId)
     qDebug() << "toggleFavourite " + messageId;
 }
 
-void MessageBrowser::FillMessagePages(const QString &category)
+void MessageBrowser::FillMessagePages(const QString &subCategory)
 {
-    QSqlQuery query(QString(" SELECT TRIM(message) AS msg_col "
+    QSqlQuery query(QString(" SELECT TRIM ( text ) AS text_col "
                             " FROM messages "
-                            " WHERE category = TRIM('%1') "
-                            " GROUP BY msg_col "
-                            " ORDER BY msg_col; ").arg(category));
+                            " WHERE subcatid "
+                            " IN ( "
+                            " SELECT id "
+                            " FROM subcategories "
+                            " WHERE name = '%1' "
+                            " ) "
+                            " GROUP BY text_col "
+                            " ORDER BY text_col; ").arg(subCategory));
     QSqlRecord record = query.record();
 
     const double padding = 96.0;
@@ -108,11 +113,12 @@ void MessageBrowser::FillMessagePages(const QString &category)
     const double textWidth = getScreenWidth() - (padding * 2.0);
     const double textHeight = getScreenHeight() - (padding * 2.0);
 
-    size_t queryCount = -1;
+    size_t queryCount = 0;
     while(query.next()) {
         ++queryCount;
     }
     query.first();
+    query.previous();
 
 #ifdef Q_OS_ANDROID
     QString imagePath("assets:/resources/img/");
@@ -125,7 +131,7 @@ void MessageBrowser::FillMessagePages(const QString &category)
         page.clear();
 
         size_t messageId = 0;
-        QString message = query.value(record.indexOf("msg_col")).toString();
+        QString message = query.value(record.indexOf("text_col")).toString();
         bool isFavourite = false;
 
         page = QString("import QtQuick 2.1;"
@@ -207,6 +213,8 @@ void MessageBrowser::FillMessagePages(const QString &category)
                        "horizontalAlignment: Text.AlignHCenter;"
                        "wrapMode: Text.WordWrap;"
                        "text: '<h3>%9</h3><br /><br />%5';"
+                       "LayoutMirroring.enabled: true;"
+                       "LayoutMirroring.childrenInherit: true;"
                        "}"
                        "Text {"
                        "anchors.bottom: parent.bottom;"
