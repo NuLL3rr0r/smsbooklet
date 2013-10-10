@@ -29,6 +29,7 @@ HEADERS += \
     application.hpp \
     db.hpp \
     dbtables.hpp \
+    defs.hpp \
     mainwindow.hpp \
     make_unique.hpp \
     messagebrowser.hpp \
