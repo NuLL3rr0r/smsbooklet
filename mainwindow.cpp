@@ -13,6 +13,8 @@
 #include <QtSql/QSqlRecord>
 #include "make_unique.hpp"
 #include "mainwindow.hpp"
+#include "defs.hpp"
+#include "messagebrowser.hpp"
 #include "pagemodel.hpp"
 #include "rt.hpp"
 #include "subcategorybrowser.hpp"
@@ -38,7 +40,7 @@ MainWindow::MainWindow(QWindow *parent) :
 {Window::DisplayRatio::Vert_3_4, m_imagePath + "splashscreen_1440x1920.jpg"}
         }
 {
-    this->setTitle("پیامک بانک");
+    this->setTitle(APP_TITLE);
     this->setFlags(Qt::Window | Qt::FramelessWindowHint);
 
     m_pageModel = make_unique<PageModel>();
@@ -90,6 +92,17 @@ void MainWindow::OnSubCategoryBrowserShown() {
     this->setVisible(false);
 }
 
+void MainWindow::OnMessageBrowserClosed() {
+    this->setVisible(true);
+#if !defined(Q_OS_ANDROID)
+    m_messageBrowser.reset();
+#endif
+}
+
+void MainWindow::OnMessageBrowserShown() {
+    this->setVisible(false);
+}
+
 void MainWindow::browseSubCategories(QString category) {
 #if defined(Q_OS_ANDROID)
     m_subCategoryBrowser.reset();
@@ -103,6 +116,29 @@ void MainWindow::browseSubCategories(QString category) {
     QObject::connect(m_subCategoryBrowser.get(), SIGNAL(signal_Shown()),
                      this, SLOT(OnSubCategoryBrowserShown()));
     m_subCategoryBrowser->Show();
+}
+
+void MainWindow::browseMessages(QString category)
+{
+    QSqlQuery query(" SELECT rowid "
+                    " FROM messages "
+                    " WHERE fav = 1; ");
+    if (!query.next()) {
+        return;
+    }
+
+#if defined(Q_OS_ANDROID)
+    m_messageBrowser.reset();
+    m_messageBrowser = make_unique<MessageBrowser>(category,
+                                                   &MainWindow:keyPressEvent);
+#else
+    m_messageBrowser = make_unique<MessageBrowser>(category);
+#endif
+    QObject::connect(m_messageBrowser.get(), SIGNAL(signal_Closed()),
+                     this, SLOT(OnMessageBrowserClosed()));
+    QObject::connect(m_messageBrowser.get(), SIGNAL(signal_Shown()),
+                     this, SLOT(OnMessageBrowserShown()));
+    m_messageBrowser->Show();
 }
 
 void MainWindow::FillCategoryPages()
@@ -127,6 +163,24 @@ void MainWindow::FillCategoryPages()
     const double pageConentsHeight = getScreenHeight() - (padding * 2.0);
 
     size_t queryCount = 0;
+
+
+    QSqlQuery favQuery(" SELECT rowid "
+                    " FROM messages "
+                    " WHERE fav = 1; ");
+    bool hasAnyFav = false;
+    while(favQuery.next()) {
+        hasAnyFav = true;
+        break;
+    }
+
+    if (hasAnyFav) {
+        ++queryCount;
+    }
+
+    bool insertedFav = false;
+
+
     while(query.next()) {
         ++queryCount;
     }
@@ -160,7 +214,15 @@ void MainWindow::FillCategoryPages()
                             "spacing: %1;").arg(spacing);
         }
 
-        QString category = query.value(record.indexOf("name_col")).toString();
+        QString category;
+
+        if (!hasAnyFav || insertedFav) {
+            category = query.value(record.indexOf("name_col")).toString();
+        } else {
+            insertedFav = true;
+            category = FAV_BUTTON_TEXT;
+        }
+
         page += QString("Column {"
                         "Image {"
                         "source: '%4cat0%5.png';"
@@ -177,13 +239,15 @@ void MainWindow::FillCategoryPages()
                         "MouseArea {"
                         "anchors.fill: parent;"
                         "onClicked: {"
-                        "cppWindow.browseSubCategories('%1');"
+                        "cppWindow.%6('%1');"
                         "}"
                         "}"
                         "}"
                         "}"
                         ).arg(category).arg(buttonWidth).arg(buttonHeight)
-                .arg(m_imagePath).arg((rand() % 9) + 1);
+                .arg(m_imagePath).arg((rand() % 9) + 1)
+                .arg(category != FAV_BUTTON_TEXT ? "browseSubCategories"
+                                                 : "browseMessages");
 
         if (c == maxCol - 1) {
             page += "}";    // close the row

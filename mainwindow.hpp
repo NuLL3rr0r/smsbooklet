@@ -11,6 +11,7 @@ class QString;
 
 namespace SMSDB {
     class MainWindow;
+    class MessageBrowser;
     class PageModel;
     class Page;
     class SubCategoryBrowser;
@@ -24,6 +25,7 @@ private:
     std::unique_ptr<SMSDB::PageModel> m_pageModel;
     std::vector<std::unique_ptr<SMSDB::Page>> m_pages;
     std::unique_ptr<SMSDB::SubCategoryBrowser> m_subCategoryBrowser;
+    std::unique_ptr<SMSDB::MessageBrowser> m_messageBrowser;
 
     QString m_imagePath;
     std::unordered_map<Window::DisplayRatio,
@@ -36,9 +38,12 @@ public:
 private slots:
     void OnSubCategoryBrowserClosed();
     void OnSubCategoryBrowserShown();
+    void OnMessageBrowserClosed();
+    void OnMessageBrowserShown();
 
 public:
     Q_INVOKABLE void browseSubCategories(QString category);
+    Q_INVOKABLE void browseMessages(QString category);
 
 private:
     void FillCategoryPages();

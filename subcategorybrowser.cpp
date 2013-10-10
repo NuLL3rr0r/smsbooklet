@@ -10,6 +10,7 @@
 #include <QtSql/QSqlRecord>
 #include "make_unique.hpp"
 #include "subcategorybrowser.hpp"
+#include "defs.hpp"
 #include "messagebrowser.hpp"
 #include "pagemodel.hpp"
 #include "rt.hpp"
@@ -39,7 +40,7 @@ SubCategoryBrowser::SubCategoryBrowser(const QString &category,
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/")
 #endif
 {
-    this->setTitle("پیامک بانک");
+    this->setTitle(APP_TITLE);
     this->setFlags(Qt::Window | Qt::FramelessWindowHint);
 
     m_pageModel = make_unique<PageModel>();

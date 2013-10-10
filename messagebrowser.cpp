@@ -21,6 +21,7 @@
 #endif
 #include "db.hpp"
 #include "dbtables.hpp"
+#include "defs.hpp"
 #include "pagemodel.hpp"
 #include "rt.hpp"
 
@@ -55,7 +56,7 @@ MessageBrowser::MessageBrowser(const QString &category,
 {Window::DisplayRatio::Vert_3_4, m_imagePath + "page_bg_1440x1920.png"}
         }
 {
-    this->setTitle("پیامک بانک");
+    this->setTitle(APP_TITLE);
     this->setFlags(Qt::Window | Qt::FramelessWindowHint);
 
     m_pageModel = make_unique<PageModel>();
@@ -91,23 +92,41 @@ void MessageBrowser::shareMessage(QString message)
 
 void  MessageBrowser::toggleFavourite(QString messageId)
 {
-    RT::DB()->Update(RT::DBTables()->Table(DBTables::TableName::Messages),
-                     "id", messageId.toStdString(),
-                     "fav=?", 1, "1");
+    QSqlQuery query(QString(" SELECT fav "
+                            " FROM messages "
+                            " WHERE id = '%1'; ").arg(messageId));
+    if (query.next()) {
+        QSqlRecord record = query.record();
+        bool isFavourite = query.value(record.indexOf("fav")).toBool();
+
+        RT::DB()->Update(RT::DBTables()->Table(DBTables::TableName::Messages),
+                         "id", messageId.toStdString(),
+                         "fav=?", 1, isFavourite ? "0" : "1");
+    }
 }
 
 void MessageBrowser::FillMessagePages(const QString &subCategory)
 {
-    QSqlQuery query(QString(" SELECT id, TRIM ( text ) AS text_col, fav "
-                            " FROM messages "
-                            " WHERE subcatid "
-                            " IN ( "
-                            " SELECT id "
-                            " FROM subcategories "
-                            " WHERE name = '%1' "
-                            " ) "
-                            " GROUP BY text_col "
-                            " ORDER BY text_col; ").arg(subCategory));
+    QSqlQuery query;
+
+    if (subCategory != FAV_BUTTON_TEXT) {
+        query.prepare(QString(" SELECT id, TRIM ( text ) AS text_col, fav "
+                              " FROM messages "
+                              " WHERE subcatid "
+                              " IN ( "
+                              " SELECT id "
+                              " FROM subcategories "
+                              " WHERE name = '%1' "
+                              " ) "
+                              " GROUP BY text_col "
+                              " ORDER BY text_col; ").arg(subCategory));
+    } else {
+        query.prepare(" SELECT id, TRIM ( text ) AS text_col, fav "
+                      " FROM messages "
+                      " WHERE fav = 1; ");
+    }
+
+    query.exec();
     QSqlRecord record = query.record();
 
     const double padding = 96.0;
