@@ -19,6 +19,8 @@
 #if defined(Q_OS_ANDROID)
 #include "android.hpp"
 #endif
+#include "db.hpp"
+#include "dbtables.hpp"
 #include "pagemodel.hpp"
 #include "rt.hpp"
 
@@ -89,12 +91,14 @@ void MessageBrowser::shareMessage(QString message)
 
 void  MessageBrowser::toggleFavourite(QString messageId)
 {
-    qDebug() << "toggleFavourite " + messageId;
+    RT::DB()->Update(RT::DBTables()->Table(DBTables::TableName::Messages),
+                     "id", messageId.toStdString(),
+                     "fav=?", 1, "1");
 }
 
 void MessageBrowser::FillMessagePages(const QString &subCategory)
 {
-    QSqlQuery query(QString(" SELECT TRIM ( text ) AS text_col "
+    QSqlQuery query(QString(" SELECT id, TRIM ( text ) AS text_col, fav "
                             " FROM messages "
                             " WHERE subcatid "
                             " IN ( "
@@ -130,9 +134,9 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
     while (query.next()) {
         page.clear();
 
-        size_t messageId = 0;
+        QString messageId = query.value(record.indexOf("id")).toString();;
         QString message = query.value(record.indexOf("text_col")).toString();
-        bool isFavourite = false;
+        bool isFavourite = query.value(record.indexOf("fav")).toBool();
 
         page = QString("import QtQuick 2.1;"
                        "import QtQuick.Controls 1.0;"
