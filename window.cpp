@@ -129,8 +129,6 @@ void Window::keyPressEvent(QKeyEvent *e)
 }
 
 void Window::resizeEvent(QResizeEvent *e) {
-    (void)e;
-
     // ToDo: Handle screen-rotation here
 
     QtQuick2ApplicationViewer::resizeEvent(e);
