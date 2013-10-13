@@ -160,7 +160,7 @@ Item {
                         id: pageAngleBehavior;
                         enabled: false;
                         SmoothedAnimation {
-                            velocity: 400.0;
+                            velocity: 200.0;
                         }
                     }
                 }
