@@ -32,7 +32,7 @@ private:
     QString, Window::Hasher<Window::DisplayRatio>> m_splashScreenImages;
 
 public:
-    explicit MainWindow(QWindow *parent = 0);
+    explicit MainWindow(QWindow *parent = NULL);
     ~MainWindow();
 
 private slots:

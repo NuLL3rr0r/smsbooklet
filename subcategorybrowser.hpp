@@ -20,7 +20,9 @@ class SMSDB::SubCategoryBrowser : public Window
     Q_OBJECT
 
 private:
+#if defined(Q_OS_ANDROID)
     typedef void (SMSDB::Window::*keyPressHandler_ptr)(QKeyEvent *);
+#endif
 
 private:
     QString m_category;
@@ -28,8 +30,8 @@ private:
     std::vector<std::unique_ptr<SMSDB::Page>> m_pages;
     std::unique_ptr<SMSDB::MessageBrowser> m_messageBrowser;
 
-    keyPressHandler_ptr m_keyPressHandler;
 #if defined(Q_OS_ANDROID)
+    keyPressHandler_ptr m_keyPressHandler;
     bool m_hasBeenClosed;
 #endif
 

@@ -1,6 +1,4 @@
 #include <cassert>
-#include <cmath>
-#include <cstdlib>
 #include <QtCore/QDir>
 #include <QtCore/QString>
 #include <QtGui/QGuiApplication>
@@ -130,7 +128,7 @@ void MainWindow::browseMessages(QString category)
 #if defined(Q_OS_ANDROID)
     m_messageBrowser.reset();
     m_messageBrowser = make_unique<MessageBrowser>(category,
-                                                   &MainWindow:keyPressEvent);
+                                                   &MainWindow::keyPressEvent);
 #else
     m_messageBrowser = make_unique<MessageBrowser>(category);
 #endif
@@ -143,17 +141,17 @@ void MainWindow::browseMessages(QString category)
 
 void MainWindow::FillCategoryPages()
 {
-    QSqlQuery query(" SELECT TRIM ( name ) AS name_col "
+    QSqlQuery query(" SELECT TRIM ( name ) AS name_col, icon "
                     " FROM categories "
                     " GROUP BY name_col "
                     " ORDER BY name_col; ");
     QSqlRecord record = query.record();
 
-    const double padding = 96.0;
-    const double spacing = 48.0;
+    const double padding = 36.0;
+    const double spacing = 8.0;
     const double pageNumberMargin = 36.0;
-    const unsigned char maxRow = 4;
-    const unsigned char maxCol = 2;
+    const unsigned char maxRow = 8;
+    const unsigned char maxCol = 4;
     unsigned char r = 0;
     unsigned char c = 0;
     QString page;
@@ -224,17 +222,11 @@ void MainWindow::FillCategoryPages()
             category = FAV_BUTTON_TEXT;
         }
 
+        QString icon = query.value(record.indexOf("icon")).toString();
+
         page += QString("Column {"
                         "Image {"
-                        "source: '%4cat0%5.png';"
-                        "Text {"
-                        "anchors.fill: parent;"
-                        "anchors.centerIn: parent;"
-                        "verticalAlignment: Text.AlignVCenter;"
-                        "horizontalAlignment: Text.AlignHCenter;"
-                        "wrapMode: Text.WordWrap;"
-                        "text: \"%1\";"
-                        "}"
+                        "source: '%4%5';"
                         "width: %2;"
                         "height: %3;"
                         "MouseArea {"
@@ -246,7 +238,7 @@ void MainWindow::FillCategoryPages()
                         "}"
                         "}"
                         ).arg(category).arg(buttonWidth).arg(buttonHeight)
-                .arg(m_imagePath).arg((rand() % 9) + 1)
+                .arg(m_imagePath).arg(icon)
                 .arg(category != FAV_BUTTON_TEXT ? "browseSubCategories"
                                                  : "browseMessages");
 

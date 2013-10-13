@@ -24,8 +24,6 @@ using namespace SMSDB;
 SubCategoryBrowser::SubCategoryBrowser(const QString &category,
                                        keyPressHandler_ptr keyPressHandler,
                                        QWindow *parent) :
-    m_keyPressHandler(keyPressHandler),
-    m_hasBeenClosed(false)
 #else
 SubCategoryBrowser::SubCategoryBrowser(const QString &category,
                                        QWindow *parent) :
@@ -34,7 +32,7 @@ SubCategoryBrowser::SubCategoryBrowser(const QString &category,
     m_category (category),
 #if defined(Q_OS_ANDROID)
     m_keyPressHandler(keyPressHandler),
-    m_hasBeenClosed(false)
+    m_hasBeenClosed(false),
     m_imagePath("assets:/resources/img/")
 #else
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/")
@@ -77,7 +75,8 @@ void SubCategoryBrowser::browseMessages(QString subCategory)
 #if defined(Q_OS_ANDROID)
     m_messageBrowser.reset();
     m_messageBrowser = make_unique<MessageBrowser>(subCategory,
-                                                   &SubCategoryBrowser:keyPressEvent);
+                                                   reinterpret_cast<keyPressHandler_ptr>(
+                                                       &SubCategoryBrowser::keyPressEvent));
 #else
     m_messageBrowser = make_unique<MessageBrowser>(subCategory);
 #endif
