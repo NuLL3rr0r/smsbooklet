@@ -270,8 +270,7 @@ void MessageBrowser::Close()
 
 void MessageBrowser::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() != Qt::Key_MediaPrevious
-            && e->key() != Qt::Key_Backspace) {
+    if (e->key() != Qt::Key_MediaPrevious) {
         if (!m_hasBeenClosed) {
             QtQuick2ApplicationViewer::keyPressEvent(e);
         } else {
