@@ -2,6 +2,7 @@
 #define MESSAGEBROWSER_HPP
 
 
+#include <functional>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -21,7 +22,7 @@ class SMSDB::MessageBrowser : public Window
 
 private:
 #if defined(Q_OS_ANDROID)
-    typedef void (SMSDB::Window::*keyPressHandler_ptr)(QKeyEvent *);
+    typedef std::function<void(QKeyEvent *)> keyPressHandler_ptr;
 #endif
 
 private:
@@ -40,7 +41,8 @@ private:
 
 public:
 #if defined(Q_OS_ANDROID)
-    explicit MessageBrowser(const QString &category, keyPressHandler_ptr keyPressHandler,
+    explicit MessageBrowser(const QString &category,
+                            keyPressHandler_ptr keyPressHandler,
                             QWindow *parent = 0);
 #else
     explicit MessageBrowser(const QString &category, QWindow *parent = 0);

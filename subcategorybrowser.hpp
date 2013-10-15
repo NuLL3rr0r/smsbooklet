@@ -2,6 +2,7 @@
 #define SUBCATEGORYBROWSER_HPP
 
 
+#include <functional>
 #include <memory>
 #include <vector>
 #include "window.hpp"
@@ -21,7 +22,7 @@ class SMSDB::SubCategoryBrowser : public Window
 
 private:
 #if defined(Q_OS_ANDROID)
-    typedef void (SMSDB::Window::*keyPressHandler_ptr)(QKeyEvent *);
+    typedef std::function<void(QKeyEvent *)> keyPressHandler_ptr;
 #endif
 
 private:
@@ -39,7 +40,8 @@ private:
 
 public:
 #if defined(Q_OS_ANDROID)
-    explicit SubCategoryBrowser(const QString &category, keyPressHandler_ptr keyPressHandler,
+    explicit SubCategoryBrowser(const QString &category,
+                                keyPressHandler_ptr keyPressHandler,
                                 QWindow *parent = 0);
 #else
     explicit SubCategoryBrowser(const QString &category, QWindow *parent = 0);

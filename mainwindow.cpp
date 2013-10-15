@@ -105,7 +105,10 @@ void MainWindow::browseSubCategories(QString category) {
 #if defined(Q_OS_ANDROID)
     m_subCategoryBrowser.reset();
     m_subCategoryBrowser = make_unique<SubCategoryBrowser>(category,
-                                                           &MainWindow::keyPressEvent);
+                                                           std::bind(
+                                                               &MainWindow::keyPressEvent,
+                                                               this,
+                                                               std::placeholders::_1));
 #else
     m_subCategoryBrowser = make_unique<SubCategoryBrowser>(category);
 #endif
@@ -128,7 +131,9 @@ void MainWindow::browseMessages(QString category)
 #if defined(Q_OS_ANDROID)
     m_messageBrowser.reset();
     m_messageBrowser = make_unique<MessageBrowser>(category,
-                                                   &MainWindow::keyPressEvent);
+                                                   std::bind(&MainWindow::keyPressEvent,
+                                                             this,
+                                                             std::placeholders::_1));
 #else
     m_messageBrowser = make_unique<MessageBrowser>(category);
 #endif

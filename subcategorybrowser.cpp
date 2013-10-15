@@ -75,8 +75,10 @@ void SubCategoryBrowser::browseMessages(QString subCategory)
 #if defined(Q_OS_ANDROID)
     m_messageBrowser.reset();
     m_messageBrowser = make_unique<MessageBrowser>(subCategory,
-                                                   reinterpret_cast<keyPressHandler_ptr>(
-                                                       &SubCategoryBrowser::keyPressEvent));
+                                                   std::bind(
+                                                       &SubCategoryBrowser::keyPressEvent,
+                                                       this,
+                                                       std::placeholders::_1));
 #else
     m_messageBrowser = make_unique<MessageBrowser>(subCategory);
 #endif
@@ -242,13 +244,13 @@ void SubCategoryBrowser::keyPressEvent(QKeyEvent *e)
         if (!m_hasBeenClosed) {
             QtQuick2ApplicationViewer::keyPressEvent(e);
         } else {
-            (this->*m_keyPressHandler)(e);
+            this->m_keyPressHandler(e);
         }
     } else {
         if (!m_hasBeenClosed) {
             Close();
         } else {
-            (this->*m_keyPressHandler)(e);
+            this->m_keyPressHandler(e);
         }
     }
 }

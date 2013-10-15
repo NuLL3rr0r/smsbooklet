@@ -274,13 +274,13 @@ void MessageBrowser::keyPressEvent(QKeyEvent *e)
         if (!m_hasBeenClosed) {
             QtQuick2ApplicationViewer::keyPressEvent(e);
         } else {
-            (this->*m_keyPressHandler)(e);
+            this->m_keyPressHandler(e);
         }
     } else {
         if (!m_hasBeenClosed) {
             Close();
         } else {
-            (this->*m_keyPressHandler)(e);
+            this->m_keyPressHandler(e);
         }
     }
 }
