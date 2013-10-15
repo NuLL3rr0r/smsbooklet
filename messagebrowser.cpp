@@ -164,23 +164,6 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "Rectangle {"
                        "anchors.centerIn: parent;"
                        "anchors.fill: parent;"
-                       /*"BorderImage {"
-                       "id: splashImage;"
-                       "source: \"%12\";"
-                       "asynchronous: true;"
-                       "cache: true;"
-                       "smooth: true;"
-                       "anchors.centerIn: parent;"
-                       "anchors.fill: parent;"
-                       "horizontalTileMode: BorderImage.Stretch;"
-                       "verticalTileMode: BorderImage.Stretch;"
-                       "border {"
-                       "top: 0;"
-                       "right: 0;"
-                       "bottom: 0;"
-                       "left: 0;"
-                       "}"
-                       "}"*/
                        "Rectangle {"
                        "anchors.centerIn: parent;"
                        "width: %1;"
@@ -253,8 +236,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                 .arg(!isFavourite ? "favourite_unselected_144x144.png" : "favourite_selected_144x144.png")
                 .arg(messageId)
                 .arg(!isFavourite ? "favourite_selected_144x144.png" : "favourite_unselected_144x144.png")
-                .arg(m_category).arg(++i).arg(queryCount)
-                /*.arg(m_pageBgImages[GetDisplayRatio()])*/;
+                .arg(m_category).arg(++i).arg(queryCount);
 
         m_pages.push_back(make_unique<Page>(page));
     }

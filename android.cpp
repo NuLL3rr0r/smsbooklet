@@ -20,7 +20,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *)
 
     s_javaVM = vm;
 
-    // search for our class
+    // Search for our class
     jclass clazz = env->FindClass("smsdb/Android");
     if (!clazz) {
         qCritical() << "  * Could not find the Android class !!";
@@ -38,7 +38,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *)
         return -1;
     }
 
-    // search for Release method
+    // Search for Release method
     s_androidReleaseMethodID = env->GetMethodID(
                 s_androidClassID, "Release", "()Z");
     if (!s_androidReleaseMethodID) {

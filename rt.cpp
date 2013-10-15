@@ -88,17 +88,6 @@ SMSDB::DB *RT::DB()
         assert(QFile::setPermissions(dbTargetFile, QFile::ReadOwner | QFile::WriteOwner));
     }
 
-    /*
-    QString dbTargetPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    assert(dbTargetPath != "");
-    QString dbTargetFile = dbTargetPath + "/" + DB_TARGET_FILE_NAME;
-    if (!QFileInfo(dbTargetFile).exists()) {
-        qDebug() << dbTargetFile;
-        assert(QFile::copy(DB_FILE, dbTargetFile));
-        assert(QFile::setPermissions(dbTargetFile, QFile::ReadOwner | QFile::WriteOwner));
-    }
-    */
-
     if (m_dbInstance == nullptr) {
         m_dbInstance = std::make_unique<SMSDB::DB>(dbTargetFile.toStdString());
     }

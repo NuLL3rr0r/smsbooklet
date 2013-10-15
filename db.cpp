@@ -80,7 +80,6 @@ void DB::Update(const std::string &table, const std::string &where, const std::s
 
     va_end(args);
 
-    //query.bindValue((":" + where).c_str(), value.c_str());
     query.addBindValue(value.c_str());
 
     query.exec();
@@ -90,7 +89,6 @@ void DB::Delete(const std::string &table, const std::string &where, const std::s
 {
     QSqlQuery query(("DELETE FROM [" + table + "] "
                      "WHERE " + where + "=?;").c_str());
-    //query.bindValue((":" + where).c_str(), value.c_str());
     query.addBindValue(value.c_str());
     query.exec();
 }

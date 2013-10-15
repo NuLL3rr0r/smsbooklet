@@ -166,23 +166,7 @@ void MainWindow::FillCategoryPages()
     const double pageConentsHeight = getScreenHeight() - (padding * 2.0);
 
     size_t queryCount = 0;
-
-
-    /*QSqlQuery favQuery(" SELECT rowid "
-                    " FROM messages "
-                    " WHERE fav = 1; ");
-    bool hasAnyFav = false;
-    while(favQuery.next()) {
-        hasAnyFav = true;
-        break;
-    }
-
-    if (hasAnyFav) {
-        ++queryCount;
-    }*/
-
     bool insertedFav = false;
-
 
     while(query.next()) {
         ++queryCount;
@@ -219,7 +203,6 @@ void MainWindow::FillCategoryPages()
 
         QString category;
 
-        //if (!hasAnyFav || insertedFav) {
         if (insertedFav) {
             category = query.value(record.indexOf("name_col")).toString();
         } else {
