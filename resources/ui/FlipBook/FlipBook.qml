@@ -221,6 +221,17 @@ Item {
         Qt.createQmlObject(page.contents, flipableBackPage.container);
     }
 
+    function destroyTemporaryPages() {
+        for (var i = frontPageItem.container.children.length; i > 0 ; --i)
+          frontPageItem.container.children[i - 1].destroy();
+        for (var i = flipableFrontPage.container.children.length; i > 0 ; --i)
+          flipableFrontPage.container.children[i - 1].destroy();
+        for (var i = backPageItem.container.children.length; i > 0 ; --i)
+          backPageItem.container.children[i - 1].destroy();
+        for (var i = flipableBackPage.container.children.length; i > 0 ; --i)
+          flipableBackPage.container.children[i - 1].destroy();
+    }
+
     function loadMessages(category) {
         cppWindow.loadMessages(category);
     }

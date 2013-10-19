@@ -35,7 +35,11 @@ MouseArea {
         if (parent.flipablePageAngle === 180.0 || parent.flipablePageAngle === -180.0) {
             var p = parent.fromRight ? pageOffset + 1 : pageOffset - 1;
             parent.loadFullPage(behavior.model.get(p));
+        }
+        if (parent.flipablePageAngle === 180.0 || parent.flipablePageAngle === -180.0
+                || parent.flipablePageAngle === 0.0) {
             parent.fullPageVisible = true;
+            parent.destroyTemporaryPages();
         }
     }
 
@@ -75,6 +79,7 @@ MouseArea {
             parent.fromRight = true;
 
             if (pageOffset < behavior.model.count - 1) {
+                parent.loadBackPageBackward(behavior.model.get(pageOffset));
                 parent.loadBackPageForeward(behavior.model.get(pageOffset + 1));
             } else {
                 parent.loadBackPageForeward(behavior.model.get(pageOffset - 1));
@@ -83,6 +88,7 @@ MouseArea {
             parent.fromRight = false;
 
             if (pageOffset > 0) {
+                parent.loadBackPageForeward(behavior.model.get(pageOffset));
                 parent.loadBackPageBackward(behavior.model.get(pageOffset - 1));
             } else {
                 parent.loadBackPageBackward(behavior.model.get(pageOffset + 1));
@@ -117,9 +123,9 @@ MouseArea {
     function calculateProgress() {
         var p = (width - mouseX) / width;
 
-        if (p < 0.1) {
+        if (p < 0.0) {
             p = 0.0;
-        } else if (p > 0.9) {
+        } else if (p > 1.0) {
             p = 1.0;
         }
 
