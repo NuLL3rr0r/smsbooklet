@@ -91,7 +91,7 @@ void SubCategoryBrowser::browseMessages(QString subCategory)
 
 void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
 {
-    QSqlQuery query(QString(" SELECT TRIM ( name ) AS name_col "
+    QSqlQuery query(QString(" SELECT TRIM ( name ) AS name_col, icon "
                     " FROM subcategories "
                     " WHERE catid "
                     " IN ( "
@@ -152,17 +152,11 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
         }
 
         QString subCategory = query.value(record.indexOf("name_col")).toString();
+        QString icon = query.value(record.indexOf("icon")).toString();
+
         page += QString("Column {"
                         "Image {"
-                        "source: '%4cat0%5.png';"
-                        "Text {"
-                        "anchors.fill: parent;"
-                        "anchors.centerIn: parent;"
-                        "verticalAlignment: Text.AlignVCenter;"
-                        "horizontalAlignment: Text.AlignHCenter;"
-                        "wrapMode: Text.WordWrap;"
-                        "text: \"%1\";"
-                        "}"
+                        "source: '%4%5';"
                         "width: %2;"
                         "height: %3;"
                         "MouseArea {"
@@ -174,7 +168,7 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
                         "}"
                         "}"
                         ).arg(subCategory).arg(buttonWidth).arg(buttonHeight)
-                .arg(m_imagePath).arg((rand() % 9) + 1);
+                .arg(m_imagePath).arg(icon);
 
         if (c == maxCol - 1) {
             page += "}";    // close the row
