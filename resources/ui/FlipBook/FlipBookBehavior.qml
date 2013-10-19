@@ -117,9 +117,9 @@ MouseArea {
     function calculateProgress() {
         var p = (width - mouseX) / width;
 
-        if (p < 0.0) {
+        if (p < 0.1) {
             p = 0.0;
-        } else if (p > 1.0) {
+        } else if (p > 0.9) {
             p = 1.0;
         }
 
