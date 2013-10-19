@@ -202,15 +202,17 @@ void MainWindow::FillCategoryPages()
         }
 
         QString category;
+        QString icon;
 
         if (insertedFav) {
             category = query.value(record.indexOf("name_col")).toString();
+            icon = query.value(record.indexOf("icon")).toString();
         } else {
             insertedFav = true;
             category = FAV_BUTTON_TEXT;
+            icon = "favourite_cat_btn_144x144.png";
         }
 
-        QString icon = query.value(record.indexOf("icon")).toString();
 
         page += QString("Column {"
                         "Image {"
