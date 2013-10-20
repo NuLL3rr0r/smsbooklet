@@ -232,7 +232,11 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "}"
                        "}"
                        "}").arg(textWidth).arg(textHeight).arg(imagePath)
-                .arg(navButtonSize).arg(message.replace("\"", "").replace("\n", "<br />"))
+                .arg(navButtonSize).arg(message.replace("\"",
+                                                        QString("%1%2")
+                                                        .arg("\\").arg("\""))
+                                        .replace("'", "\\'")
+                                        .replace("\n", "<br />"))
                 .arg(!isFavourite ? "favourite_unselected_144x144.png" : "favourite_selected_144x144.png")
                 .arg(messageId)
                 .arg(!isFavourite ? "favourite_selected_144x144.png" : "favourite_unselected_144x144.png")
