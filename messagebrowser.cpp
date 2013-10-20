@@ -79,6 +79,12 @@ MessageBrowser::~MessageBrowser()
 
 void MessageBrowser::shareMessage(QString message)
 {
+    message = message.replace("<br />", "\r\n")
+            .replace("<br/>", "\r\n")
+            .replace("<br>", "\r\n").remove(
+                QRegExp( "<(?:div|span|tr|td|br|body|html|tt|a|strong|p)[^>]*>",
+                         Qt::CaseInsensitive));
+
 #if defined(Q_OS_ANDROID)
     RT::Android()->SendText(message);
 #else
