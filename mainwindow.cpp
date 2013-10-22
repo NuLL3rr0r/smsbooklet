@@ -173,8 +173,8 @@ void MainWindow::FillCategoryPages()
             ((buttonWidth * maxCol) + (spacing * (maxCol - 1)))) / 2.0;
     const double paddingH = (getScreenHeight() -
             ((buttonHeight * maxRow) + (spacing * (maxRow - 1)))) / 2.0;
-    const double pageConentsHeight = getScreenHeight() - (paddingH * 2.0);
-    const double pageConentsWidth = getScreenWidth() - (paddingW * 2.0);
+    const double pageContentsHeight = getScreenHeight() - (paddingH * 2.0);
+    const double pageContentsWidth = getScreenWidth() - (paddingW * 2.0);
     const double pageNumberMargin = paddingH / 2.0;
 
     unsigned char r = 0;
@@ -211,7 +211,7 @@ void MainWindow::FillCategoryPages()
                            "spacing: %1;"
                            "width: %2;"
                            "height: %3;").arg(spacing)
-                    .arg(pageConentsWidth).arg(pageConentsHeight);
+                    .arg(pageContentsWidth).arg(pageContentsHeight);
         }
 
         if (c == 0) {
