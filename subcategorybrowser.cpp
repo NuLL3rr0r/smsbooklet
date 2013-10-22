@@ -104,18 +104,25 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
 
     QSqlRecord record = query.record();
 
-    const double padding = 96.0;
-    const double spacing = 48.0;
+    const double buttonWidth = 144.0;
+    const double buttonHeight = 144.0;
     const double pageNumberMargin = 36.0;
-    const unsigned char maxRow = 4;
-    const unsigned char maxCol = 2;
+    const double spacing = 8.0;
+    const double minPadding = 80.0;
+    const unsigned char maxCol = std::floor(
+                (getScreenWidth() - (minPadding * 2.0)) / (buttonWidth + spacing));
+    const unsigned char maxRow = std::floor(
+                (getScreenHeight() - (minPadding * 2.0)) / (buttonHeight + spacing));
+    const double paddingW = (getScreenWidth() -
+            ((buttonWidth * maxCol) + (spacing * (maxCol - 1)))) / 2.0;
+    const double paddingH = (getScreenHeight() -
+            ((buttonHeight * maxRow) + (spacing * (maxRow - 1)))) / 2.0;
+    const double pageConentsHeight = getScreenHeight() - (paddingH * 2.0);
+    const double pageConentsWidth = getScreenWidth() - (paddingW * 2.0);
+
     unsigned char r = 0;
     unsigned char c = 0;
     QString page;
-
-    const double buttonWidth = (getScreenWidth() - ((padding * 2.0) + ((maxCol - 1.0) * spacing))) / maxCol;
-    const double buttonHeight = (getScreenHeight() - ((padding * 2.0) + ((maxRow - 1.0) * spacing))) / maxRow;
-    const double pageConentsHeight = getScreenHeight() - (padding * 2.0);
 
     size_t queryCount = 0;
     while(query.next()) {
@@ -143,7 +150,9 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
                            "Column {"
                            "anchors.centerIn: parent;"
                            "spacing: %1;"
-                           "height: %2;").arg(spacing).arg(pageConentsHeight);
+                           "width: %2;"
+                           "height: %3;").arg(spacing)
+                    .arg(pageConentsWidth).arg(pageConentsHeight);
         }
 
         if (c == 0) {
