@@ -110,9 +110,9 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
     const double spacing = 8.0;
     const double minPadding = 80.0;
     const unsigned char maxCol = std::floor(
-                (getScreenWidth() - (minPadding * 2.0)) / (buttonWidth + spacing));
+                ((getScreenWidth() - (minPadding * 2.0)) + spacing) / (buttonWidth + spacing));
     const unsigned char maxRow = std::floor(
-                (getScreenHeight() - (minPadding * 2.0)) / (buttonHeight + spacing));
+                ((getScreenHeight() - (minPadding * 2.0)) + spacing) / (buttonHeight + spacing));
     const double paddingW = (getScreenWidth() -
             ((buttonWidth * maxCol) + (spacing * (maxCol - 1)))) / 2.0;
     const double paddingH = (getScreenHeight() -

@@ -12,6 +12,9 @@
 #include <QtSql/QSqlRecord>
 #include "make_unique.hpp"
 #include "mainwindow.hpp"
+#ifdef Q_OS_ANDROID
+#include "android.hpp"
+#endif
 #include "defs.hpp"
 #include "messagebrowser.hpp"
 #include "pagemodel.hpp"
@@ -126,6 +129,11 @@ void MainWindow::browseMessages(QString category)
                     " FROM messages "
                     " WHERE fav = 1; ");
     if (!query.next()) {
+#if defined(Q_OS_ANDROID)
+        RT::Android()->Notify(
+                    QString::fromStdWString(
+                        L"هنوز چیزی به لیست علاقه مندی ها اضافه نشده است."));
+#endif
         return;
     }
 
@@ -159,9 +167,9 @@ void MainWindow::FillCategoryPages()
     const double spacing = 8.0;
     const double minPadding = 80.0;
     const unsigned char maxCol = std::floor(
-                (getScreenWidth() - (minPadding * 2.0)) / (buttonWidth + spacing));
+                ((getScreenWidth() - (minPadding * 2.0)) + spacing) / (buttonWidth + spacing));
     const unsigned char maxRow = std::floor(
-                (getScreenHeight() - (minPadding * 2.0)) / (buttonHeight + spacing));
+                ((getScreenHeight() - (minPadding * 2.0)) + spacing) / (buttonHeight + spacing));
     const double paddingW = (getScreenWidth() -
             ((buttonWidth * maxCol) + (spacing * (maxCol - 1)))) / 2.0;
     const double paddingH = (getScreenHeight() -
