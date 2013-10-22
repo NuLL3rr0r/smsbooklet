@@ -163,7 +163,6 @@ void MainWindow::FillCategoryPages()
 
     const double buttonWidth = 144.0;
     const double buttonHeight = 144.0;
-    const double pageNumberMargin = 36.0;
     const double spacing = 8.0;
     const double minPadding = 80.0;
     const unsigned char maxCol = std::floor(
@@ -176,6 +175,7 @@ void MainWindow::FillCategoryPages()
             ((buttonHeight * maxRow) + (spacing * (maxRow - 1)))) / 2.0;
     const double pageConentsHeight = getScreenHeight() - (paddingH * 2.0);
     const double pageConentsWidth = getScreenWidth() - (paddingW * 2.0);
+    const double pageNumberMargin = paddingH / 2.0;
 
     unsigned char r = 0;
     unsigned char c = 0;

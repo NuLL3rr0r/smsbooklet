@@ -226,7 +226,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "verticalAlignment: Text.AlignVCenter;"
                        "horizontalAlignment: Text.AlignHCenter;"
                        "wrapMode: Text.WordWrap;"
-                       "text: '<h3>%9</h3><br /><br />%5';"
+                       "text: '<h3>%9</h3><br />%5';"
                        "LayoutMirroring.enabled: true;"
                        "LayoutMirroring.childrenInherit: true;"
                        "}"
