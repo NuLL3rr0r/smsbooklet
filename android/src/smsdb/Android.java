@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import org.qtproject.qt5.android.bindings.*;
 
 public class Android {
@@ -27,6 +28,24 @@ public class Android {
             return false;
         }
         
+        return true;
+    }
+
+    public boolean Notify(final String text, final int duration)
+    {
+        try {
+            QtActivity.MainActivityRef().runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(QtActivity.MainActivityRef(), text, duration);
+                }
+            });
+        }
+
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
         return true;
     }
 

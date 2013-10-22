@@ -7,6 +7,7 @@ static JavaVM *s_javaVM = NULL;
 static jclass s_androidClassID = NULL;
 static jmethodID s_androidConstructorMethodID = NULL;
 static jmethodID s_androidSendTextMethodID = NULL;
+static jmethodID s_androidNotifyMethodID = NULL;
 static jmethodID s_androidReleaseMethodID = NULL;
 
 // This method is called immediately after the module is loaded.
@@ -51,6 +52,14 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *)
                 s_androidClassID, "SendText", "(Ljava/lang/String;)Z");
     if (!s_androidSendTextMethodID) {
         qCritical() << "  * Could not find SendText method !!";
+        return -1;
+    }
+
+    // Search for Notify method.
+    s_androidNotifyMethodID = env->GetMethodID(
+                s_androidClassID, "Notify", "(Ljava/lang/String;I)Z");
+    if (!s_androidNotifyMethodID) {
+        qCritical() << "  * Could not find Notify method !!";
         return -1;
     }
 
@@ -118,6 +127,28 @@ bool Android::SendText(const QString &text)
 
     jboolean res = env->CallBooleanMethod(
                 m_androidObject, s_androidSendTextMethodID, str);
+    env->DeleteLocalRef(str);
+    s_javaVM->DetachCurrentThread();
+
+    return res;
+}
+
+bool Android::Notify(const QString &text, int duration)
+{
+    if (!m_androidObject)
+        return false;
+
+    JNIEnv *env;
+    if (s_javaVM->AttachCurrentThread(&env, NULL) < 0) {
+        qCritical() << "AttachCurrentThread failed !!";
+        return false;
+    }
+
+    jstring str = env->NewString(reinterpret_cast<const jchar *>(
+                                     text.constData()), text.length());
+
+    jboolean res = env->CallBooleanMethod(
+                m_androidObject, s_androidNotifyMethodID, str, duration);
     env->DeleteLocalRef(str);
     s_javaVM->DetachCurrentThread();
 
