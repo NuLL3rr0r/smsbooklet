@@ -122,7 +122,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                               " IN ( "
                               " SELECT id "
                               " FROM subcategories "
-                              " WHERE name = '%1' "
+                              " WHERE name = TRIM( '%1' ) "
                               " ) "
                               " GROUP BY text_col "
                               " ORDER BY text_col; ").arg(subCategory));
