@@ -12,6 +12,7 @@
 #include <QtSql/QSqlRecord>
 #include "make_unique.hpp"
 #include "mainwindow.hpp"
+#include "about.hpp"
 #ifdef Q_OS_ANDROID
 #include "android.hpp"
 #endif
@@ -83,29 +84,65 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::OnSubCategoryBrowserClosed() {
+void MainWindow::OnAboutClosed()
+{
+    this->setVisible(true);
+#if !defined(Q_OS_ANDROID)
+    m_about.reset();
+#endif
+}
+
+void MainWindow::OnAboutShown()
+{
+    this->setVisible(false);
+}
+
+void MainWindow::OnSubCategoryBrowserClosed()
+{
     this->setVisible(true);
 #if !defined(Q_OS_ANDROID)
     m_subCategoryBrowser.reset();
 #endif
 }
 
-void MainWindow::OnSubCategoryBrowserShown() {
+void MainWindow::OnSubCategoryBrowserShown()
+{
     this->setVisible(false);
 }
 
-void MainWindow::OnMessageBrowserClosed() {
+void MainWindow::OnMessageBrowserClosed()
+{
     this->setVisible(true);
 #if !defined(Q_OS_ANDROID)
     m_messageBrowser.reset();
 #endif
 }
 
-void MainWindow::OnMessageBrowserShown() {
+void MainWindow::OnMessageBrowserShown()
+{
     this->setVisible(false);
 }
 
-void MainWindow::browseSubCategories(QString category) {
+void MainWindow::about()
+{
+#if defined(Q_OS_ANDROID)
+    m_about.reset();
+    m_about = make_unique<About>(std::bind(
+                                     &MainWindow::keyPressEvent,
+                                     this,
+                                     std::placeholders::_1));
+#else
+    m_about = make_unique<About>();
+#endif
+    QObject::connect(m_about.get(), SIGNAL(signal_Closed()),
+                     this, SLOT(OnAboutClosed()));
+    QObject::connect(m_about.get(), SIGNAL(signal_Shown()),
+                     this, SLOT(OnAboutShown()));
+    m_about->Show();
+}
+
+void MainWindow::browseSubCategories(QString category)
+{
 #if defined(Q_OS_ANDROID)
     m_subCategoryBrowser.reset();
     m_subCategoryBrowser = make_unique<SubCategoryBrowser>(category,
@@ -182,6 +219,7 @@ void MainWindow::FillCategoryPages()
     QString page;
 
     size_t queryCount = 0;
+    bool insertedAbout = false;
     bool insertedFav = false;
 
     while(query.next()) {
@@ -223,33 +261,54 @@ void MainWindow::FillCategoryPages()
         QString category;
         QString icon;
 
-        if (insertedFav) {
-            category = query.value(record.indexOf("name_col")).toString();
-            icon = query.value(record.indexOf("icon")).toString();
+        if (insertedAbout) {
+            if (insertedFav) {
+                category = query.value(record.indexOf("name_col")).toString();
+                icon = query.value(record.indexOf("icon")).toString();
+            } else {
+                insertedFav = true;
+                category = FAV_BUTTON_TEXT;
+                icon = "favourite_cat_btn_144x144.png";
+            }
+
+            page += QString("Column {"
+                            "Image {"
+                            "source: '%4%5';"
+                            "width: %2;"
+                            "height: %3;"
+                            "MouseArea {"
+                            "anchors.fill: parent;"
+                            "onClicked: {"
+                            "cppWindow.%6('%1');"
+                            "}"
+                            "}"
+                            "}"
+                            "}"
+                            ).arg(category).arg(buttonWidth).arg(buttonHeight)
+                    .arg(m_imagePath).arg(icon)
+                    .arg(category != FAV_BUTTON_TEXT ? "browseSubCategories"
+                                                     : "browseMessages");
         } else {
-            insertedFav = true;
-            category = FAV_BUTTON_TEXT;
-            icon = "favourite_cat_btn_144x144.png";
+            insertedAbout = true;
+            icon = "about_btn_144x144.png";
+
+            page += QString("Column {"
+                            "Image {"
+                            "source: '%3about_btn_144x144.png';"
+                            "width: %1;"
+                            "height: %2;"
+                            "MouseArea {"
+                            "anchors.fill: parent;"
+                            "onClicked: {"
+                            "cppWindow.about();"
+                            "}"
+                            "}"
+                            "}"
+                            "}"
+                            ).arg(buttonWidth).arg(buttonHeight)
+                    .arg(m_imagePath);
         }
 
-
-        page += QString("Column {"
-                        "Image {"
-                        "source: '%4%5';"
-                        "width: %2;"
-                        "height: %3;"
-                        "MouseArea {"
-                        "anchors.fill: parent;"
-                        "onClicked: {"
-                        "cppWindow.%6('%1');"
-                        "}"
-                        "}"
-                        "}"
-                        "}"
-                        ).arg(category).arg(buttonWidth).arg(buttonHeight)
-                .arg(m_imagePath).arg(icon)
-                .arg(category != FAV_BUTTON_TEXT ? "browseSubCategories"
-                                                 : "browseMessages");
 
         if (c == maxCol - 1) {
             page += "}";    // close the row

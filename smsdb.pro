@@ -26,6 +26,7 @@ unix {
 }
 
 HEADERS += \
+    about.hpp \
     application.hpp \
     db.hpp \
     dbtables.hpp \
@@ -40,6 +41,7 @@ HEADERS += \
 
 SOURCES += \
     main.cpp \
+    about.cpp \
     application.cpp \
     db.cpp \
     dbtables.cpp \

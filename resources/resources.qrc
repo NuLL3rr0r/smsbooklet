@@ -4,6 +4,7 @@
         <file>ui/FlipBook/FlipBookBehavior.qml</file>
         <file>ui/FlipBook/Page.qml</file>
         <file>ui/FlipBook/page_shadow.png</file>
+        <file>ui/about.qml</file>
         <file>ui/mainwindow.qml</file>
         <file>ui/messagebrowser.qml</file>
         <file>ui/subcategorybrowser.qml</file>

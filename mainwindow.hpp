@@ -10,6 +10,7 @@
 class QString;
 
 namespace SMSDB {
+    class About;
     class MainWindow;
     class MessageBrowser;
     class PageModel;
@@ -24,6 +25,7 @@ class SMSDB::MainWindow : public Window
 private:
     std::unique_ptr<SMSDB::PageModel> m_pageModel;
     std::vector<std::unique_ptr<SMSDB::Page>> m_pages;
+    std::unique_ptr<SMSDB::About> m_about;
     std::unique_ptr<SMSDB::SubCategoryBrowser> m_subCategoryBrowser;
     std::unique_ptr<SMSDB::MessageBrowser> m_messageBrowser;
 
@@ -36,12 +38,15 @@ public:
     ~MainWindow();
 
 private slots:
+    void OnAboutClosed();
+    void OnAboutShown();
     void OnSubCategoryBrowserClosed();
     void OnSubCategoryBrowserShown();
     void OnMessageBrowserClosed();
     void OnMessageBrowserShown();
 
 public:
+    Q_INVOKABLE void about();
     Q_INVOKABLE void browseSubCategories(QString category);
     Q_INVOKABLE void browseMessages(QString category);
 
