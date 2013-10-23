@@ -157,6 +157,7 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
 
         if (c == 0) {
             page += QString("Row {"
+                            "anchors.left: parent.left;"
                             "spacing: %1;").arg(spacing);
         }
 
