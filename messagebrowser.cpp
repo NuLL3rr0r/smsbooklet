@@ -135,7 +135,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
     query.exec();
     QSqlRecord record = query.record();
 
-    const double padding = 96.0;
+    const double padding = getScreenWidth() / 16.0;
     const double navButtonSize = getScreenWidth() / 11.0;
     QString page;
 
