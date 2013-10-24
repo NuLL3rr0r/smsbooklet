@@ -1,6 +1,6 @@
-پیامک بانک
-==========
+SMS Booklet
+===========
 
-نرم افزار موبایل پیامک بانک که شامل تعداد بسیار زیادی پیامک طبقه بندی شده می باشد.
+SMS Booklet for Android and Microsoft Windows with flippable pages.
 
 
