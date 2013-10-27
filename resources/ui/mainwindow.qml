@@ -26,6 +26,7 @@ Rectangle {
     }
 
     function notify(message) {
+        notification.notificationText = "";
         notification.notificationText = message;
     }
 }

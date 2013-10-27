@@ -8,14 +8,17 @@ Item {
     property alias textColor: notificationText.color;
     property alias timoutInterval: timeoutTimer.interval;
 
+    QtObject {
+        id: privates;
+        readonly property real spacing: 16.0;
+    }
+
     Rectangle {
         id: notificationWindow;
         visible: false;
         opacity: 0.0;
         anchors.centerIn: parent;
         color: "#222";
-        width: parent.width * 0.8;
-        height: 44.0;
 
         Text {
             id: notificationText;
@@ -30,14 +33,19 @@ Item {
                 anchors.centerIn: parent;
             }
 
-            Behavior on text {
-                ScriptAction {
-                    script: {
-                        fadeOutAnim.stop();
-                        notificationWindow.visible = true;
-                        fadeInAnim.start();
-                    }
-                }
+            onTextChanged: {
+                fadeOutAnim.stop();
+                // It's also possible to use
+                // `notificationText.paintedWidth`
+                // ,and,
+                // `notificationText.paintedHeight`
+                // , instead.
+                notificationWindow.width = notificationWindow.childrenRect.width
+                        + privates.spacing;
+                notificationWindow.height = notificationWindow.childrenRect.height
+                        + privates.spacing;
+                notificationWindow.visible = true;
+                fadeInAnim.start();
             }
         }
     }
@@ -55,10 +63,8 @@ Item {
             period: 0.0;
         }
 
-        onRunningChanged: {
-            if (!fadeInAnim.running) {
-                timeoutTimer.start();
-            }
+        onStopped: {
+            timeoutTimer.start();
         }
     }
 
@@ -75,10 +81,8 @@ Item {
             period: 0.0;
         }
 
-        onRunningChanged: {
-            if (!fadeOutAnim.running) {
-                notificationWindow.visible = false;
-            }
+        onStopped: {
+            notificationWindow.visible = false;
         }
     }
 
