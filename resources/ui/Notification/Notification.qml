@@ -35,15 +35,17 @@ Item {
 
             onTextChanged: {
                 fadeOutAnim.stop();
-                // It's also possible to use
-                // `notificationText.paintedWidth`
-                // ,and,
-                // `notificationText.paintedHeight`
-                // , instead.
-                notificationWindow.width = notificationWindow.childrenRect.width
-                        + privates.spacing;
-                notificationWindow.height = notificationWindow.childrenRect.height
-                        + privates.spacing;
+
+                var w = notificationWindow.childrenRect.width;
+                var h = notificationWindow.childrenRect.height;
+                var maxW = notification.width * 0.8;
+                if (w > maxW) {
+                    w = maxW;
+                }
+
+                notificationText.width = w;
+                notificationWindow.width = w + privates.spacing;
+                notificationWindow.height = h + privates.spacing;
                 notificationWindow.visible = true;
                 fadeInAnim.start();
             }
