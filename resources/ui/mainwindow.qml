@@ -1,5 +1,6 @@
 import QtQuick 2.1;
 import "FlipBook"
+import "Notification"
 
 Rectangle {
     id: mainWindow;
@@ -16,6 +17,16 @@ Rectangle {
         anchors.fill: parent;
         anchors.centerIn: parent;
         model: PageModel;
+    }
+
+    Notification {
+        id: notification;
+        anchors.fill: parent;
+        anchors.centerIn: parent;
+    }
+
+    function notify(message) {
+        notification.notificationText = message;
     }
 }
 

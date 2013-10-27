@@ -1,5 +1,6 @@
 import QtQuick 2.1;
 import "FlipBook"
+import "Notification"
 
 Rectangle {
     id: messagebrowser;
@@ -9,6 +10,9 @@ Rectangle {
     LayoutMirroring.enabled: true;
     LayoutMirroring.childrenInherit: true;
 
+    property string msgAddedToFav: "به لیست علایق اضافه شد.";
+    property string msgRemovedFromFav: "از لیست علایق حذف شد.";
+
     Component.onCompleted: {
     }
 
@@ -17,6 +21,12 @@ Rectangle {
         anchors.fill: parent;
         anchors.centerIn: parent;
         model: PageModel;
+    }
+
+    Notification {
+        id: notification;
+        anchors.fill: parent;
+        anchors.centerIn: parent;
     }
 }
 

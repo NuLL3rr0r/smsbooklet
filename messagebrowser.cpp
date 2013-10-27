@@ -210,9 +210,11 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "if (favIcon.source == '%3%6') {"
                        "favIcon.source = '%3%8';"
                        "flipBook.model.set(0, { 'contents': flipBook.model.get(0).contents.replace('%3%6', '%3%8') });"
+                       "notification.notificationText = %12;"
                        "} else {"
                        "favIcon.source = '%3%6';"
                        "flipBook.model.set(0, { 'contents': flipBook.model.get(0).contents.replace('%3%8', '%3%6') });"
+                       "notification.notificationText = %13;"
                        "}"
                        "}"
                        "}"
@@ -246,7 +248,9 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                 .arg(!isFavourite ? "favourite_unselected_144x144.png" : "favourite_selected_144x144.png")
                 .arg(messageId)
                 .arg(!isFavourite ? "favourite_selected_144x144.png" : "favourite_unselected_144x144.png")
-                .arg(m_category).arg(++i).arg(queryCount);
+                .arg(m_category).arg(++i).arg(queryCount)
+                .arg(!isFavourite ? "msgAddedToFav" : "msgRemovedFromFav")
+                .arg(!isFavourite ? "msgRemovedFromFav" : "msgAddedToFav");
 
         m_pages.push_back(make_unique<Page>(page));
     }

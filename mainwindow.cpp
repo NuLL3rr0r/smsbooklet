@@ -166,11 +166,11 @@ void MainWindow::browseMessages(QString category)
                     " FROM messages "
                     " WHERE fav = 1; ");
     if (!query.next()) {
-#if defined(Q_OS_ANDROID)
-        RT::Android()->Notify(
-                    QString::fromStdWString(
-                        L"هنوز چیزی به لیست علاقه مندی ها اضافه نشده است."));
-#endif
+        QVariant returnedValue;
+        QVariant msg = "هنوز چیزی به لیست علاقه مندی ها اضافه نشده است.";
+        QMetaObject::invokeMethod(this->rootObject(), "notify",
+                                  Q_RETURN_ARG(QVariant, returnedValue),
+                                  Q_ARG(QVariant, msg));
         return;
     }
 
