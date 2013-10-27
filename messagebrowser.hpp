@@ -35,6 +35,7 @@ private:
     bool m_hasBeenClosed;
 #endif
 
+    QString m_fontPath;
     QString m_imagePath;
     std::unordered_map<Window::DisplayRatio,
     QString, Window::Hasher<Window::DisplayRatio>> m_pageBgImages;

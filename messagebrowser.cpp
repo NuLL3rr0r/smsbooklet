@@ -43,8 +43,10 @@ MessageBrowser::MessageBrowser(const QString &category,
 #if defined(Q_OS_ANDROID)
     m_keyPressHandler(keyPressHandler),
     m_hasBeenClosed(false),
+    m_fontPath("assets:/resources/fnt/"),
     m_imagePath("assets:/resources/img/"),
 #else
+    m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
 #endif
     m_pageBgImages {
@@ -68,6 +70,7 @@ MessageBrowser::MessageBrowser(const QString &category,
     }
 
     QQmlContext *context = this->rootContext();
+    context->setContextProperty("FontPath", m_fontPath);
     context->setContextProperty("PageModel", m_pageModel.get());
 
     this->SetQML(QStringLiteral(UI_FILE));
@@ -228,6 +231,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "verticalAlignment: Text.AlignVCenter;"
                        "horizontalAlignment: Text.AlignHCenter;"
                        "wrapMode: Text.WordWrap;"
+                       "font.family: textFont.name;"
                        "text: '<h3>%9</h3><br />%5';"
                        "LayoutMirroring.enabled: true;"
                        "LayoutMirroring.childrenInherit: true;"
@@ -236,6 +240,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "anchors.bottom: parent.bottom;"
                        "anchors.horizontalCenter: parent.horizontalCenter;"
                        "wrapMode: Text.NoWrap;"
+                       "font.family: textFont.name;"
                        "text: '%10 / %11';"
                        "}"
                        "}"

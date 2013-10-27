@@ -4,9 +4,12 @@ QT -= network
 # Add more folders to ship with the application, here
 database.source = resources/db
 database.target = resources
+fonts.source = resources/fnt
+fonts.target = resources
 images.source = resources/img
 images.target = resources
 DEPLOYMENTFOLDERS = database
+DEPLOYMENTFOLDERS += fonts
 DEPLOYMENTFOLDERS += images
 
 # Additional import path used to resolve QML modules in Creator's code model

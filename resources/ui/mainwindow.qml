@@ -23,6 +23,12 @@ Rectangle {
         id: notification;
         anchors.fill: parent;
         anchors.centerIn: parent;
+        fontPath: FontPath;
+    }
+
+    FontLoader {
+        id: textFont;
+        source: FontPath;
     }
 
     function notify(message) {

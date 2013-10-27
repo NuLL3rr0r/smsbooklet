@@ -5,12 +5,17 @@ Item {
 
     property alias notificationText: notificationText.text;
     property alias backgroundColor: notificationWindow.color;
+    property alias fontPath: textFont.source;
     property alias textColor: notificationText.color;
     property alias timoutInterval: timeoutTimer.interval;
 
     QtObject {
         id: privates;
         readonly property real spacing: 16.0;
+    }
+
+    FontLoader {
+        id: textFont;
     }
 
     Rectangle {
@@ -25,6 +30,7 @@ Item {
         Text {
             id: notificationText;
             anchors.centerIn: parent;
+            font.family: textFont.name;
             color: "#FFF";
             wrapMode: Text.WrapAnywhere;
 

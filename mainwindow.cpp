@@ -30,8 +30,10 @@ using namespace SMSDB;
 MainWindow::MainWindow(QWindow *parent) :
     Window(parent),
 #ifdef Q_OS_ANDROID
+    m_fontPath("assets:/resources/fnt/"),
     m_imagePath("assets:/resources/img/"),
 #else
+    m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
 #endif
     m_splashScreenImages {
@@ -75,6 +77,7 @@ MainWindow::MainWindow(QWindow *parent) :
     }
 
     QQmlContext *context = this->rootContext();
+    context->setContextProperty("FontPath", m_fontPath);
     context->setContextProperty("PageModel", m_pageModel.get());
 
     this->SetQML(QStringLiteral(UI_FILE));
