@@ -17,7 +17,9 @@ Item {
         id: notificationWindow;
         visible: false;
         opacity: 0.0;
-        anchors.centerIn: parent;
+        anchors.horizontalCenter: parent.horizontalCenter;
+        anchors.bottom: parent.bottom;
+        anchors.bottomMargin: parent.height * 0.2;
         color: "#222";
 
         Text {
