@@ -30,7 +30,7 @@ using namespace SMSDB;
 MainWindow::MainWindow(QWindow *parent) :
     Window(parent),
 #ifdef Q_OS_ANDROID
-    m_fontPath("assets:/resources/fnt/"),
+    m_fontPath("assets:/resources/fnt/BYekan.ttf"),
     m_imagePath("assets:/resources/img/"),
 #else
     m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
