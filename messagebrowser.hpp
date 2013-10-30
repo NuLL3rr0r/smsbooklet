@@ -4,7 +4,6 @@
 
 #include <functional>
 #include <memory>
-#include <unordered_map>
 #include <vector>
 #include "window.hpp"
 
@@ -37,8 +36,6 @@ private:
 
     QString m_fontPath;
     QString m_imagePath;
-    std::unordered_map<Window::DisplayRatio,
-    QString, Window::Hasher<Window::DisplayRatio>> m_pageBgImages;
 
 public:
 #if defined(Q_OS_ANDROID)

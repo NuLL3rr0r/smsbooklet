@@ -2,6 +2,7 @@
 #define ABOUT_HPP
 
 
+#include <unordered_map>
 #include "window.hpp"
 
 namespace SMSDB {
@@ -23,7 +24,10 @@ private:
     bool m_hasBeenClosed;
 #endif
 
+    QString m_fontPath;
     QString m_imagePath;
+    std::unordered_map<Window::DisplayRatio,
+    QString, Window::Hasher<Window::DisplayRatio>> m_pageBgImages;
 
 public:
 #if defined(Q_OS_ANDROID)

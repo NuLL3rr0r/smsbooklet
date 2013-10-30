@@ -44,19 +44,11 @@ MessageBrowser::MessageBrowser(const QString &category,
     m_keyPressHandler(keyPressHandler),
     m_hasBeenClosed(false),
     m_fontPath("assets:/resources/fnt/BYekan.ttf"),
-    m_imagePath("assets:/resources/img/"),
+    m_imagePath("assets:/resources/img/")
 #else
     m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
-    m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
+    m_imagePath("file:" + QDir::currentPath() + "/resources/img/")
 #endif
-    m_pageBgImages {
-{Window::DisplayRatio::Horz_16_10, m_imagePath + "page_bg_1920x1200.jpg"},
-{Window::DisplayRatio::Horz_16_9, m_imagePath + "page_bg_1920x1080.jpg"},
-{Window::DisplayRatio::Horz_4_3, m_imagePath + "page_bg_1920x1440.jpg"},
-{Window::DisplayRatio::Vert_10_16, m_imagePath + "page_bg_1200x1920.png"},
-{Window::DisplayRatio::Vert_9_16, m_imagePath + "page_bg_1080x1920.png"},
-{Window::DisplayRatio::Vert_3_4, m_imagePath + "page_bg_1440x1920.png"}
-        }
 {
     this->setTitle(APP_TITLE);
     this->setFlags(Qt::Window | Qt::FramelessWindowHint);

@@ -37,9 +37,6 @@ MainWindow::MainWindow(QWindow *parent) :
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
 #endif
     m_splashScreenImages {
-{Window::DisplayRatio::Horz_16_10, m_imagePath + "splashscreen_1920x1200.jpg"},
-{Window::DisplayRatio::Horz_16_9, m_imagePath + "splashscreen_1920x1080.jpg"},
-{Window::DisplayRatio::Horz_4_3, m_imagePath + "splashscreen_1920x1440.jpg"},
 {Window::DisplayRatio::Vert_10_16, m_imagePath + "splashscreen_1200x1920.jpg"},
 {Window::DisplayRatio::Vert_9_16, m_imagePath + "splashscreen_1080x1920.jpg"},
 {Window::DisplayRatio::Vert_3_4, m_imagePath + "splashscreen_1440x1920.jpg"}

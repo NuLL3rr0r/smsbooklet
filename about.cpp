@@ -20,13 +20,26 @@ About::About(QWindow *parent) :
 #if defined(Q_OS_ANDROID)
     m_keyPressHandler(keyPressHandler),
     m_hasBeenClosed(false),
-    m_imagePath("assets:/resources/img/")
+    m_fontPath("assets:/resources/fnt/BYekan.ttf"),
+    m_imagePath("assets:/resources/img/"),
 #else
-    m_imagePath("file:" + QDir::currentPath() + "/resources/img/")
+    m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
+    m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
 #endif
+  m_pageBgImages {
+{Window::DisplayRatio::Vert_10_16, m_imagePath + "about_bg_1200x1920.png"},
+{Window::DisplayRatio::Vert_9_16, m_imagePath + "about_bg_1080x1920.png"},
+{Window::DisplayRatio::Vert_3_4, m_imagePath + "about_bg_1440x1920.png"}
+      }
 {
     this->setTitle(APP_TITLE);
     this->setFlags(Qt::Window | Qt::FramelessWindowHint);
+
+    QQmlContext *context = this->rootContext();
+    context->setContextProperty("FontPath", m_fontPath);
+    context->setContextProperty("BackgroundPath", m_pageBgImages[GetDisplayRatio()]);
+    context->setContextProperty("AppLogoPath", m_imagePath + "smsbooklet-480x380.png");
+    context->setContextProperty("BrandingLogoPath", m_imagePath + "approsia_144x50.png");
 
     this->SetQML(QStringLiteral(UI_FILE));
 }
