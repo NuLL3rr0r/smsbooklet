@@ -201,11 +201,12 @@ void MainWindow::FillCategoryPages()
     const double buttonWidth = 144.0;
     const double buttonHeight = 144.0;
     const double spacing = 8.0;
-    const double minPadding = 80.0;
+    const double minPaddingX = 80.0;
+    const double minPaddingY = 84.0;
     const unsigned char maxCol = std::floor(
-                ((getScreenWidth() - (minPadding * 2.0)) + spacing) / (buttonWidth + spacing));
+                ((getScreenWidth() - (minPaddingX * 2.0)) + spacing) / (buttonWidth + spacing));
     const unsigned char maxRow = std::floor(
-                ((getScreenHeight() - (minPadding * 2.0)) + spacing) / (buttonHeight + spacing));
+                ((getScreenHeight() - (minPaddingY * 2.0)) + spacing) / (buttonHeight + spacing));
     const double paddingW = (getScreenWidth() -
             ((buttonWidth * maxCol) + (spacing * (maxCol - 1)))) / 2.0;
     const double paddingH = (getScreenHeight() -
@@ -324,6 +325,7 @@ void MainWindow::FillCategoryPages()
                                 "}"
                                 "wrapMode: Text.NoWrap;"
                                 "text: \"%2 / %3\";"
+                                "font.family: textFont.name;"
                                 "}"
                                 "}").arg(pageNumberMargin)
                         .arg(++i).arg(queryCount);    // close the rectangle
@@ -357,6 +359,7 @@ void MainWindow::FillCategoryPages()
                         "}"
                         "wrapMode: Text.NoWrap;"
                         "text: \"%2 / %3\";"
+                        "font.family: textFont.name;"
                         "}"
                         "}").arg(pageNumberMargin)
                 .arg(++i).arg(queryCount);    // close the rectangle

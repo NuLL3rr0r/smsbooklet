@@ -36,6 +36,7 @@ private:
     bool m_hasBeenClosed;
 #endif
 
+    QString m_fontPath;
     QString m_imagePath;
 
 public:

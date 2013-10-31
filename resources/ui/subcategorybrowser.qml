@@ -17,5 +17,10 @@ Rectangle {
         anchors.centerIn: parent;
         model: PageModel;
     }
+
+    FontLoader {
+        id: textFont;
+        source: FontPath;
+    }
 }
 

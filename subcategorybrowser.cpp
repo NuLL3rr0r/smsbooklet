@@ -33,8 +33,10 @@ SubCategoryBrowser::SubCategoryBrowser(const QString &category,
 #if defined(Q_OS_ANDROID)
     m_keyPressHandler(keyPressHandler),
     m_hasBeenClosed(false),
+    m_fontPath("assets:/resources/fnt/BYekan.ttf"),
     m_imagePath("assets:/resources/img/")
 #else
+    m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/")
 #endif
 {
@@ -50,6 +52,7 @@ SubCategoryBrowser::SubCategoryBrowser(const QString &category,
     }
 
     QQmlContext *context = this->rootContext();
+    context->setContextProperty("FontPath", m_fontPath);
     context->setContextProperty("PageModel", m_pageModel.get());
 
     this->SetQML(QStringLiteral(UI_FILE));
@@ -107,11 +110,12 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
     const double buttonWidth = 144.0;
     const double buttonHeight = 144.0;
     const double spacing = 8.0;
-    const double minPadding = 80.0;
+    const double minPaddingX = 80.0;
+    const double minPaddingY = 84.0;
     const unsigned char maxCol = std::floor(
-                ((getScreenWidth() - (minPadding * 2.0)) + spacing) / (buttonWidth + spacing));
+                ((getScreenWidth() - (minPaddingX * 2.0)) + spacing) / (buttonWidth + spacing));
     const unsigned char maxRow = std::floor(
-                ((getScreenHeight() - (minPadding * 2.0)) + spacing) / (buttonHeight + spacing));
+                ((getScreenHeight() - (minPaddingY * 2.0)) + spacing) / (buttonHeight + spacing));
     const double paddingW = (getScreenWidth() -
             ((buttonWidth * maxCol) + (spacing * (maxCol - 1)))) / 2.0;
     const double paddingH = (getScreenHeight() -
@@ -194,6 +198,7 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
                                 "}"
                                 "wrapMode: Text.NoWrap;"
                                 "text: \"%2 / %3\";"
+                                "font.family: textFont.name;"
                                 "}"
                                 "}").arg(pageNumberMargin)
                         .arg(++i).arg(queryCount);    // close the rectangle
@@ -227,6 +232,7 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
                         "}"
                         "wrapMode: Text.NoWrap;"
                         "text: \"%2 / %3\";"
+                        "font.family: textFont.name;"
                         "}"
                         "}").arg(pageNumberMargin)
                 .arg(++i).arg(queryCount);    // close the rectangle
