@@ -212,7 +212,7 @@ void MainWindow::FillCategoryPages()
             ((buttonHeight * maxRow) + (spacing * (maxRow - 1)))) / 2.0;
     const double pageContentsHeight = getScreenHeight() - (paddingH * 2.0);
     const double pageContentsWidth = getScreenWidth() - (paddingW * 2.0);
-    const double pageNumberMargin = paddingH / 2.0;
+    const double pageNumberMargin = (getScreenHeight() - pageContentsHeight) / 4.0;
 
     unsigned char r = 0;
     unsigned char c = 0;
