@@ -34,6 +34,7 @@ HEADERS += \
     db.hpp \
     dbtables.hpp \
     defs.hpp \
+    localization.hpp \
     mainwindow.hpp \
     make_unique.hpp \
     messagebrowser.hpp \
@@ -48,6 +49,7 @@ SOURCES += \
     application.cpp \
     db.cpp \
     dbtables.cpp \
+    localization.cpp \
     mainwindow.cpp \
     make_unique.cpp \
     messagebrowser.cpp \
