@@ -11,6 +11,7 @@
 #include "make_unique.hpp"
 #include "subcategorybrowser.hpp"
 #include "defs.hpp"
+#include "localization.hpp"
 #include "messagebrowser.hpp"
 #include "pagemodel.hpp"
 #include "rt.hpp"
@@ -33,7 +34,7 @@ SubCategoryBrowser::SubCategoryBrowser(const QString &category,
 #if defined(Q_OS_ANDROID)
     m_keyPressHandler(keyPressHandler),
     m_hasBeenClosed(false),
-    m_fontPath("assets:/resources/fnt/BYekan.ttf"),
+    m_fontPath("assets:/resources/fnt/main.ttf"),
     m_imagePath("assets:/resources/img/")
 #else
     m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
@@ -200,8 +201,15 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
                                 "text: \"%2 / %3\";"
                                 "font.family: textFont.name;"
                                 "}"
-                                "}").arg(pageNumberMargin)
-                        .arg(++i).arg(queryCount);    // close the rectangle
+                                "}")            // close the rectangle
+                        .arg(pageNumberMargin)
+        #if !defined(Q_OS_ANDROID)
+                        .arg(Localization::FormatNumsToPersian(std::to_string(++i).c_str()))
+                        .arg(Localization::FormatNumsToPersian(std::to_string(queryCount).c_str()));
+        #else
+                        .arg(Localization::FormatNumsToPersian(QString::number(++i)))
+                        .arg(Localization::FormatNumsToPersian(QString::number(queryCount)));
+        #endif  // !defined(Q_OS_ANDROID)
                 m_pages.push_back(make_unique<Page>(page));
                 isRowClosed = true;
             } else {
@@ -234,8 +242,15 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
                         "text: \"%2 / %3\";"
                         "font.family: textFont.name;"
                         "}"
-                        "}").arg(pageNumberMargin)
-                .arg(++i).arg(queryCount);    // close the rectangle
+                        "}")            // close the rectangle
+                .arg(pageNumberMargin)
+        #if !defined(Q_OS_ANDROID)
+                        .arg(Localization::FormatNumsToPersian(std::to_string(++i).c_str()))
+                        .arg(Localization::FormatNumsToPersian(std::to_string(queryCount).c_str()));
+        #else
+                        .arg(Localization::FormatNumsToPersian(QString::number(++i)))
+                        .arg(Localization::FormatNumsToPersian(QString::number(queryCount)));
+        #endif  // !defined(Q_OS_ANDROID)
         m_pages.push_back(make_unique<Page>(page));
     }
 }

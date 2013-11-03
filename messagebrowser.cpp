@@ -22,6 +22,7 @@
 #include "db.hpp"
 #include "dbtables.hpp"
 #include "defs.hpp"
+#include "localization.hpp"
 #include "pagemodel.hpp"
 #include "rt.hpp"
 
@@ -43,7 +44,7 @@ MessageBrowser::MessageBrowser(const QString &category,
 #if defined(Q_OS_ANDROID)
     m_keyPressHandler(keyPressHandler),
     m_hasBeenClosed(false),
-    m_fontPath("assets:/resources/fnt/BYekan.ttf"),
+    m_fontPath("assets:/resources/fnt/main.ttf"),
     m_imagePath("assets:/resources/img/")
 #else
     m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
@@ -245,8 +246,15 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                 .arg(!isFavourite ? "favourite_unselected_144x144.png" : "favourite_selected_144x144.png")
                 .arg(messageId)
                 .arg(!isFavourite ? "favourite_selected_144x144.png" : "favourite_unselected_144x144.png")
-                .arg(m_category).arg(++i).arg(queryCount)
-                .arg(!isFavourite ? "msgAddedToFav" : "msgRemovedFromFav")
+                .arg(Localization::FormatNumsToPersian(m_category))
+#if !defined(Q_OS_ANDROID)
+                .arg(Localization::FormatNumsToPersian(std::to_string(++i).c_str()))
+                .arg(Localization::FormatNumsToPersian(std::to_string(queryCount).c_str()))
+#else
+                .arg(Localization::FormatNumsToPersian(QString::number(++i)))
+                .arg(Localization::FormatNumsToPersian(QString::number(queryCount)))
+#endif  // !defined(Q_OS_ANDROID)
+        .arg(!isFavourite ? "msgAddedToFav" : "msgRemovedFromFav")
                 .arg(!isFavourite ? "msgRemovedFromFav" : "msgAddedToFav");
 
         m_pages.push_back(make_unique<Page>(page));

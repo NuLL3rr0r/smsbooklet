@@ -1,3 +1,4 @@
+#include <string>
 #include <cassert>
 #include <cmath>
 #include <QtCore/QDir>
@@ -17,6 +18,7 @@
 #include "android.hpp"
 #endif
 #include "defs.hpp"
+#include "localization.hpp"
 #include "messagebrowser.hpp"
 #include "pagemodel.hpp"
 #include "rt.hpp"
@@ -30,7 +32,7 @@ using namespace SMSDB;
 MainWindow::MainWindow(QWindow *parent) :
     Window(parent),
 #ifdef Q_OS_ANDROID
-    m_fontPath("assets:/resources/fnt/BYekan.ttf"),
+    m_fontPath("assets:/resources/fnt/main.ttf"),
     m_imagePath("assets:/resources/img/"),
 #else
     m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
@@ -327,8 +329,15 @@ void MainWindow::FillCategoryPages()
                                 "text: \"%2 / %3\";"
                                 "font.family: textFont.name;"
                                 "}"
-                                "}").arg(pageNumberMargin)
-                        .arg(++i).arg(queryCount);    // close the rectangle
+                                "}")            // close the rectangle
+                        .arg(pageNumberMargin)
+        #if !defined(Q_OS_ANDROID)
+                        .arg(Localization::FormatNumsToPersian(std::to_string(++i).c_str()))
+                        .arg(Localization::FormatNumsToPersian(std::to_string(queryCount).c_str()));
+        #else
+                        .arg(Localization::FormatNumsToPersian(QString::number(++i)))
+                        .arg(Localization::FormatNumsToPersian(QString::number(queryCount)));
+        #endif  // !defined(Q_OS_ANDROID)
                 m_pages.push_back(make_unique<Page>(page));
                 isRowClosed = true;
             } else {
