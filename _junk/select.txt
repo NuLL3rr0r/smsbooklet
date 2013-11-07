@@ -1,0 +1,45 @@
+* payamakyar
+------------------------
+SELECT ( title || ' - ' || subtitle )
+AS FullTitle, message
+FROM sms
+
+
+* content.db
+------------------------
+SELECT SMS_category.title, SMS_sms.content
+FROM SMS_sms, SMS_category
+WHERE SMS_sms.parent_id = SMS_category.id
+
+
+* db.db
+------------------------
+SELECT category.name, message.message
+FROM message, category
+WHERE message.category = category.id
+
+
+* sqlite_default_6.db
+------------------------
+SELECT category.name, message.text
+FROM message, message_category, category
+WHERE ( message.id = message_category.message_id
+AND message_category.category_id = category.id
+)
+
+
+* OMITTING DUPLICATES IN "ALL" TABLE
+// DO NOT USE 'DISTINCT' SINCE WE NEED ONLY MESSAGE COLUMN TO BE DISTINCT
+------------------------
+SELECT TRIM(category) AS cat_col, TRIM(message) AS msg_col
+FROM messages
+GROUP BY msg_col
+ORDER BY cat_col;
+
+// with sub-cat
+SELECT TRIM(category) AS cat_col, '' AS subcategory, TRIM(message) AS msg_col
+FROM messages
+GROUP BY msg_col
+ORDER BY cat_col;
+
+
