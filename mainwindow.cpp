@@ -237,7 +237,7 @@ void MainWindow::FillCategoryPages()
 
     bool isRowClosed = false;
     size_t i = 0;
-    for (int currentButtonIndex = 0; currentButtonIndex < totalButtonsCount; ++currentButtonIndex) {
+    for (size_t currentButtonIndex = 0; currentButtonIndex < totalButtonsCount; ++currentButtonIndex) {
         if (r == 0 && c == 0) {
             page.clear();
             page = QString("import QtQuick 2.1;"
