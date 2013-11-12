@@ -222,19 +222,22 @@ void MainWindow::FillCategoryPages()
     QString page;
 
     size_t queryCount = 0;
+    size_t totalButtonsCount = 0;
     bool insertedAbout = false;
     bool insertedFav = false;
 
     while(query.next()) {
         ++queryCount;
     }
+    queryCount += 2; // for 'About' and 'Favourite' buttons.
+    totalButtonsCount = queryCount;
     query.first();
     query.previous();
     queryCount = ceil((double)queryCount / (double)(maxRow * maxCol));
 
     bool isRowClosed = false;
     size_t i = 0;
-    while (query.next()) {
+    for (int currentButtonIndex = 0; currentButtonIndex <= totalButtonsCount; ++currentButtonIndex) {
         if (r == 0 && c == 0) {
             page.clear();
             page = QString("import QtQuick 2.1;"
@@ -266,6 +269,7 @@ void MainWindow::FillCategoryPages()
 
         if (insertedAbout) {
             if (insertedFav) {
+                query.next();
                 category = query.value(record.indexOf("name_col")).toString();
                 icon = query.value(record.indexOf("icon")).toString();
             } else {
