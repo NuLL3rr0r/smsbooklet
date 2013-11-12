@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<manifest android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" package="net.babaei.flipbook.smsdb">
-    <application android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="@string/app_name" android:icon="@drawable/icon">
-        <activity android:name="org.qtproject.qt5.android.bindings.QtActivity" android:screenOrientation="sensorPortait" android:label="@string/app_name" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation">
+<manifest android:versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0" package="com.approsia.smsbooklet">
+    <application android:name="org.qtproject.qt5.android.bindings.QtApplication" android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:screenOrientation="sensorPortait" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -31,7 +31,7 @@
             <!-- Splash screen -->
         </activity>
     </application>
-    <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true"/>
+    <supports-screens android:smallScreens="true" android:anyDensity="true" android:largeScreens="true" android:normalScreens="true"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>
