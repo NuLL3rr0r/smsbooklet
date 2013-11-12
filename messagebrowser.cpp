@@ -47,7 +47,7 @@ MessageBrowser::MessageBrowser(const QString &category,
     m_fontPath("assets:/resources/fnt/main.ttf"),
     m_imagePath("assets:/resources/img/")
 #else
-    m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
+    m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/main.ttf"),
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/")
 #endif
 {
