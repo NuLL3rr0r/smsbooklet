@@ -237,7 +237,7 @@ void MainWindow::FillCategoryPages()
 
     bool isRowClosed = false;
     size_t i = 0;
-    for (int currentButtonIndex = 0; currentButtonIndex <= totalButtonsCount; ++currentButtonIndex) {
+    for (int currentButtonIndex = 0; currentButtonIndex < totalButtonsCount; ++currentButtonIndex) {
         if (r == 0 && c == 0) {
             page.clear();
             page = QString("import QtQuick 2.1;"
@@ -269,9 +269,10 @@ void MainWindow::FillCategoryPages()
 
         if (insertedAbout) {
             if (insertedFav) {
-                query.next();
-                category = query.value(record.indexOf("name_col")).toString();
-                icon = query.value(record.indexOf("icon")).toString();
+                if (query.next()) {
+                    category = query.value(record.indexOf("name_col")).toString();
+                    icon = query.value(record.indexOf("icon")).toString();
+                }
             } else {
                 insertedFav = true;
                 category = FAV_BUTTON_TEXT;
