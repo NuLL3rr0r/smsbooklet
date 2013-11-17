@@ -6,6 +6,9 @@ android/*
 !android/res/drawable-mdpi/*
 android/res/layout
 android/res/values*
+!android/res/values
+android/res/values/libs.xml
+!android/res/values/strings.xml
 !android/src/
 android/src/org/qtproject/qt5/android/bindings/*
 !android/src/org/qtproject/qt5/android/bindings/QtActivity.java
