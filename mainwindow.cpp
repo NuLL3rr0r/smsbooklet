@@ -39,13 +39,40 @@ MainWindow::MainWindow(QWindow *parent) :
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
 #endif
     m_splashScreenImages {
-{Window::DisplayRatio::Vert_10_16, m_imagePath + "splashscreen_1200x1920.jpg"},
-{Window::DisplayRatio::Vert_9_16, m_imagePath + "splashscreen_1080x1920.jpg"},
-{Window::DisplayRatio::Vert_3_4, m_imagePath + "splashscreen_1440x1920.jpg"}
+{Window::DisplayRatio::Vert_10_16, m_imagePath},
+{Window::DisplayRatio::Vert_9_16, m_imagePath},
+{Window::DisplayRatio::Vert_3_4, m_imagePath}
         }
 {
     this->setTitle(APP_TITLE);
     this->setFlags(Qt::Window | Qt::FramelessWindowHint);
+
+    double scrHeight = this->getScreenHeight();
+    if (scrHeight > 1600.0) {
+        m_splashScreenImages[Window::DisplayRatio::Vert_10_16] += "splashscreen_1200x1920.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_9_16] += "splashscreen_1080x1920.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_3_4] += "splashscreen_1440x1920.jpg";
+    } else if (scrHeight > 1280.0) {
+        m_splashScreenImages[Window::DisplayRatio::Vert_10_16] += "splashscreen_1000x1600.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_9_16] += "splashscreen_900x1600.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_3_4] += "splashscreen_1200x1600.jpg";
+    } else if (scrHeight > 960.0) {
+        m_splashScreenImages[Window::DisplayRatio::Vert_10_16] += "splashscreen_800x1280.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_9_16] += "splashscreen_720x1280.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_3_4] += "splashscreen_960x1280.jpg";
+    } else if (scrHeight > 640.0) {
+        m_splashScreenImages[Window::DisplayRatio::Vert_10_16] += "splashscreen_600x960.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_9_16] += "splashscreen_540x960.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_3_4] += "splashscreen_720x960.jpg";
+    } else if (scrHeight > 480.0) {
+        m_splashScreenImages[Window::DisplayRatio::Vert_10_16] += "splashscreen_400x640.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_9_16] += "splashscreen_360x640.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_3_4] += "splashscreen_480x640.jpg";
+    } else {
+        m_splashScreenImages[Window::DisplayRatio::Vert_10_16] += "splashscreen_300x480.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_9_16] += "splashscreen_270x480.jpg";
+        m_splashScreenImages[Window::DisplayRatio::Vert_3_4] += "splashscreen_360x480.jpg";
+    }
 
     m_pageModel = make_unique<PageModel>();
     m_pages.push_back(make_unique<Page>(
