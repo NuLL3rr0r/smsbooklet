@@ -20,10 +20,10 @@ About::About(QWindow *parent) :
 #if defined(Q_OS_ANDROID)
     m_keyPressHandler(keyPressHandler),
     m_hasBeenClosed(false),
-    m_fontPath("assets:/resources/fnt/BYekan.ttf"),
+    m_fontPath("assets:/resources/fnt/main.ttf"),
     m_imagePath("assets:/resources/img/"),
 #else
-    m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/BYekan.ttf"),
+    m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/main.ttf"),
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
 #endif
   m_pageBgImages {
