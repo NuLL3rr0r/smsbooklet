@@ -1,21 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0" package="com.approsia.smsbooklet" android:versionCode="1">
-    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10" android:maxSdkVersion="18" />
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtApplication">
-        <activity android:screenOrientation="sensorPortait" android:label="@string/app_name" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation" android:name="org.qtproject.qt5.android.bindings.QtActivity">
+<manifest android:versionName="1.0.1" package="com.approsia.smsbooklet" xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2">
+    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10" android:maxSdkVersion="18"/>
+    <application android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:icon="@drawable/icon">
+        <activity android:screenOrientation="sensorPortait" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation" android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <meta-data android:resource="@array/qt_sources" android:name="android.app.qt_sources_resource_id"/>
+            <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
             <meta-data android:value="@string/repository" android:name="android.app.repository"/>
-            <meta-data android:resource="@array/qt_libs" android:name="android.app.qt_libs_resource_id"/>
-            <meta-data android:resource="@array/bundled_libs" android:name="android.app.bundled_libs_resource_id"/>
+            <meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/>
+            <meta-data android:name="android.app.bundled_libs_resource_id" android:resource="@array/bundled_libs"/>
             <meta-data android:value="smsdb" android:name="android.app.lib_name"/>
             <!-- Deploy Qt libs as part of package -->
             <meta-data android:value="1" android:name="android.app.bundle_local_qt_libs"/>
-            <meta-data android:resource="@array/bundled_in_lib" android:name="android.app.bundled_in_lib_resource_id"/>
-            <meta-data android:resource="@array/bundled_in_assets" android:name="android.app.bundled_in_assets_resource_id"/>
+            <meta-data android:name="android.app.bundled_in_lib_resource_id" android:resource="@array/bundled_in_lib"/>
+            <meta-data android:name="android.app.bundled_in_assets_resource_id" android:resource="@array/bundled_in_assets"/>
             <!-- Run with local libs -->
             <meta-data android:value="1" android:name="android.app.use_local_qt_libs"/>
             <meta-data android:value="/data/local/tmp/qt/" android:name="android.app.libs_prefix"/>
@@ -28,11 +28,11 @@
             <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
             <!--  Messages maps -->
             <!-- Splash screen -->
-            <meta-data android:resource="@layout/splash" android:name="android.app.splash_screen"/>
+            <meta-data android:name="android.app.splash_screen" android:resource="@layout/splash"/>
             <!-- Splash screen -->
         </activity>
     </application>
-    <supports-screens android:normalScreens="true" android:smallScreens="true" android:largeScreens="true" android:anyDensity="true"/>
+    <supports-screens android:anyDensity="true" android:normalScreens="true" android:smallScreens="true" android:largeScreens="true"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>
