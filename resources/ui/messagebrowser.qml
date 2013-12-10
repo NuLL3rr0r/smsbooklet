@@ -34,5 +34,13 @@ Rectangle {
         id: textFont;
         source: FontPath;
     }
+
+    function getCurrentPageNumber() {
+        return flipBook.getCurrentPageNumber();
+    }
+
+    function navigateToPage(number) {
+        flipBook.navigateToPage(number);
+    }
 }
 

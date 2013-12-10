@@ -18,6 +18,7 @@ MouseArea {
     Component.onCompleted: {
         parent.onFlipped.connect(behavior.onFlipped);
 
+        parent.currentPageNumber = 1;
         parent.loadFullPage(behavior.model.get(pageOffset));
     }
 
@@ -34,6 +35,7 @@ MouseArea {
 
         if (parent.flipablePageAngle === 180.0 || parent.flipablePageAngle === -180.0) {
             var p = parent.fromRight ? pageOffset + 1 : pageOffset - 1;
+            parent.currentPageNumber = p + 1;
             parent.loadFullPage(behavior.model.get(p));
         }
         if (parent.flipablePageAngle === 180.0 || parent.flipablePageAngle === -180.0
@@ -133,6 +135,18 @@ MouseArea {
             p = 1.0 - p;
 
         return p;
+    }
+
+    function getCurrentPageNumber() {
+        return parent.currentPageNumber;
+    }
+
+    function navigateToPage(number) {
+        if (number > 0 && number <= behavior.model.count) {
+            pageOffset = number - 1;
+            parent.currentPageNumber = number;
+            parent.loadFullPage(behavior.model.get(pageOffset));
+        }
     }
 }
 

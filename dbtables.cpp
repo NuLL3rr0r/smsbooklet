@@ -56,6 +56,7 @@ void DBTables::InitHashes()
             " name TEXT NOT NULL, "
             " catid TEXT NOT NULL, "
             " icon TEXT NOT NULL, "
+            " lastpage TEXT, "
             " PRIMARY KEY ( id, name, catid ASC ) ";
 
     m_fieldsHash[TableName::Messages] =

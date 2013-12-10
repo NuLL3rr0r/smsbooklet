@@ -54,10 +54,10 @@ public:
 private:
     void FillMessagePages(const QString &subCategory);
 
-#if defined(Q_OS_ANDROID)
 public:
     void Close();
 
+#if defined(Q_OS_ANDROID)
 protected:
     void keyPressEvent(QKeyEvent *e);
 #endif

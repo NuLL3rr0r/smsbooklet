@@ -67,6 +67,18 @@ MessageBrowser::MessageBrowser(const QString &category,
     context->setContextProperty("PageModel", m_pageModel.get());
 
     this->SetQML(QStringLiteral(UI_FILE));
+
+    QSqlQuery query(QString(" SELECT lastpage "
+                            " FROM subcategories "
+                            " WHERE name = '%1'; ").arg(m_category));
+    if (query.next()) {
+        QSqlRecord record = query.record();
+        QString pageNum = query.value(record.indexOf("lastpage")).toString();
+        if (pageNum.trimmed() != "") {
+            QMetaObject::invokeMethod(this->rootObject(), "navigateToPage",
+                                      Q_ARG(QVariant, pageNum));
+        }
+    }
 }
 
 MessageBrowser::~MessageBrowser()
@@ -261,14 +273,26 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
     }
 }
 
-#if defined(Q_OS_ANDROID)
 void MessageBrowser::Close()
 {
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(this->rootObject(), "getCurrentPageNumber",
+                              Q_RETURN_ARG(QVariant, returnedValue));
+
+    RT::DB()->Update(RT::DBTables()->Table(DBTables::TableName::SubCategories),
+                     "name", m_category.toStdString(),
+                     "lastpage=?", 1, returnedValue.toString().toStdString().c_str());
+
+#if !defined(Q_OS_ANDROID)
+    Window::Close();
+#else
     emit signal_Closed();
     this->hide();
     m_hasBeenClosed = true;
+#endif
 }
 
+#if defined(Q_OS_ANDROID)
 void MessageBrowser::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() != Qt::Key_MediaPrevious) {

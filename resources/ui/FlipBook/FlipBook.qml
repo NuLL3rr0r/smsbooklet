@@ -22,6 +22,8 @@ Item {
     property alias pageClipperX: pageClipper.x;
     property alias flipablePageX: flipablePage.x;
 
+    property int currentPageNumber: 0;
+
     signal flipped();
 
     Behavior on progress {
@@ -234,6 +236,14 @@ Item {
 
     function loadMessages(category) {
         cppWindow.loadMessages(category);
+    }
+
+    function getCurrentPageNumber() {
+        return flipBookBehavior.getCurrentPageNumber();
+    }
+
+    function navigateToPage(number) {
+        flipBookBehavior.navigateToPage(number);
     }
 }
 
