@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<manifest android:versionName="1.0.1" package="com.approsia.smsbooklet" xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2">
-    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10" android:maxSdkVersion="18"/>
+<manifest package="com.approsia.smsbooklet" android:versionName="1.2.0" xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="5">
+    <uses-sdk android:targetSdkVersion="14" android:minSdkVersion="10" android:maxSdkVersion="18"/>
     <application android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:icon="@drawable/icon">
         <activity android:screenOrientation="sensorPortait" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation" android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtActivity">
             <intent-filter>
