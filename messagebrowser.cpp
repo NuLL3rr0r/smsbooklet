@@ -175,6 +175,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "import QtQuick.Controls 1.0;"
                        "import QtQuick.Controls.Styles 1.0;"
                        "import QtQuick.Layouts 1.0;"
+                       "import \"../PageScroll\";"
                        "Rectangle {"
                        "anchors.centerIn: parent;"
                        "anchors.fill: parent;"
@@ -183,6 +184,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "width: %1;"
                        "height: %2;"
                        "Rectangle {"
+                       "id: navBar;"
                        "width: parent.width;"
                        "Row {"
                        "spacing: %4 / 2.5;"
@@ -229,6 +231,31 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "}"
                        "}"
                        "}"
+                       "Column {"
+                       "PageScroll {"
+                       "x: ((%4 * 2.0) + ((%4 / 2.5) * 2.0));"
+                       "width: navBar.width - x;"
+                       "height: %4;"
+                       "barImageSource: '%3bar_669x14.png';"
+                       "barImageW: width;"
+                       "barImageH: %4 / 144.0 * 14.0;"
+                       "knobImageSource: '%3knob_144x144.png';"
+                       "knobImageW: %4;"
+                       "knobImageH: %4;"
+                       "minValue: 1.0;"
+                       "maxValue: %15;"
+                       "defaultValue: %14;"
+                       "onSignal_pressed: {"
+                       "pageNumber.text = formatNumsToPersian(String(Math.round(progress))) + ' / %11';"
+                       "}"
+                       "onSignal_released: {"
+                       "flipBook.navigateToPage(Math.round(progress));"
+                       "}"
+                       "onSignal_positionChanged: {"
+                       "pageNumber.text = formatNumsToPersian(String(Math.round(progress))) + ' / %11';"
+                       "}"
+                       "}"
+                       "}"
                        "}"
                        "Text {"
                        "anchors.centerIn: parent;"
@@ -242,6 +269,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "LayoutMirroring.childrenInherit: true;"
                        "}"
                        "Text {"
+                       "id: pageNumber;"
                        "anchors.bottom: parent.bottom;"
                        "anchors.horizontalCenter: parent.horizontalCenter;"
                        "wrapMode: Text.NoWrap;"
@@ -267,7 +295,8 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                 .arg(Localization::FormatNumsToPersian(QString::number(queryCount)))
 #endif  // !defined(Q_OS_ANDROID)
         .arg(!isFavourite ? "msgAddedToFav" : "msgRemovedFromFav")
-                .arg(!isFavourite ? "msgRemovedFromFav" : "msgAddedToFav");
+                .arg(!isFavourite ? "msgRemovedFromFav" : "msgAddedToFav")
+                .arg(i).arg(queryCount);
 
         m_pages.push_back(make_unique<Page>(page));
     }

@@ -5,9 +5,12 @@
         <file>ui/FlipBook/Page.qml</file>
         <file>ui/FlipBook/page_shadow.png</file>
         <file>ui/Notification/Notification.qml</file>
+        <file>ui/PageScroll/PageScroll.qml</file>
+        <file>ui/PageScroll/PageScrollBehavior.qml</file>
         <file>ui/about.qml</file>
         <file>ui/mainwindow.qml</file>
         <file>ui/messagebrowser.qml</file>
         <file>ui/subcategorybrowser.qml</file>
+        <file>ui/upgrade.qml</file>
     </qresource>
 </RCC>
