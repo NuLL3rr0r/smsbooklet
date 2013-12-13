@@ -11,6 +11,5 @@
         <file>ui/mainwindow.qml</file>
         <file>ui/messagebrowser.qml</file>
         <file>ui/subcategorybrowser.qml</file>
-        <file>ui/upgrade.qml</file>
     </qresource>
 </RCC>
