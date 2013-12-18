@@ -13,6 +13,7 @@ MouseArea {
         id: internal;
 
         property bool dragged: false;
+        property real lastAngle: 0.0;
     }
 
     Component.onCompleted: {
@@ -23,6 +24,13 @@ MouseArea {
     }
 
     function onFlipped() {
+        if (Math.abs(internal.lastAngle - parent.flipablePageAngle) < 90) {
+            if (!parent.fullPageVisible) {
+                parent.fullPageVisible = true;
+            }
+            return;
+        }
+
         if (!parent.flipping) {
             if (pageOffset == 0 && !parent.fromRight) {
                 pageOffset = 1;
@@ -49,6 +57,8 @@ MouseArea {
         if (parent.flipping) {
             return;
         } else {
+            internal.lastAngle = parent.flipablePageAngle;
+
             if (behavior.model.count <= 1)
                 return;
 
@@ -142,10 +152,17 @@ MouseArea {
     }
 
     function navigateToPage(number) {
+        if (parent.flipping) {
+            return;
+        }
+
         if (number > 0 && number <= behavior.model.count) {
             pageOffset = number - 1;
             parent.currentPageNumber = number;
             parent.loadFullPage(behavior.model.get(pageOffset));
+            if (!parent.fullPageVisible) {
+                parent.fullPageVisible = true;
+            }
         }
     }
 }
