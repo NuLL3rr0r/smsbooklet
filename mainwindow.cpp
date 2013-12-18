@@ -360,6 +360,7 @@ void MainWindow::FillCategoryPages()
                                 "wrapMode: Text.NoWrap;"
                                 "text: \"%2 / %3\";"
                                 "font.family: textFont.name;"
+                                "font.pointSize: 12.0;"
                                 "}"
                                 "}")            // close the rectangle
                         .arg(pageNumberMargin)
@@ -401,6 +402,7 @@ void MainWindow::FillCategoryPages()
                         "wrapMode: Text.NoWrap;"
                         "text: \"%2 / %3\";"
                         "font.family: textFont.name;"
+                        "font.pointSize: 12.0;"
                         "}"
                         "}").arg(pageNumberMargin)
                 .arg(++i).arg(queryCount);    // close the rectangle

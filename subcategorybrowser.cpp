@@ -200,6 +200,7 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
                                 "wrapMode: Text.NoWrap;"
                                 "text: \"%2 / %3\";"
                                 "font.family: textFont.name;"
+                                "font.pointSize: 12.0;"
                                 "}"
                                 "}")            // close the rectangle
                         .arg(pageNumberMargin)
@@ -241,6 +242,7 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
                         "wrapMode: Text.NoWrap;"
                         "text: \"%2 / %3\";"
                         "font.family: textFont.name;"
+                        "font.pointSize: 12.0;"
                         "}"
                         "}")            // close the rectangle
                 .arg(pageNumberMargin)
