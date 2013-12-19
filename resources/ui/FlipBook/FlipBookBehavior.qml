@@ -166,6 +166,7 @@ MouseArea {
         }
 
         if (number > 0 && number <= behavior.model.count) {
+            internal.flipped = false;
             pageOffset = number - 1;
             parent.currentPageNumber = number;
             parent.loadFullPage(behavior.model.get(pageOffset));
