@@ -247,11 +247,11 @@ void SubCategoryBrowser::FillSubCategoryPages(const QString &category)
                         "}")            // close the rectangle
                 .arg(pageNumberMargin)
 #if !defined(Q_OS_ANDROID)
-                        .arg(Localization::FormatNumsToPersian(std::to_string(++i).c_str()))
-                        .arg(Localization::FormatNumsToPersian(std::to_string(queryCount).c_str()));
+                .arg(Localization::FormatNumsToPersian(std::to_string(++i).c_str()))
+                .arg(Localization::FormatNumsToPersian(std::to_string(queryCount).c_str()));
 #else
-                        .arg(Localization::FormatNumsToPersian(QString::number(++i)))
-                        .arg(Localization::FormatNumsToPersian(QString::number(queryCount)));
+                .arg(Localization::FormatNumsToPersian(QString::number(++i)))
+                .arg(Localization::FormatNumsToPersian(QString::number(queryCount)));
 #endif  // !defined(Q_OS_ANDROID)
         m_pages.push_back(make_unique<Page>(page));
     }
