@@ -13,23 +13,21 @@ MouseArea {
         id: internal;
 
         property bool dragged: false;
-        property real lastAngle: 0.0;
+        property bool flipped: false;
     }
 
     Component.onCompleted: {
+        parent.onFlipStarted.connect(behavior.onFlipStarted);
+        parent.onFlippedBack.connect(behavior.onFlippedBack);
         parent.onFlipped.connect(behavior.onFlipped);
 
         parent.currentPageNumber = 1;
         parent.loadFullPage(behavior.model.get(pageOffset));
     }
 
-    function onFlipped() {
-        if (Math.abs(internal.lastAngle - parent.flipablePageAngle) < 90) {
-            if (!parent.fullPageVisible) {
-                parent.fullPageVisible = true;
-            }
-            return;
-        }
+    function onFlipStarted() {
+        if (!internal.flipped)
+           return;
 
         if (!parent.flipping) {
             if (pageOffset == 0 && !parent.fromRight) {
@@ -40,7 +38,17 @@ MouseArea {
                 pageOffset += parent.fromRight ? 1 : -1;
             }
         }
+    }
 
+    function onFlippedBack() {
+        if (!parent.fullPageVisible) {
+            internal.flipped = false;
+            parent.fullPageVisible = true;
+            parent.destroyTemporaryPages();
+        }
+    }
+
+    function onFlipped() {
         if (parent.flipablePageAngle === 180.0 || parent.flipablePageAngle === -180.0) {
             var p = parent.fromRight ? pageOffset + 1 : pageOffset - 1;
             parent.currentPageNumber = p + 1;
@@ -49,6 +57,7 @@ MouseArea {
         if (parent.flipablePageAngle === 180.0 || parent.flipablePageAngle === -180.0
                 || parent.flipablePageAngle === 0.0) {
             parent.fullPageVisible = true;
+            internal.flipped = true;
             parent.destroyTemporaryPages();
         }
     }
@@ -56,26 +65,26 @@ MouseArea {
     onPressed: {
         if (parent.flipping) {
             return;
-        } else {
-            internal.lastAngle = parent.flipablePageAngle;
-
-            if (behavior.model.count <= 1)
-                return;
-
-            parent.enablePageAngleBehavior = false;
-            parent.smooth = false;
-            parent.resetFlipablePageAngle = true;
-            parent.progress = 0.0;
-            if (mouseX > parent.width / 2.0) {
-                parent.loadFrontPageForeward(behavior.model.get(pageOffset));
-            } else {
-                parent.loadFrontPageBackward(behavior.model.get(pageOffset));
-            }
-            parent.resetFlipablePageAngle = false;
-            parent.enablePageAngleBehavior = true;
-            parent.smooth = true;
-            parent.fullPageVisible = false;
         }
+
+        parent.lastflipablePageAngle = parent.flipablePageAngle;
+
+        if (behavior.model.count <= 1)
+            return;
+
+        parent.enablePageAngleBehavior = false;
+        parent.smooth = false;
+        parent.resetFlipablePageAngle = true;
+        parent.progress = 0.0;
+        if (mouseX > parent.width / 2.0) {
+            parent.loadFrontPageForeward(behavior.model.get(pageOffset));
+        } else {
+            parent.loadFrontPageBackward(behavior.model.get(pageOffset));
+        }
+        parent.resetFlipablePageAngle = false;
+        parent.enablePageAngleBehavior = true;
+        parent.smooth = true;
+        parent.fullPageVisible = false;
 
         parent.flipping = true;
         parent.pageReleased = false;

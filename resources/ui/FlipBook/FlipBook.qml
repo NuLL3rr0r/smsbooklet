@@ -24,6 +24,10 @@ Item {
 
     property int currentPageNumber: 0;
 
+    property real lastflipablePageAngle: 0.0;
+
+    signal flipStarted();
+    signal flippedBack();
     signal flipped();
 
     Behavior on progress {
@@ -107,7 +111,8 @@ Item {
                         if (flipBook.resetFlipablePageAngle) {
                             pageAngleBehavior.enabled = false;
                             smoothener.enabled = false;
-                            return 0;
+                            flipBook.lastflipablePageAngle = 0.0;
+                            return 0.0;
                         }
 
                         var a = flipBook.progress * (flipBook.fromRight ? -180.0 : 180.0);
@@ -152,8 +157,22 @@ Item {
                                 pageAngleBehavior.enabled = false;
                                 smoothener.enabled = false;
                                 flipBook.shadow = 0.0;
-                                flipped();
-                                flipBook.flipping = false;
+                                if (flipBook.flipping) {
+                                    if (Math.abs(flipBook.lastflipablePageAngle - flipBook.flipablePageAngle) < 90.0) {
+                                        flippedBack();
+                                    } else {
+                                        flipped();
+                                    }
+                                    flipBook.fullPageVisible = true;
+                                    flipBook.flipping = false;
+                                } else {
+                                    flipStarted();
+                                    flipBook.flipping = true;
+                                }
+                            }
+                        } else {
+                            if (!flipBook.fullPageVisible) {
+                                flipBook.fullPageVisible = false;
                             }
                         }
                     }
