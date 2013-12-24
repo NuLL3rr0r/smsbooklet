@@ -219,6 +219,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "anchors.fill: parent;"
                        "onClicked: {"
                        "cppWindow.copyToClipboard('%5');"
+                       "notification.notificationText = '';"
                        "notification.notificationText = msgCopiedToClipboard;"
                        "}"
                        "}"
