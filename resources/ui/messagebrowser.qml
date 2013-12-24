@@ -13,6 +13,7 @@ Rectangle {
 
     property string msgAddedToFav: "به لیست علایق اضافه شد.";
     property string msgRemovedFromFav: "از لیست علایق حذف شد.";
+    property string msgCopiedToClipboard: "به حافظه انتقال یافت.";
 
     Component.onCompleted: {
     }

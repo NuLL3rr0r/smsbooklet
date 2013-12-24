@@ -12,6 +12,28 @@ public class Android {
     {
     }
 
+    public boolean CopyToClipboard(String text)
+    {
+        try {
+            int sdk = android.os.Build.VERSION.SDK_INT;
+            if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+                android.text.ClipboardManager clipboard = (android.text.ClipboardManager)QtActivity.MainActivityRef().getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard.setText(text);
+            } else {
+                android.content.ClipboardManager clipboard = (android.content.ClipboardManager)QtActivity.MainActivityRef().getSystemService(Context.CLIPBOARD_SERVICE);
+                android.content.ClipData clip = android.content.ClipData.newPlainText("SMS Booklet", text);
+                clipboard.setPrimaryClip(clip);
+            }
+        }
+
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean SendText(String text)
     {
         try {

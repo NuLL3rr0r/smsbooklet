@@ -18,6 +18,7 @@ public:
     ~Android();
 
 public:
+    bool CopyToClipboard(const QString &text);
     bool SendText(const QString &text);
     bool Notify(const QString &text, int duration = 8000);
 };

@@ -6,6 +6,7 @@ using namespace SMSDB;
 static JavaVM *s_javaVM = NULL;
 static jclass s_androidClassID = NULL;
 static jmethodID s_androidConstructorMethodID = NULL;
+static jmethodID s_androidCopyToClipboardMethodID = NULL;
 static jmethodID s_androidSendTextMethodID = NULL;
 static jmethodID s_androidNotifyMethodID = NULL;
 static jmethodID s_androidReleaseMethodID = NULL;
@@ -44,6 +45,14 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *)
                 s_androidClassID, "Release", "()Z");
     if (!s_androidReleaseMethodID) {
         qCritical() << "  * Could not find Release method !!";
+        return -1;
+    }
+
+    // Search for CopyToClipboard method.
+    s_androidCopyToClipboardMethodID = env->GetMethodID(
+                s_androidClassID, "CopyToClipboard", "(Ljava/lang/String;)Z");
+    if (!s_androidCopyToClipboardMethodID) {
+        qCritical() << "  * Could not find CopyToClipboard method !!";
         return -1;
     }
 
@@ -109,6 +118,28 @@ Android::~Android()
 
         s_javaVM->DetachCurrentThread();
     }
+}
+
+bool Android::CopyToClipboard(const QString &text)
+{
+    if (!m_androidObject)
+        return false;
+
+    JNIEnv *env;
+    if (s_javaVM->AttachCurrentThread(&env, NULL) < 0) {
+        qCritical() << "AttachCurrentThread failed !!";
+        return false;
+    }
+
+    jstring str = env->NewString(reinterpret_cast<const jchar *>(
+                                     text.constData()), text.length());
+
+    jboolean res = env->CallBooleanMethod(
+                m_androidObject, s_androidCopyToClipboardMethodID, str);
+    env->DeleteLocalRef(str);
+    s_javaVM->DetachCurrentThread();
+
+    return res;
 }
 
 bool Android::SendText(const QString &text)

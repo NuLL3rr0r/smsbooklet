@@ -48,6 +48,7 @@ public:
     ~MessageBrowser();
 
 public:
+    Q_INVOKABLE void copyToClipboard(QString message);
     Q_INVOKABLE void shareMessage(QString message);
     Q_INVOKABLE void toggleFavourite(QString messageId);
 

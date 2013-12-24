@@ -102,5 +102,17 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
-    android/version.xml
+    android/src/smsdb/Android.java \
+    android/version.xml \
+    resources/ui/FlipBook/FlipBook.qml \
+    resources/ui/FlipBook/FlipBookBehavior.qml \
+    resources/ui/FlipBook/Page.qml \
+    resources/ui/FlipBook/page_shadow.png \
+    resources/ui/Notification/Notification.qml \
+    resources/ui/PageScroll/PageScroll.qml \
+    resources/ui/PageScroll/PageScrollBehavior.qml \
+    resources/ui/about.qml \
+    resources/ui/mainwindow.qml \
+    resources/ui/messagebrowser.qml \
+    resources/ui/subcategorybrowser.qml \
 

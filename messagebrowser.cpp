@@ -85,6 +85,25 @@ MessageBrowser::~MessageBrowser()
 {
 }
 
+void MessageBrowser::copyToClipboard(QString message)
+{
+    message = message.replace("<br />", "\r\n")
+            .replace("<br/>", "\r\n")
+            .replace("<br>", "\r\n").remove(
+                QRegExp( "<(?:div|span|tr|td|br|body|html|tt|a|strong|p)[^>]*>",
+                         Qt::CaseInsensitive));
+
+#if defined(Q_OS_ANDROID)
+    RT::Android()->CopyToClipboard(message);
+#else
+    QMimeData *mimeData = new QMimeData();
+    mimeData->setText(message);
+    mimeData->setHtml(message);
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    clipboard->setMimeData(mimeData, QClipboard::Clipboard);
+#endif
+}
+
 void MessageBrowser::shareMessage(QString message)
 {
     message = message.replace("<br />", "\r\n")
@@ -190,6 +209,23 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "spacing: %4 / 2.5;"
                        "Column {"
                        "Image {"
+                       "source: '%3copy-to-clipboard_144x144.png';"
+                       "asynchronous: true;"
+                       "cache: true;"
+                       "smooth: true;"
+                       "width: %4;"
+                       "height: %4;"
+                       "MouseArea {"
+                       "anchors.fill: parent;"
+                       "onClicked: {"
+                       "cppWindow.copyToClipboard('%5');"
+                       "notification.notificationText = msgCopiedToClipboard;"
+                       "}"
+                       "}"
+                       "}"
+                       "}"
+                       "Column {"
+                       "Image {"
                        "source: '%3share_144x144.png';"
                        "asynchronous: true;"
                        "cache: true;"
@@ -199,7 +235,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "MouseArea {"
                        "anchors.fill: parent;"
                        "onClicked: {"
-                       "cppWindow.shareMessage('%5')"
+                       "cppWindow.shareMessage('%5');"
                        "}"
                        "}"
                        "}"
@@ -233,7 +269,7 @@ void MessageBrowser::FillMessagePages(const QString &subCategory)
                        "}"
                        "Column {"
                        "PageScroll {"
-                       "x: ((%4 * 2.0) + ((%4 / 2.5) * 2.0));"
+                       "x: ((%4 * 3.0) + ((%4 / 2.5) * 3.0));"
                        "width: navBar.width - x;"
                        "height: %4;"
                        "barImageSource: '%3bar_669x14.png';"
