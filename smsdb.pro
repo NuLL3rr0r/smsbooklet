@@ -114,5 +114,5 @@ OTHER_FILES += \
     resources/ui/about.qml \
     resources/ui/mainwindow.qml \
     resources/ui/messagebrowser.qml \
-    resources/ui/subcategorybrowser.qml \
+    resources/ui/subcategorybrowser.qml
 
