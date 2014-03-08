@@ -78,7 +78,6 @@ OTHER_FILES += \
     android/AndroidManifest.xml \
     android/res/layout/splash.xml \
     android/res/values/libs.xml \
-    android/res/values/strings.xml \
     android/res/values-de/strings.xml \
     android/res/values-el/strings.xml \
     android/res/values-es/strings.xml \
@@ -115,4 +114,6 @@ OTHER_FILES += \
     resources/ui/mainwindow.qml \
     resources/ui/messagebrowser.qml \
     resources/ui/subcategorybrowser.qml
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
