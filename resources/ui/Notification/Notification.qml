@@ -44,8 +44,10 @@ Item {
             onTextChanged: {
                 fadeOutAnim.stop();
 
-                var w = notificationWindow.childrenRect.width;
-                var h = notificationWindow.childrenRect.height;
+                notificationText.wrapMode = Text.NoWrap;
+                var w = notificationText.paintedWidth;
+                var h = notificationText.paintedHeight;
+                notificationText.wrapMode = Text.WrapAnywhere;
                 var maxW = notification.width * 0.8;
                 if (w > maxW) {
                     w = maxW;

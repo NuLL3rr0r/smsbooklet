@@ -195,6 +195,10 @@ Item {
         anchors.centerIn: parent;
     }
 
+    function init() {
+        flipBookBehavior.init();
+    }
+
     function loadFullPage(page) {
         for (var i = fullPage.container.children.length; i > 0 ; --i)
           fullPage.container.children[i - 1].destroy();

@@ -17,12 +17,7 @@ MouseArea {
     }
 
     Component.onCompleted: {
-        parent.onFlipStarted.connect(behavior.onFlipStarted);
-        parent.onFlippedBack.connect(behavior.onFlippedBack);
-        parent.onFlipped.connect(behavior.onFlipped);
-
-        parent.currentPageNumber = 1;
-        parent.loadFullPage(behavior.model.get(pageOffset));
+        init();
     }
 
     function onFlipStarted() {
@@ -139,6 +134,18 @@ MouseArea {
 
         internal.dragged = true;
         parent.progress = calculateProgress();
+    }
+
+    function init() {
+        if (behavior.model.count <= 0)
+            return;
+
+        parent.onFlipStarted.connect(behavior.onFlipStarted);
+        parent.onFlippedBack.connect(behavior.onFlippedBack);
+        parent.onFlipped.connect(behavior.onFlipped);
+
+        parent.currentPageNumber = 1;
+        parent.loadFullPage(behavior.model.get(pageOffset));
     }
 
     function calculateProgress() {

@@ -29,7 +29,6 @@ unix {
 }
 
 HEADERS += \
-    about.hpp \
     application.hpp \
     db.hpp \
     dbtables.hpp \
@@ -37,25 +36,20 @@ HEADERS += \
     localization.hpp \
     mainwindow.hpp \
     make_unique.hpp \
-    messagebrowser.hpp \
     pagemodel.hpp \
     rt.hpp \
-    subcategorybrowser.hpp \
     window.hpp
 
 SOURCES += \
     main.cpp \
-    about.cpp \
     application.cpp \
     db.cpp \
     dbtables.cpp \
     localization.cpp \
     mainwindow.cpp \
     make_unique.cpp \
-    messagebrowser.cpp \
     pagemodel.cpp \
     rt.cpp \
-    subcategorybrowser.cpp \
     window.cpp
 
 android {
