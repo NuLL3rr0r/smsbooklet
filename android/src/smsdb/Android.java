@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+import java.lang.*;
+import java.lang.reflect.*;
 import org.qtproject.qt5.android.bindings.*;
 
 public class Android {
@@ -16,13 +18,17 @@ public class Android {
     {
         try {
             int sdk = android.os.Build.VERSION.SDK_INT;
-            if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-                android.text.ClipboardManager clipboard = (android.text.ClipboardManager)QtActivity.MainActivityRef().getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setText(text);
+            if (sdk < 11) {     // android.os.Build.VERSION_CODES.HONEYCOMB
+                Object clipboard = QtActivity.MainActivityRef().getSystemService(Context.CLIPBOARD_SERVICE);
+                Method setText = clipboard.getClass().getMethod("setText", CharSequence.class);
+                setText.invoke(clipboard, text);
             } else {
-                android.content.ClipboardManager clipboard = (android.content.ClipboardManager)QtActivity.MainActivityRef().getSystemService(Context.CLIPBOARD_SERVICE);
-                android.content.ClipData clip = android.content.ClipData.newPlainText("SMS Booklet", text);
-                clipboard.setPrimaryClip(clip);
+                Object clipboard = QtActivity.MainActivityRef().getSystemService(Context.CLIPBOARD_SERVICE);
+                Class clipClass = Class.forName("android.content.ClipData");
+                Method newPlainText = clipClass.getMethod("newPlainText", CharSequence.class, CharSequence.class);
+                Object clip = newPlainText.invoke((Object)clipClass, new Object[] {"SMS Booklet", text});
+                Method setPrimaryClip = clipboard.getClass().getMethod("setPrimaryClip", clip.getClass());
+                setPrimaryClip.invoke(clipboard,clip);
             }
         }
 
@@ -44,12 +50,12 @@ public class Android {
             sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             QtActivity.MainActivityRef().startActivity(sendIntent);
         }
-        
+
         catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-        
+
         return true;
     }
 
@@ -75,12 +81,12 @@ public class Android {
     {
         try {
         }
-        
+
         catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-        
+
         return true;
     }
 }
