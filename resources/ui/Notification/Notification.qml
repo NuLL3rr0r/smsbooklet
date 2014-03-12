@@ -46,7 +46,6 @@ Item {
 
                 notificationText.wrapMode = Text.NoWrap;
                 var w = notificationText.paintedWidth;
-                var h = notificationText.paintedHeight;
                 notificationText.wrapMode = Text.WrapAnywhere;
                 var maxW = notification.width * 0.8;
                 if (w > maxW) {
@@ -55,6 +54,7 @@ Item {
 
                 notificationText.width = w;
                 notificationWindow.width = w + privates.spacing;
+                var h = notificationWindow.childrenRect.height;
                 notificationWindow.height = h + privates.spacing;
                 notificationWindow.visible = true;
                 fadeInAnim.start();

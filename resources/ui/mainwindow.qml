@@ -80,7 +80,7 @@ Rectangle {
         visible: false;
 
         BorderImage {
-            id: bgImage;
+            id: aboutWindowBgImage;
             source: AboutWindowBackgroundPath;
             asynchronous: true;
             cache: true;
@@ -104,13 +104,13 @@ Rectangle {
             color: "transparent";
 
             Rectangle {
-                id: appLogoRect;
+                id: aboutWindowAppLogoRect;
                 anchors.top: parent.top;
                 anchors.horizontalCenter: parent.horizontalCenter;
                 width: parent.width;
 
                 Image {
-                    id: appLogo;
+                    id: aboutWindowAppLogo;
                     source: AboutWindowAppLogoPath;
                     asynchronous: true;
                     cache: true;
@@ -121,51 +121,51 @@ Rectangle {
                 }
 
                 Text {
-                    id: versionText;
-                    text: "نسخه ۱.۰۰";
+                    id: aboutWindowVersionText;
+                    text: "نسخه ۲.۰.۰";
                     font.family: textFont.name;
                     font.pixelSize: 24.0;
                     color: "#656565";
                     anchors.horizontalCenter: parent.horizontalCenter;
-                    anchors.top: appLogo.bottom;
+                    anchors.top: aboutWindowAppLogo.bottom;
                     anchors.topMargin: 24.0;
                 }
 
                 Text {
-                    id: descriptionText;
+                    id: aboutWindowDescriptionText;
                     text: "کتابچه اس ام اس در حال حاضر شامل حدودا ۸۰ هزار اس ام اس در موضوعات گوناگون است که برای شما امکان اشتراک گذاری پیام را با سایر برنامه ها فراهم می آورد.";
                     font.family: textFont.name;
                     font.pixelSize: 18.0;
                     color: "#656565";
                     horizontalAlignment: Text.AlignHCenter;
                     anchors.horizontalCenter: parent.horizontalCenter;
-                    anchors.top: versionText.bottom;
+                    anchors.top: aboutWindowVersionText.bottom;
                     anchors.topMargin: 24.0;
                     wrapMode: Text.WordWrap;
                     width: parent.width;
                 }
 
                 Text {
-                    id: feedbackText;
+                    id: aboutWindowFeedbackText;
                     text: "<a href=\"http://www.approsia.com/feedback\">بازخورد</a>";
                     font.family: textFont.name;
                     font.pixelSize: 18.0;
                     color: "#656565";
                     anchors.horizontalCenter: parent.horizontalCenter;
-                    anchors.top: descriptionText.bottom;
+                    anchors.top: aboutWindowDescriptionText.bottom;
                     anchors.topMargin: 24.0;
                     onLinkActivated: Qt.openUrlExternally(link);
                 }
             }
 
             Rectangle {
-                id: brandingLogoRect;
+                id: aboutWindowBrandingLogoRect;
                 anchors.bottom: parent.bottom;
                 anchors.horizontalCenter: parent.horizontalCenter;
                 height: childrenRect.height;
 
                 Text {
-                    id: developedByText;
+                    id: aboutWindowDevelopedByText;
                     text: "Developed by";
                     font.pixelSize: 14.0;
                     color: "#656565";
@@ -178,7 +178,7 @@ Rectangle {
                     cache: true;
                     smooth: true;
                     anchors.horizontalCenter: parent.horizontalCenter;
-                    anchors.top: developedByText.bottom;
+                    anchors.top: aboutWindowDevelopedByText.bottom;
                     anchors.topMargin: 12.0;
                 }
             }

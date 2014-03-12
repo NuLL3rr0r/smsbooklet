@@ -30,9 +30,6 @@
 #include "rt.hpp"
 
 #define     UI_FILE_MAIN_WINDOW               "qrc:/ui/mainwindow.qml"
-#define     UI_FILE_SUB_CATEGORY_BROWSER      "qrc:/ui/subcategorybrowser.qml"
-#define     UI_FILE_MESSAGE_BROWSER           "qrc:/ui/messagebrowser.qml"
-#define     UI_FILE_ABOUT                     "qrc:/ui/about.qml"
 
 using namespace std;
 using namespace SMSDB;
