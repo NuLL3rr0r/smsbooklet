@@ -17,6 +17,10 @@ MouseArea {
     }
 
     Component.onCompleted: {
+        parent.onFlipStarted.connect(behavior.onFlipStarted);
+        parent.onFlippedBack.connect(behavior.onFlippedBack);
+        parent.onFlipped.connect(behavior.onFlipped);
+
         init();
     }
 
@@ -140,10 +144,7 @@ MouseArea {
         if (behavior.model.count <= 0)
             return;
 
-        parent.onFlipStarted.connect(behavior.onFlipStarted);
-        parent.onFlippedBack.connect(behavior.onFlippedBack);
-        parent.onFlipped.connect(behavior.onFlipped);
-
+        pageOffset = 0;
         parent.currentPageNumber = 1;
         parent.loadFullPage(behavior.model.get(pageOffset));
     }

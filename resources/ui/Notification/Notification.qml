@@ -32,7 +32,7 @@ Item {
             anchors.centerIn: parent;
             font.family: textFont.name;
             color: "#FFF";
-            wrapMode: Text.WrapAnywhere;
+            wrapMode: Text.Wrap;
 
             Rectangle {
                 id: textBorderArea;
@@ -46,7 +46,7 @@ Item {
 
                 notificationText.wrapMode = Text.NoWrap;
                 var w = notificationText.paintedWidth;
-                notificationText.wrapMode = Text.WrapAnywhere;
+                notificationText.wrapMode = Text.Wrap;
                 var maxW = notification.width * 0.8;
                 if (w > maxW) {
                     w = maxW;
