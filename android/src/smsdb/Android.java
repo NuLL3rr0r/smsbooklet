@@ -28,7 +28,7 @@ public class Android {
                 Method newPlainText = clipClass.getMethod("newPlainText", CharSequence.class, CharSequence.class);
                 Object clip = newPlainText.invoke((Object)clipClass, new Object[] {"SMS Booklet", text});
                 Method setPrimaryClip = clipboard.getClass().getMethod("setPrimaryClip", clip.getClass());
-                setPrimaryClip.invoke(clipboard,clip);
+                setPrimaryClip.invoke(clipboard, clip);
             }
         }
 
