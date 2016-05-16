@@ -1,6 +1,9 @@
 #include <string>
 #include <cassert>
 #include <cmath>
+#if defined(__APPLE__)
+#include "TargetConditionals.h"
+#endif
 #include <QtCore/QDir>
 #if !defined(Q_OS_ANDROID)
 #include <QtCore/QMimeData>
@@ -36,13 +39,21 @@ using namespace SMSDB;
 
 MainWindow::MainWindow(QWindow *parent) :
     Window(parent),
-#ifdef Q_OS_ANDROID
+    #if defined(Q_OS_ANDROID)
     m_fontPath("assets:/resources/fnt/main.ttf"),
     m_imagePath("assets:/resources/img/"),
-#else
+    #elif defined(__APPLE__)
+    #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
+    #elif TARGET_OS_MAC
+    m_fontPath("file:" + QDir::currentPath() + "/../Resources/resources/fnt/main.ttf"),
+    m_imagePath("file:" + QDir::currentPath() + "/../Resources/resources/img/"),
+    #else
+    #error "** Unknown Apple platform!"
+    #endif
+    #else
     m_fontPath("file:" + QDir::currentPath() + "/resources/fnt/main.ttf"),
     m_imagePath("file:" + QDir::currentPath() + "/resources/img/"),
-#endif
+    #endif
     m_splashScreenImages {
 {Window::DisplayRatio::Vert_10_16, m_imagePath},
 {Window::DisplayRatio::Vert_9_16, m_imagePath},
