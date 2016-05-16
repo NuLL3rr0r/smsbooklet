@@ -20,13 +20,7 @@ QML_IMPORT_PATH =
 # CONFIG += mobility
 # MOBILITY +=
 
-win32 {
-    QMAKE_CXXFLAGS += -std=c++11
-}
-
-unix {
-    QMAKE_CXXFLAGS += -std=c++11
-}
+CONFIG += c++11
 
 HEADERS += \
     application.hpp \
