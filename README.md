@@ -1,7 +1,7 @@
 SMS Booklet
 ===========
 
-SMS Booklet for Android and Microsoft Windows with flippable pages, written in Qt 5 and QML 2.x with fluid UI, portability and performance in mind.
+SMS Booklet for Android, Microsoft Windows and Apple Mac OS X with flippable pages, written in Qt 5 and QML 2.x with fluid UI, portability and performance in mind.
 
 ![SMS Booklet](/Screenshots/smsbooklet_001.jpg?raw=true "SMS Booklet")
 
