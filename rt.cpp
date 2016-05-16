@@ -1,7 +1,7 @@
 #include <cassert>
 #include <QtSql/QSqlDatabase>
 
-#if defined(Q_OS_ANDROID)
+#if defined(Q_OS_ANDROID) || defined(__APPLE__)
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -32,6 +32,8 @@
 #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
 #elif TARGET_OS_MAC
 #define     DB_FILE                     "../Resources/resources/db/messages.db"
+#define     DB_TARGET_FILE_PATH         "smsbooklet"
+#define     DB_TARGET_FILE_NAME         "messages.db"
 #else
 #error "** Unknown Apple platform!"
 #endif
@@ -102,6 +104,26 @@ SMSDB::DB *RT::DB()
     if (m_dbInstance == nullptr) {
         m_dbInstance = std::make_unique<SMSDB::DB>(dbTargetFile.toStdString());
     }
+#elif defined(__APPLE__)
+#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
+#elif TARGET_OS_MAC
+    QString dbTargetPath = QDir::homePath() + "/" + DB_TARGET_FILE_PATH;
+    QString dbTargetFile = dbTargetPath + "/" + DB_TARGET_FILE_NAME;
+
+    if (!QFileInfo(dbTargetFile).exists()) {
+        if (!QDir(dbTargetPath).exists()) {
+            assert(QDir().mkpath(dbTargetPath));
+        }
+        assert(QFile::copy(DB_FILE, dbTargetFile));
+        assert(QFile::setPermissions(dbTargetFile, QFile::ReadOwner | QFile::WriteOwner));
+    }
+
+    if (m_dbInstance == nullptr) {
+        m_dbInstance = std::make_unique<SMSDB::DB>(dbTargetFile.toStdString());
+    }
+#else
+#error "** Unknown Apple platform!"
+#endif
 #else
     if (m_dbInstance == nullptr) {
         m_dbInstance = std::make_unique<SMSDB::DB>(DB_FILE);
@@ -122,6 +144,5 @@ SMSDB::DBTables *RT::DBTables()
 
     return m_dbTablesInstance.get();
 }
-
 
 
