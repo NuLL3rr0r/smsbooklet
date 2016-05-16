@@ -711,6 +711,13 @@ void MainWindow::FillMessagePages(const QString &subCategory)
 
 #ifdef Q_OS_ANDROID
     QString imagePath("assets:/resources/img/");
+#elif defined(__APPLE__)
+#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
+#elif TARGET_OS_MAC
+    QString imagePath("file:" + QDir::currentPath() + "/../Resources/resources/img/");
+#else
+#error "** Unknown Apple platform!"
+#endif
 #else
     QString imagePath("file:" + QDir::currentPath() + "/resources/img/");
 #endif
