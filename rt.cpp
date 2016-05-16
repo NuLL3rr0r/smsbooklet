@@ -10,6 +10,10 @@
 #include <QtCore/QString>
 #endif
 
+#if defined(__APPLE__)
+#include "TargetConditionals.h"
+#endif
+
 #include "make_unique.hpp"
 #include "rt.hpp"
 
@@ -24,6 +28,13 @@
 #define     DB_FILE                     "assets:/resources/db/messages.db"
 #define     DB_TARGET_FILE_PATH         "resources/db"
 #define     DB_TARGET_FILE_NAME         "messages.db"
+#elif defined(__APPLE__)
+#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
+#elif TARGET_OS_MAC
+#define     DB_FILE                     "../Resources/resources/db/messages.db"
+#else
+#error "** Unknown Apple platform!"
+#endif
 #else
 #define     DB_FILE                     "resources/db/messages.db"
 #endif
